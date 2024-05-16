@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "MediatoriaApp_Front",
-    "slug": "MediatoriaApp_Front",
+    "name": "Mediatoria",
+    "slug": "Mediatoria",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/icons/favicon-192x192.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
@@ -30,7 +30,6 @@
       "expo-router"
     ],
     "experiments": {
-      "typedRoutes": true
     }
   }
 }
