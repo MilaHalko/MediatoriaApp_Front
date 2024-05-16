@@ -6,14 +6,12 @@ import FormField from "../../components/fields/FormField";
 import {Link} from "expo-router";
 import logos from "../../constants/logos";
 
-function Signup() {
+function Login() {
     const [error, setError] = React.useState('')
 
     const [form, setForm] = useState({
-        name: "",
         email: "",
         password: "",
-        confirmPassword: "",
     });
 
     const handleSubmit = async (e) => {
@@ -21,7 +19,7 @@ function Signup() {
         setError('')
         try {
             console.log('Login form:', form)
-            Alert.alert('Name', `Name: ${form.name} \nEmail: ${form.email} \nPassword: ${form.password} \nConfirm Password: ${form.confirmPassword}`)
+            Alert.alert('Login', `Email: ${form.email} \nPassword: ${form.password}`)
             // await login(email, password)
             // navigate('/')
         } catch (error) {
@@ -30,7 +28,7 @@ function Signup() {
         }
     }
 
-    const onTextChange = ({field, e},) => {
+    const onTextChange = ({field, e}) => {
         setForm({
             ...form,
             [field]: e.nativeEvent.text
@@ -40,24 +38,17 @@ function Signup() {
     return (
         <SafeAreaView className="bg-main h-full">
             <ScrollView>
+
                 <View
-                    className="w-full h-full"
+                    className="w-full h-full justify-center"
                     style={{
-                        minHeight: Dimensions.get("window").height - 300,
+                        minHeight: Dimensions.get("window").height - 400,
                     }}
                 >
                     <View className='flex-1 items-center justify-center mb-5'>
                         <Image source={logos.mediatoriaRed} className="w-3/4 h-10" resizeMode="contain"/>
                     </View>
                     <View className='w-auto m-2 p-8 bg-dry rounded-lg border border-border'>
-                        <FormField
-                            label='Full Name'
-                            value={form.name}
-                            placeholder={'Mediatoria User'}
-                            onTextChange={(e) => onTextChange({field: 'name', e})}
-                            KeyboardType={'default'}
-                        />
-
                         <FormField
                             label='Email'
                             value={form.email}
@@ -73,20 +64,12 @@ function Signup() {
                             KeyboardType={'password'}
                         />
 
-                        <FormField
-                            label='Confirm Password'
-                            value={form.confirmPassword}
-                            placeholder='**********'
-                            onTextChange={(e) => onTextChange({field: 'confirmPassword', e})}
-                            KeyboardType={'password'}
-                        />
-
-                        <RedButton title={'Sign Up'} onPress={handleSubmit} viewClassName={'my-5'}/>
+                        <RedButton title={'Log In'} onPress={handleSubmit} viewClassName={'my-5'}/>
 
                         <Text className='text-center text-border text-lg'>
-                            Already have an account? {" "}
-                            <Link href={'/login'} className='text-dryGray ml-2'>
-                                Log In
+                            Don't have an account? {" "}
+                            <Link href={'/signup'} className='text-dryGray ml-2'>
+                                Sign Up
                             </Link>
                         </Text>
                     </View>
@@ -97,4 +80,4 @@ function Signup() {
     );
 }
 
-export default Signup;
+export default Login;
