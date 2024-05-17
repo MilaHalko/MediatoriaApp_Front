@@ -10,7 +10,7 @@ npm-debug.*
 *.orig.*
 web-build/
 
-# macOS
+# IDE files Mac
 .DS_Store
 
 expo-env.d.ts
