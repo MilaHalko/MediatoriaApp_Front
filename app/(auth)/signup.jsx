@@ -5,9 +5,11 @@ import RedButton from "../../components/buttons/RedButton";
 import FormField from "../../components/fields/FormField";
 import {Link} from "expo-router";
 import logos from "../../constants/logos";
+import {useDispatch} from "react-redux";
+import {fetchSignup} from "../../store/slices/authSlice";
 
 function Signup() {
-    const [error, setError] = React.useState('')
+    const dispatch = useDispatch()
 
     const [form, setForm] = useState({
         name: "",
@@ -18,15 +20,13 @@ function Signup() {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        setError('')
         try {
-            console.log('Login form:', form)
-            Alert.alert('Name', `Name: ${form.name} \nEmail: ${form.email} \nPassword: ${form.password} \nConfirm Password: ${form.confirmPassword}`)
-            // await login(email, password)
+            const result = await dispatch(fetchSignup(form)).unwrap()
+            Alert.alert('Signup Success', `Welcome, ${result.name}!`)
             // navigate('/')
         } catch (error) {
             console.log(error)
-            setError(error.message)
+            Alert.alert('Signup Failed', error.message)
         }
     }
 
@@ -52,7 +52,7 @@ function Signup() {
                     <View className='w-auto m-2 p-8 bg-dry rounded-lg border border-border'>
                         <FormField
                             label='Full Name'
-                            value={form.name}
+                            value={form.username}
                             placeholder={'Mediatoria User'}
                             onTextChange={(e) => onTextChange({field: 'name', e})}
                             KeyboardType={'default'}

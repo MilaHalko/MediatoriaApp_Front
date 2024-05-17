@@ -1,9 +1,11 @@
 import React, {useEffect} from 'react';
 import {SplashScreen, Stack} from "expo-router";
+import {Provider} from "react-redux";
 import {useFonts} from "expo-font";
 import {StatusBar} from "expo-status-bar";
 import {Colors} from "../constants/Colors";
 import 'react-native-reanimated'
+import store from "../store/store";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -32,13 +34,17 @@ function RootLayout() {
     }
 
     return (
-        <>
-            <Stack>
-                <Stack.Screen name="index" options={{headerShown: false}}/>
+        <Provider store={store}>
+            <Stack screenOptions={{headerShown: false}}>
+                <Stack.Screen name="index"/>
+                <Stack.Screen name="(auth)"/>
+                <Stack.Screen name="(tabs)"/>
+                <Stack.Screen name="search/[query]"/>
+
             </Stack>
 
             <StatusBar backgroundColor={Colors.main} style="light"/>
-        </>
+        </Provider>
     )
 }
 

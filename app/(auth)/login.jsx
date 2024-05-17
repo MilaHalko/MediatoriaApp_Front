@@ -5,9 +5,11 @@ import RedButton from "../../components/buttons/RedButton";
 import FormField from "../../components/fields/FormField";
 import {Link} from "expo-router";
 import logos from "../../constants/logos";
+import {useDispatch} from "react-redux";
+import {fetchAuth} from "../../store/slices/authSlice";
 
 function Login() {
-    const [error, setError] = React.useState('')
+    const dispatch = useDispatch()
 
     const [form, setForm] = useState({
         email: "",
@@ -18,13 +20,12 @@ function Login() {
         e.preventDefault()
         setError('')
         try {
-            console.log('Login form:', form)
-            Alert.alert('Login', `Email: ${form.email} \nPassword: ${form.password}`)
-            // await login(email, password)
+            const result = await dispatch(fetchAuth(form)).unwrap()
+            Alert.alert('Login Success', `Welcome back, ${result.role} ${result.username}!`)
             // navigate('/')
         } catch (error) {
             console.log(error)
-            setError(error.message)
+            Alert.alert('Login Failed', error.message)
         }
     }
 
@@ -36,18 +37,16 @@ function Login() {
     }
 
     return (
-        <SafeAreaView className="bg-main h-full">
-            <ScrollView>
-
-                <View
-                    className="w-full h-full justify-center"
+        <SafeAreaView className={"bg-main flex-1"}>
+            <ScrollView className={'border-pink-600 border-2'} contentContainerStyle={{height: '100%'}}>
+                <View className='flex-1 items-center justify-center border-blue-100 border-2'>
+                    <Image source={logos.mediatoriaRed} className="w-3/4 h-10" resizeMode="contain"/>
+                </View>
+                <View className="w-full h-full justify-center"
                     style={{
-                        minHeight: Dimensions.get("window").height - 400,
+                        minHeight: Dimensions.get("window").height - 300,
                     }}
                 >
-                    <View className='flex-1 items-center justify-center mb-5'>
-                        <Image source={logos.mediatoriaRed} className="w-3/4 h-10" resizeMode="contain"/>
-                    </View>
                     <View className='w-auto m-2 p-8 bg-dry rounded-lg border border-border'>
                         <FormField
                             label='Email'
