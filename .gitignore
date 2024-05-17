@@ -13,5 +13,5 @@ web-build/
 # IDE files Mac
 .DS_Store
 
-expo-env.d.ts
 .env
+expo-env.d.ts
