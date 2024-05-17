@@ -18,7 +18,6 @@ function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        setError('')
         try {
             const result = await dispatch(fetchAuth(form)).unwrap()
             Alert.alert('Login Success', `Welcome back, ${result.role} ${result.username}!`)
@@ -38,10 +37,10 @@ function Login() {
 
     return (
         <SafeAreaView className={"bg-main flex-1"}>
-            <ScrollView className={'border-pink-600 border-2'} contentContainerStyle={{height: '100%'}}>
-                <View className='flex-1 items-center justify-center border-blue-100 border-2'>
-                    <Image source={logos.mediatoriaRed} className="w-3/4 h-10" resizeMode="contain"/>
-                </View>
+            <ScrollView contentContainerStyle={{height: '100%'}}>
+                {/*<View className='flex-1 items-center justify-center border-blue-100 border-2'>*/}
+                {/*    <Image source={logos.mediatoriaRed} className="w-3/4 h-10" resizeMode="contain"/>*/}
+                {/*</View>*/}
                 <View className="w-full h-full justify-center"
                     style={{
                         minHeight: Dimensions.get("window").height - 300,

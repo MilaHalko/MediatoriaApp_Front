@@ -1,10 +1,9 @@
 import React, {useState} from 'react';
-import {Alert, Dimensions, Image, ScrollView, Text, View} from "react-native";
+import {Alert, Dimensions, ScrollView, Text, View} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
 import RedButton from "../../components/buttons/RedButton";
 import FormField from "../../components/fields/FormField";
 import {Link} from "expo-router";
-import logos from "../../constants/logos";
 import {useDispatch} from "react-redux";
 import {fetchSignup} from "../../store/slices/authSlice";
 
@@ -12,17 +11,17 @@ function Signup() {
     const dispatch = useDispatch()
 
     const [form, setForm] = useState({
-        name: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
+        username: "Mila Halko",
+        email: "milagalko@gmail.com",
+        password: "111111",
+        confirmPassword: "111111",
     });
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const result = await dispatch(fetchSignup(form)).unwrap()
-            Alert.alert('Signup Success', `Welcome, ${result.name}!`)
+            const {user} = await dispatch(fetchSignup(form)).unwrap()
+            Alert.alert('Signup Success', `Welcome, ${user.username}!`)
             // navigate('/')
         } catch (error) {
             console.log(error)
@@ -39,16 +38,15 @@ function Signup() {
 
     return (
         <SafeAreaView className="bg-main h-full">
-            <ScrollView>
-                <View
-                    className="w-full h-full"
+            <ScrollView contentContainerStyle={{height: '100%'}}>
+                <View className="w-full h-full justify-center"
                     style={{
                         minHeight: Dimensions.get("window").height - 300,
                     }}
                 >
-                    <View className='flex-1 items-center justify-center mb-5'>
-                        <Image source={logos.mediatoriaRed} className="w-3/4 h-10" resizeMode="contain"/>
-                    </View>
+                    {/*<View className='flex-1 items-center justify-center mb-5'>*/}
+                    {/*    <Image source={logos.mediatoriaRed} className="w-3/4 h-10" resizeMode="contain"/>*/}
+                    {/*</View>*/}
                     <View className='w-auto m-2 p-8 bg-dry rounded-lg border border-border'>
                         <FormField
                             label='Full Name'
