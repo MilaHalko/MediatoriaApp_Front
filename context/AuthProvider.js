@@ -12,20 +12,20 @@ function AuthContextProvider({children}) {
     const [token, setToken] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    // useEffect(() => {
-    //     loadUser()
-    // }, [dispatch])
+    useEffect(() => {
+        loadUser()
+    }, [dispatch])
 
-    // const loadUser = async () => {
-    //     try {
-    //         const user = await dispatch(fetchAuthMe()).unwrap()
-    //         setUser(user)
-    //         setToken(user.token)
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    //     setLoading(false)
-    // }
+    const loadUser = async () => {
+        try {
+            const user = await dispatch(fetchAuthMe()).unwrap()
+            setUser(user)
+            setToken(user.token)
+        } catch (error) {
+            console.log(error)
+        }
+        setLoading(false)
+    }
 
     const signup = async (form) => {
         try {
@@ -55,16 +55,18 @@ function AuthContextProvider({children}) {
 
     }
 
-
+    if (loading) {
+        return null
+    }
 
     return (
         <AuthContext.Provider
             value={{
-                // user: user,
+                user: user,
                 signup: signup,
                 login: login,
-                // logout: () => {},
-                // deleteUser: () => {},
+                logout: () => {},
+                deleteUser: () => {},
             }}
         >
             {children}

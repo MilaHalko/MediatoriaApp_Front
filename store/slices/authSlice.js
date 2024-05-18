@@ -12,7 +12,7 @@ export const fetchAuth = createAsyncThunk('auth/fetchUserData', async (params, {
     }
 })
 
-export const fetchSignup = createAsyncThunk('auth/fetchSignup', async (params,{rejectWithValue}) => {
+export const fetchSignup = createAsyncThunk('auth/fetchSignup', async (params, {rejectWithValue}) => {
     try {
         const {data} = await axios.post('/auth/signup', params)
         await AsyncStorage.setItem('token', data.token)
@@ -22,9 +22,13 @@ export const fetchSignup = createAsyncThunk('auth/fetchSignup', async (params,{r
     }
 })
 
-export const fetchAuthMe = createAsyncThunk('auth/fetchAuthMe', async () => {
-    const {data} = await axios.get('/auth/me')
-    return data
+export const fetchAuthMe = createAsyncThunk('auth/fetchAuthMe', async (_, {rejectWithValue}) => {
+    try {
+        const {data} = await axios.get('/auth/me')
+        return data
+    } catch (e) {
+        return e.response.data ? rejectWithValue(e.response.data) : "Server error"
+    }
 })
 
 const initialState = {
