@@ -1,6 +1,6 @@
 import {createContext, useContext, useEffect, useState} from "react";
 import {Alert} from "react-native";
-import {fetchAuth, fetchAuthMe, fetchSignup} from "../store/slices/authSlice";
+import {fetchAuth, fetchAuthMe, fetchSignup, logout as fetchLogout} from "../store/slices/authSlice";
 import {useDispatch} from "react-redux";
 
 const AuthContext = createContext();
@@ -12,13 +12,16 @@ function AuthContextProvider({children}) {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        loadUser()
+        const loadedUser = loadUser()
+        setUser(loadedUser)
     }, [dispatch])
 
     const loadUser = async () => {
         try {
+            console.log('Loading user...')
             const user = await dispatch(fetchAuthMe()).unwrap()
             setUser(user)
+            console.log('User loaded:', user.username)
         } catch (error) {
             console.log(error)
         }
@@ -27,8 +30,10 @@ function AuthContextProvider({children}) {
 
     const signup = async (form) => {
         try {
+            console.log('Signing up...')
             const user = await dispatch(fetchSignup(form)).unwrap()
             setUser(user)
+            console.log('User signed up:', user.username)
             return user
         } catch (error) {
             console.log(error)
@@ -38,8 +43,10 @@ function AuthContextProvider({children}) {
 
     const login = async (form) => {
         try {
+            console.log('Logging in...')
             const user = await dispatch(fetchAuth(form)).unwrap()
             setUser(user)
+            console.log('User logged in:', user.username)
             return user
         } catch (error) {
             console.log(error)
@@ -48,7 +55,15 @@ function AuthContextProvider({children}) {
     }
 
     const logout = async () => {
-
+        try {
+            console.log('Logging out...')
+            setUser(null)
+            await dispatch(fetchLogout())
+            console.log('User logged out')
+        } catch (error) {
+            console.log(error)
+            Alert.alert('Logout Failed', error.message)
+        }
     }
 
     if (loading) {
@@ -61,8 +76,7 @@ function AuthContextProvider({children}) {
                 user: user,
                 signup: signup,
                 login: login,
-                logout: () => {},
-                deleteUser: () => {},
+                logout: logout,
             }}
         >
             {children}

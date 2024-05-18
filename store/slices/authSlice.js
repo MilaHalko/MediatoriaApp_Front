@@ -27,6 +27,7 @@ export const fetchSignup = createAsyncThunk('auth/fetchSignup', async (params, {
 export const fetchAuthMe = createAsyncThunk('auth/fetchAuthMe', async (_, {rejectWithValue}) => {
     try {
         const {data} = await axios.get('/auth/me')
+        console.log('User data:', data)
         return data
     } catch (e) {
         return e.response.data ? rejectWithValue(e.response.data) : "Server error"
@@ -44,10 +45,7 @@ const authSlice = createSlice({
     reducers: {
         logout: (state) => {
             state.data = null
-            AsyncStorage.removeItem('token')
-                .then(() => {
-                    console.log('User logged out')
-                })
+            AsyncStorage.removeItem('token').then(() => console.log('Token removed'))
         }
     },
     extraReducers: (builder) => {
