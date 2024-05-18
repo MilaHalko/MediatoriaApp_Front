@@ -15,7 +15,7 @@ const Home = () => {
                     </Text>
                     <View className={'w-[280px] h-auto p-4 bg-gray-300 m-4'}>
                         <Text className={'text-subMain text-lg font-poppins-regular py-4'}>
-                            User Token: <Text className={'text-subMain font-poppins-regular'}>{user.token}</Text>
+                            User Token: <Text className={'text-main text-xs font-poppins-regular'}>{user?.token}</Text>
                         </Text>
                         <Text className={'text-subMain text-lg font-poppins-regular py-4'}>
                             User Email: <Text className={'text-main text-lg font-poppins-regular'}>{user.email}</Text>

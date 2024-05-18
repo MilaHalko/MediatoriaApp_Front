@@ -15,9 +15,14 @@ function Login() {
     });
 
     const handleSubmit = async () => {
-        const user = await login(form)
-        Alert.alert('Login Success', `Welcome back, ${user.role} ${user.username}!`)
-        router.replace('/(tabs)/home')
+        try {
+            const user = await login(form)
+            Alert.alert('Login Success', `Welcome back, ${user.role} ${user.username}!`)
+            router.replace('/(tabs)/home')
+        } catch (error) {
+            console.log(error)
+            Alert.alert('Login Failed', error.message)
+        }
     }
 
     const onTextChange = ({field, e}) => {

@@ -4,7 +4,6 @@ import {SafeAreaView} from "react-native-safe-area-context";
 import RedButton from "../../components/buttons/RedButton";
 import FormField from "../../components/fields/FormField";
 import {Link, router} from "expo-router";
-import {fetchSignup} from "../../store/slices/authSlice";
 import {useAuth} from "../../context/AuthProvider";
 
 function Signup() {
@@ -18,9 +17,16 @@ function Signup() {
     });
 
     const handleSubmit = async () => {
-        const user = await signup(form)
-        Alert.alert('Signup Success', `Welcome, ${user.username}!`)
-        router.replace('/(tabs)/home')
+        try {
+            const user = await signup(form)
+            if (user) {
+                Alert.alert('Signup Success', `Welcome, ${user.username}!`)
+                router.replace('/(tabs)/home')
+            }
+        } catch (error) {
+            console.log(error)
+            Alert.alert('Signup Failed')
+        }
     }
 
     const onTextChange = ({field, e},) => {
@@ -38,15 +44,12 @@ function Signup() {
                         minHeight: Dimensions.get("window").height - 300,
                     }}
                 >
-                    {/*<View className='flex-1 items-center justify-center mb-5'>*/}
-                    {/*    <Image source={logos.mediatoriaRed} className="w-3/4 h-10" resizeMode="contain"/>*/}
-                    {/*</View>*/}
                     <View className='w-auto m-2 p-8 bg-dry rounded-lg border border-border'>
                         <FormField
                             label='Full Name'
                             value={form.username}
                             placeholder={'Mediatoria User'}
-                            onTextChange={(e) => onTextChange({field: 'name', e})}
+                            onTextChange={(e) => onTextChange({field: 'username', e})}
                             KeyboardType={'default'}
                         />
 
