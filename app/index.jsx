@@ -6,7 +6,7 @@ import {router} from "expo-router";
 
 export default function App() {
     return (
-        <SafeAreaView className={'flex-1 bg-white'}>
+        <SafeAreaView className={'flex-1 bg-main'}>
             <ScrollView contentContainerStyle={{flexGrow: 1}}>
                 <View className="flex-1 min-h-[85vh] items-center justify-center m-10">
                     <Text className={'text-2xl text-subMain font-poppins-regular'}>Welcome to</Text>

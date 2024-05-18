@@ -35,9 +35,8 @@ function RootLayout() {
     }
 
     return (
-        <>
-        {/*<Provider store={store}>*/}
-            {/*<AuthContextProvider>*/}
+        <Provider store={store}>
+            <AuthContextProvider>
                 <Stack screenOptions={{headerShown: false}}>
                     <Stack.Screen name="index"/>
                     <Stack.Screen name="(auth)"/>
@@ -45,9 +44,8 @@ function RootLayout() {
                     <Stack.Screen name="search/[query]"/>
                 </Stack>
                 <StatusBar backgroundColor={Colors.main} style="light"/>
-            {/*</AuthContextProvider>*/}
-        {/*</Provider>*/}
-        </>
+            </AuthContextProvider>
+        </Provider>
     )
 }
 
