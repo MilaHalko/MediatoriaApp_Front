@@ -12,20 +12,20 @@ function AuthContextProvider({children}) {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const loadedUser = loadUser()
-        setUser(loadedUser)
+        loadUser().then(r => setLoading(false))
     }, [dispatch])
 
     const loadUser = async () => {
         try {
             console.log('Loading user...')
-            const user = await dispatch(fetchAuthMe()).unwrap()
+            const data = await dispatch(fetchAuthMe()).unwrap()
+            const user = data.token ? data : null
             setUser(user)
             console.log('User loaded:', user.username)
         } catch (error) {
+            setUser(null)
             console.log(error)
         }
-        setLoading(false)
     }
 
     const signup = async (form) => {
