@@ -9,7 +9,6 @@ export const useAuth = () => useContext(AuthContext);
 function AuthContextProvider({children}) {
     const dispatch = useDispatch()
     const [user, setUser] = useState(null);
-    const [token, setToken] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -20,7 +19,6 @@ function AuthContextProvider({children}) {
         try {
             const user = await dispatch(fetchAuthMe()).unwrap()
             setUser(user)
-            setToken(user.token)
         } catch (error) {
             console.log(error)
         }
@@ -30,7 +28,6 @@ function AuthContextProvider({children}) {
     const signup = async (form) => {
         try {
             const user = await dispatch(fetchSignup(form)).unwrap()
-            console.log(user)
             setUser(user)
             return user
         } catch (error) {
@@ -42,7 +39,6 @@ function AuthContextProvider({children}) {
     const login = async (form) => {
         try {
             const user = await dispatch(fetchAuth(form)).unwrap()
-            console.log(user)
             setUser(user)
             return user
         } catch (error) {

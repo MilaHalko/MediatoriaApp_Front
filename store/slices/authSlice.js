@@ -6,6 +6,7 @@ export const fetchAuth = createAsyncThunk('auth/fetchUserData', async (params, {
     try {
         const {data} = await axios.post('/auth/login', params)
         await AsyncStorage.setItem('token', data.token)
+        console.log('User logged in:', data)
         return data
     } catch (e) {
         return e.response.data ? rejectWithValue(e.response.data) : "Server error"
@@ -16,6 +17,7 @@ export const fetchSignup = createAsyncThunk('auth/fetchSignup', async (params, {
     try {
         const {data} = await axios.post('/auth/signup', params)
         await AsyncStorage.setItem('token', data.token)
+        console.log('User signed up:', data)
         return data
     } catch (e) {
         return e.response.data ? rejectWithValue(e.response.data) : "Server error"
