@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Image, ScrollView, Text, View} from 'react-native';
 import {SafeAreaView} from "react-native-safe-area-context";
 import RedButton from "../components/buttons/RedButton";
@@ -15,6 +15,10 @@ export default function App() {
                         className="w-full"
                         resizeMode="contain"
                     />
+                    {/*Log User Token from AsyncStorage*/}
+                    <Text className={'text-center text-subMain font-poppins-regular'}>
+                        User Token:
+                    </Text>
                     <RedButton title={'Log in'} onPress={() => router.push('/login')}/>
                 </View>
             </ScrollView>

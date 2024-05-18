@@ -1,31 +1,23 @@
 import React, {useState} from 'react';
-import {Alert, Dimensions, Image, ScrollView, Text, View} from "react-native";
+import {Alert, Dimensions, ScrollView, Text, View} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
 import RedButton from "../../components/buttons/RedButton";
 import FormField from "../../components/fields/FormField";
-import {Link} from "expo-router";
-import logos from "../../constants/logos";
-import {useDispatch} from "react-redux";
-import {fetchAuth} from "../../store/slices/authSlice";
+import {Link, router} from "expo-router";
+import {useAuth} from "../../context/AuthProvider";
 
 function Login() {
-    const dispatch = useDispatch()
+    const {login} = useAuth()
 
     const [form, setForm] = useState({
-        email: "",
-        password: "",
+        email: "mmm@m.com",
+        password: "111111",
     });
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        try {
-            const result = await dispatch(fetchAuth(form)).unwrap()
-            Alert.alert('Login Success', `Welcome back, ${result.role} ${result.username}!`)
-            // navigate('/')
-        } catch (error) {
-            console.log(error)
-            Alert.alert('Login Failed', error.message)
-        }
+    const handleSubmit = async () => {
+        const user = await login(form)
+        Alert.alert('Login Success', `Welcome back, ${user.role} ${user.username}!`)
+        router.replace('/(tabs)/home')
     }
 
     const onTextChange = ({field, e}) => {
@@ -42,9 +34,9 @@ function Login() {
                 {/*    <Image source={logos.mediatoriaRed} className="w-3/4 h-10" resizeMode="contain"/>*/}
                 {/*</View>*/}
                 <View className="w-full h-full justify-center"
-                    style={{
-                        minHeight: Dimensions.get("window").height - 300,
-                    }}
+                      style={{
+                          minHeight: Dimensions.get("window").height - 300,
+                      }}
                 >
                     <View className='w-auto m-2 p-8 bg-dry rounded-lg border border-border'>
                         <FormField

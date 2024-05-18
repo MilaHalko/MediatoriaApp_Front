@@ -6,6 +6,7 @@ import {StatusBar} from "expo-status-bar";
 import {Colors} from "../constants/Colors";
 import 'react-native-reanimated'
 import store from "../store/store";
+import AuthContextProvider from "../context/AuthProvider";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -35,15 +36,15 @@ function RootLayout() {
 
     return (
         <Provider store={store}>
-            <Stack screenOptions={{headerShown: false}}>
-                <Stack.Screen name="index"/>
-                <Stack.Screen name="(auth)"/>
-                <Stack.Screen name="(tabs)"/>
-                <Stack.Screen name="search/[query]"/>
-
-            </Stack>
-
-            <StatusBar backgroundColor={Colors.main} style="light"/>
+            <AuthContextProvider>
+                <Stack screenOptions={{headerShown: false}}>
+                    <Stack.Screen name="index"/>
+                    <Stack.Screen name="(auth)"/>
+                    <Stack.Screen name="(tabs)"/>
+                    <Stack.Screen name="search/[query]"/>
+                </Stack>
+                <StatusBar backgroundColor={Colors.main} style="light"/>
+            </AuthContextProvider>
         </Provider>
     )
 }
