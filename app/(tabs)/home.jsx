@@ -8,12 +8,15 @@ import Banner from "../../components/media/Banner";
 const Home = () => {
     const {user, logout} = useAuth()
     return (
-        <SafeAreaView className={'relative flex-1'}>
+        <SafeAreaView className={'relative flex-1 bg-main'}>
             <ScrollView contentContainerStyle={{flexGrow: 1}}>
-                <View className="items-center mx-2">
+                <View className="items-center">
+                    <Banner fetchUrl={''}/>
+                    <View className="m-3">
+                        {/*        <MoviesBlock title='Popular' request={requests.requestPopular} movieCount={30}/>*/}
+
+                    </View>
                     {/*        <Banner fetchUrl={requests.requestNowPlaying}/>*/}
-                    <Banner fetchUrl={''} h={'450px'}/>
-                    {/*        <MoviesBlock title='Popular' request={requests.requestPopular} movieCount={30}/>*/}
                     {/*        <Promos/>*/}
                     {/*        <MoviesBlock title='Top Rated' request={requests.requestTopRated} movieCount={10}/>*/}
 

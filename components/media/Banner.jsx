@@ -1,17 +1,12 @@
-import React from 'react'
-// import {Swiper, SwiperSlide} from "swiper/react";
-// import {Autoplay} from "swiper/modules";
-// import MovieItems from "../MovieItems";
-// import {Link} from "react-router-dom";
-// import {MovieContextConsumer} from "../../Context/MovieContext";
+import React from 'react';
 import {Text, View} from "react-native";
 import Swiper from "react-native-swiper";
 import {tmdbMovies20} from "../../dummyData/tmdbMovies10";
 import MovieImage from "./MovieImage";
 import {Link} from "expo-router";
 
-const Banner = ({fetchUrl, h = '450px'}) => {
-    // const {GetMoviesByRequest} = MovieContextConsumer()
+const Banner = ({fetchUrl}) => {
+    // const { GetMoviesByRequest } = MovieContextConsumer()
     // const Movies = GetMoviesByRequest(fetchUrl, 10);
 
     const Movies = tmdbMovies20;
@@ -19,29 +14,23 @@ const Banner = ({fetchUrl, h = '450px'}) => {
     return (
         <View className="w-full">
             <Swiper
-                horizontal={false}
-                loop={true}
-                showsButtons={true}
-                autoplay={true}
+                showsButtons={false}
+                showsPagination={false}
+                autoplay={false}
                 autoplayTimeout={4}
-                className="w-full bg-dry h-[450px] overflow-hidden">
-
-            {/*    direction={'vertical'}*/}
-            {/*    slidesPerView={1}*/}
-            {/*    loop={true}*/}
-            {/*    speed={1000}*/}
-            {/*    modules={[Autoplay]}*/}
-            {/*    autoplay={{delay: 4000, disableOnInteraction: false}}*/}
+                loop={true}
+                style={{height: 300}}
+            >
                 {Movies?.map((movie, index) => (
-                    <View key={index} className="relative rounded">
-                        <MovieImage movie={movie}/>
-                        <View className="absolute linear-bg pl-8 top-0 bottom-0 left-0 right-0 flex flex-col justify-center gap-3">
-                            <Text className="truncate capitalize font-sans text-xl font-bold pb-1">
+                    <View key={index}>
+                        <MovieImage movie={movie} overlay={true}/>
+                        <View className="absolute p-3 bottom-0 left-0 right-0 gap-1">
+                            <Text className="truncate capitalize font-sans text-xl font-bold pb-1 text-white">
                                 {movie.title}
                             </Text>
-                            {/*<div className="flex text-dryGray">*/}
-                            {/*    <MovieItems movie={movie}/>*/}
-                            {/*</div>*/}
+                             {/*<View className="flex text-dryGray">*/}
+                             {/*   <MovieItems movie={movie}/>*/}
+                             {/*</View>*/}
                             <View className="flex">
                                 <Link href={`/movie/${movie.id}/${movie.title}`}
                                       className="bg-subMain hover:text-main transitions text-white px-8 py-3 rounded font-medium text-xs">
@@ -56,4 +45,4 @@ const Banner = ({fetchUrl, h = '450px'}) => {
     )
 }
 
-export default Banner
+export default Banner;
