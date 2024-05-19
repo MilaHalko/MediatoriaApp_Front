@@ -29,10 +29,6 @@ export default function App() {
                         className="w-full"
                         resizeMode="contain"
                     />
-                    {/*Log User Token from AsyncStorage*/}
-                    <Text className={'text-center text-subMain font-poppins-regular'}>
-                        User Token:
-                    </Text>
                     <RedButton title={'Log in'} onPress={() => router.push('/login')}/>
                 </View>
             </ScrollView>

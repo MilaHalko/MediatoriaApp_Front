@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {SafeAreaView} from "react-native-safe-area-context";
 import {Dimensions, Image, ScrollView, Text, View} from "react-native";
 import {useAuth} from "../../context/AuthProvider";
@@ -8,7 +8,7 @@ import RedButton from "../../components/buttons/RedButton";
 import {DataLine} from "../../components/fields/DataLine";
 
 const Account = () => {
-    const {user, updateUser} = useAuth()
+    const {user, updateUser, logout} = useAuth()
     // TODO: Implement edit mode
     const [editMode, setEditMode] = React.useState(false)
     const [form, setForm] = React.useState({
@@ -35,14 +35,28 @@ const Account = () => {
 
     const handleSave = async () => {
         console.log('Save account')
+
         const preparedForm = Object.fromEntries(Object.entries(form).filter(([_, v]) => v !== '' && v !== null))
         preparedForm.email = user?.email
-        const updatedUser = await updateUser(preparedForm)
-        setEditMode(false)
+
+        await updateUser(preparedForm)
+            .then(updatedUser => {
+                setForm({
+                    username: updatedUser.username,
+                    oldPassword: '',
+                    newPassword: '',
+                    confirmPassword: '',
+                })
+                setEditMode(false)
+            }).catch(e => console.log(e))
     }
 
     const handleEdit = () => {
         setEditMode(true)
+    }
+
+    const logoutHandler = async () => {
+        await logout().catch(e => console.log(e))
     }
 
     return (
@@ -64,16 +78,17 @@ const Account = () => {
 
                                 <Text className='text-xl font-bold mt-8 text-white mb-2'>Change Password</Text>
                                 <FormField label='Old Password' value={form.oldPassword} placeholder='**********'
-                                    onTextChange={(e) => onTextChange({field: 'oldPassword', e})}
-                                    KeyboardType={'password'}
+                                           onTextChange={(e) => onTextChange({field: 'oldPassword', e})}
+                                           KeyboardType={'password'}
                                 />
                                 <FormField label='New Password' value={form.newPassword} placeholder='**********'
-                                    onTextChange={(e) => onTextChange({field: 'newPassword', e})}
-                                    KeyboardType={'password'}
+                                           onTextChange={(e) => onTextChange({field: 'newPassword', e})}
+                                           KeyboardType={'password'}
                                 />
-                                <FormField label='Confirm Password' value={form.confirmPassword} placeholder='**********'
-                                    onTextChange={(e) => onTextChange({field: 'confirmPassword', e})}
-                                    KeyboardType={'password'}
+                                <FormField label='Confirm Password' value={form.confirmPassword}
+                                           placeholder='**********'
+                                           onTextChange={(e) => onTextChange({field: 'confirmPassword', e})}
+                                           KeyboardType={'password'}
                                 />
                             </>) : (<>
                                 <DataLine label='Username' value={user?.username}/>
@@ -89,10 +104,14 @@ const Account = () => {
                                        viewClassName={buttonStyle}/>
                             {
                                 editMode
-                                    ? (<RedButton title={'Save'} onPress={handleSave} viewClassName={`${buttonStyle} bg-dry`}/>)
-                                    : (<RedButton title={'Edit Profile'} onPress={handleEdit} viewClassName={`${buttonStyle} bg-dry`}/>)
+                                    ? (<RedButton title={'Save'} onPress={handleSave}
+                                                  viewClassName={`${buttonStyle} bg-dry`}/>)
+                                    : (<RedButton title={'Edit Profile'} onPress={handleEdit}
+                                                  viewClassName={`${buttonStyle} bg-dry`}/>)
                             }
                         </View>
+                        {/*    Logout button*/}
+                            <RedButton title={'Logout'} onPress={logoutHandler} viewClassName={`${buttonStyle} bg-dry mt-4 w-[100px]`}/>
                     </View>
                 </View>
             </ScrollView>

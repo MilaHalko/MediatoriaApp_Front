@@ -11,7 +11,7 @@ function Login() {
 
     const [form, setForm] = useState({
         email: "mmm@m.com",
-        password: "111111",
+        password: "11111",
     });
 
     const handleSubmit = async () => {
