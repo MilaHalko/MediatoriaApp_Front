@@ -6,7 +6,7 @@ import {LinearGradient} from "expo-linear-gradient";
 
 const MovieImage = ({movie, h = 'full', styles = '', overlay = false}) => {
     const [imageSource, setImageSource] = useState(null)
-    const finalStyles = `${styles} w-full object-cover h-${h}`
+    const finalStyles = `${styles} w-full object-contain h-${h}`
 
     useEffect(() => {
         getValidTmdbImgUrl(movie).then(res => {
@@ -19,10 +19,10 @@ const MovieImage = ({movie, h = 'full', styles = '', overlay = false}) => {
     }, [movie]);
 
     return (
-        <View className={`${styles} justify-center bg-noPosterAvailable`}>
+        <View className={`${styles} justify-center bg-noPosterAvailable border-blue-200 border-3`}>
             <ImageBackground source={imageSource}
                              alt={movie?.title}
-                             className={finalStyles}
+                             className={finalStyles + ' border-2 border-pink-600'}
             >
                 {overlay &&
                     <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.1)', 'rgba(0,0,0,0.5)']}

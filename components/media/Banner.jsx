@@ -4,9 +4,10 @@ import Swiper from "react-native-swiper";
 import {tmdbMovies20} from "../../dummyData/tmdbMovies10";
 import MovieImage from "./MovieImage";
 import RedButton from "../buttons/RedButton";
-import MovieItems from "./MovieItems";
+import MovieDescription from "./MovieDescription";
 
 const Banner = ({fetchUrl}) => {
+    // TODO: Implement fetching movies from API
     // const { GetMoviesByRequest } = MovieContextConsumer()
     // const Movies = GetMoviesByRequest(fetchUrl, 10);
 
@@ -37,7 +38,7 @@ const Banner = ({fetchUrl}) => {
                             </Text>
                             <View className="flex-1 justify-between flex-row">
                                 <View className="flex ">
-                                    <MovieItems movie={movie}/>
+                                    <MovieDescription movie={movie}/>
                                 </View>
                                 <RedButton title="Watch Now" onPress={watchNowHandler}
                                            viewClassName={'w-min px-2 py-0 min-h-[40px]'}

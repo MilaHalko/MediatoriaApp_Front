@@ -2,7 +2,7 @@ import {Text, View} from "react-native";
 import {FontAwesome5} from "@expo/vector-icons";
 import {Colors} from "../../constants/Colors";
 
-const MovieItems = ({movie}) => {
+const MovieDescription = ({movie}) => {
     // TODO: Implement GetMovieGenres function
     // let genres = movie.genre_ids && GetMovieGenres(movie)
     // get first 3 genres
@@ -34,4 +34,4 @@ const MovieItems = ({movie}) => {
     )
 }
 
-export default MovieItems
+export default MovieDescription

@@ -1,9 +1,3 @@
-import React from 'react'
-// import {FaHeart, FaRegHeart} from "react-icons/fa";
-// import {useNavigate} from "react-router-dom";
-// import {UserAuth} from "../../Context/AuthContext";
-// import {MovieContextConsumer} from "../../Context/MovieContext";
-
 function MovieLikeButton({movie, className}) {
     const {user} = UserAuth()
     const {SaveToFavorites, RemoveFromFavorites, IsInFavorites} = MovieContextConsumer()
