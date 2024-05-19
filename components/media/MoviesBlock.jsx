@@ -38,13 +38,13 @@ const MoviesBlock = ({title, request, movieCount, icon}) => {
     ];
     const Movies = tmdbMovies20;
     return (
-        <View className='w-full border-2 border-red-600'>
-            <Title title={title} Icon={icon}/>
-
+        <View className='w-full'>
+            <Title title={title} Icon={icon} viewClassName={'px-2'}/>
             <SimpleGrid
-                itemDimension={130}
+                itemDimension={150}
                 data={Movies}
                 renderItem={({item}) => (<Movie movie={item}/>)}
+                spacing={8}
             />
         </View>
     )

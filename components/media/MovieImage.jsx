@@ -4,9 +4,9 @@ import {noMovieImage} from "../../constants/images";
 import {getValidTmdbImgUrl} from "../../scripts/tmdb";
 import {LinearGradient} from "expo-linear-gradient";
 
-const MovieImage = ({movie, h = 'full', styles = '', overlay = false}) => {
+const MovieImage = ({movie, h = 'full', styles = '', overlay = false, imageStyles=''}) => {
     const [imageSource, setImageSource] = useState(null)
-    const finalStyles = `${styles} w-full object-contain h-${h}`
+    const finalStyles = `${styles} w-full object-contain h-${h} rounded`
 
     useEffect(() => {
         getValidTmdbImgUrl(movie).then(res => {
@@ -19,10 +19,11 @@ const MovieImage = ({movie, h = 'full', styles = '', overlay = false}) => {
     }, [movie]);
 
     return (
-        <View className={`${styles} justify-center bg-noPosterAvailable border-blue-200 border-3`}>
+        <View className={`${styles} justify-center bg-noPosterAvailable rounded`}>
             <ImageBackground source={imageSource}
                              alt={movie?.title}
-                             className={finalStyles + ' border-2 border-pink-600'}
+                             imageStyle={imageStyles}
+                             className={finalStyles}
             >
                 {overlay &&
                     <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.1)', 'rgba(0,0,0,0.5)']}

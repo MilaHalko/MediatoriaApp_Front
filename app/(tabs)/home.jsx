@@ -18,11 +18,10 @@ const Home = () => {
                 <View className="items-center">
                     {/*TODO: Implement Banner fetchUrl={requests.requestNowPlaying}*/}
                     <Banner fetchUrl={''}/>
-                    <View className="w-full mt-4 border-2 border-pink-600">
+                    <View className="w-full mt-4">
                         {/*TODO: Implement MoviesBlock request={requests.requestNowPlaying}*/}
                         <MoviesBlock title='For You' /*request={requests.requestNowPlaying}*/ movieCount={10} icon={starIcon}/>
-                        {/*        <MoviesBlock title='Popular' request={requests.requestPopular} movieCount={30}/>*/}
-                        {/*        <MoviesBlock title='Top Rated' request={requests.requestTopRated} movieCount={10}/>*/}
+                        {/*TODO: Implement Popular and Top Rated*/}
                     </View>
 
                 </View>

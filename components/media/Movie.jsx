@@ -19,12 +19,11 @@ const Movie = ({movie, isLoading}) => {
                 activeOpacity={0.7}
                 disabled={isLoading}
             >
-                <MovieImage movie={movie} styles={'w-full h-full'}/>
+                <MovieImage movie={movie} styles={'w-full h-full'} imageStyles={{borderRadius: 3}}/>
                 {/*TODO: text overflow*/}
                 <View className="absolute p-1 bottom-0 left-0 right-0 h-[35px] w-full">
                     <Text className="capitalize font-sans text-lg font-bold text-white">
                         {movie.title}
-
                     </Text>
                 </View>
             </TouchableOpacity>
