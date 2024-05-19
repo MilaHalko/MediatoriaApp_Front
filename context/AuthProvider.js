@@ -1,6 +1,6 @@
 import {createContext, useContext, useEffect, useState} from "react";
 import {Alert} from "react-native";
-import {fetchAuth, fetchAuthMe, fetchSignup, logout as fetchLogout} from "../store/slices/authSlice";
+import {fetchAuth, fetchAuthMe, fetchAuthUpdate, fetchSignup, logout as fetchLogout} from "../store/slices/authSlice";
 import {useDispatch} from "react-redux";
 
 const AuthContext = createContext();
@@ -66,6 +66,19 @@ function AuthContextProvider({children}) {
         }
     }
 
+    const update = async (form) => {
+        try {
+            console.log('Updating user...')
+            const user = await dispatch(fetchAuthUpdate(form)).unwrap()
+            setUser(user)
+            console.log('User is updated:', user.username)
+            return user
+        } catch (error) {
+            console.log(error)
+            Alert.alert('Update Failed', error.message)
+        }
+    }
+
     if (loading) {
         return null
     }
@@ -77,6 +90,7 @@ function AuthContextProvider({children}) {
                 signup: signup,
                 login: login,
                 logout: logout,
+                updateUser: update,
             }}
         >
             {children}

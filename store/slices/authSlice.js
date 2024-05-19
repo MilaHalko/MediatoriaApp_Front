@@ -34,6 +34,16 @@ export const fetchAuthMe = createAsyncThunk('auth/fetchAuthMe', async (_, {rejec
     }
 })
 
+export const fetchAuthUpdate = createAsyncThunk('auth/fetchAuthUpdate', async (params, {rejectWithValue}) => {
+    try {
+        const {data} = await axios.patch('/auth/me', params)
+        console.log('User updated:', data)
+        return data
+    } catch (e) {
+        return e.response.data ? rejectWithValue(e.response.data) : "Server error"
+    }
+})
+
 const initialState = {
     data: null,
     status: "loading"

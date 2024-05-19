@@ -8,14 +8,14 @@ import RedButton from "../../components/buttons/RedButton";
 import {DataLine} from "../../components/fields/DataLine";
 
 const Account = () => {
-    const {user} = useAuth()
+    const {user, updateUser} = useAuth()
     // TODO: Implement edit mode
     const [editMode, setEditMode] = React.useState(false)
-    const [oldPassword, setOldPassword] = useState('');
     const [form, setForm] = React.useState({
         username: user?.username,
+        oldPassword: '',
+        newPassword: '',
         confirmPassword: '',
-        password: '',
     })
 
     const buttonStyle = 'min-w px-2'
@@ -33,9 +33,11 @@ const Account = () => {
         console.log('Delete account')
     }
 
-    const handleSave = () => {
-        // TODO: Implement save account
+    const handleSave = async () => {
         console.log('Save account')
+        const preparedForm = Object.fromEntries(Object.entries(form).filter(([_, v]) => v !== '' && v !== null))
+        preparedForm.email = user?.email
+        const updatedUser = await updateUser(preparedForm)
         setEditMode(false)
     }
 
@@ -61,12 +63,12 @@ const Account = () => {
                                 />
 
                                 <Text className='text-xl font-bold mt-8 text-white mb-2'>Change Password</Text>
-                                <FormField label='Old Password' value={form.password} placeholder='**********'
-                                    onTextChange={(e) => setOldPassword(e)}
+                                <FormField label='Old Password' value={form.oldPassword} placeholder='**********'
+                                    onTextChange={(e) => onTextChange({field: 'oldPassword', e})}
                                     KeyboardType={'password'}
                                 />
-                                <FormField label='New Password' value={form.confirmPassword} placeholder='**********'
-                                    onTextChange={(e) => onTextChange({field: 'password', e})}
+                                <FormField label='New Password' value={form.newPassword} placeholder='**********'
+                                    onTextChange={(e) => onTextChange({field: 'newPassword', e})}
                                     KeyboardType={'password'}
                                 />
                                 <FormField label='Confirm Password' value={form.confirmPassword} placeholder='**********'
