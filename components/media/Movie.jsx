@@ -5,6 +5,7 @@ import MovieDescription from "./MovieDescription";
 
 const Movie = ({movie, isLoading}) => {
 
+    // TODO: Implement MoviePressedHandler
     //<Link to={`/movie/${movie.id}/${movie?.title}`}>
     const moviePressedHandler = () => {
         console.log('Movie ', movie.title, ' clicked')
