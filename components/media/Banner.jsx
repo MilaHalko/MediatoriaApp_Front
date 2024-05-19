@@ -6,7 +6,7 @@ import MovieImage from "./MovieImage";
 import RedButton from "../buttons/RedButton";
 import MovieDescription from "./MovieDescription";
 
-const Banner = ({fetchUrl}) => {
+const Banner = ({fetchUrl, styles}) => {
     // TODO: Implement fetching movies from API
     // const { GetMoviesByRequest } = MovieContextConsumer()
     // const Movies = GetMoviesByRequest(fetchUrl, 10);
@@ -20,14 +20,13 @@ const Banner = ({fetchUrl}) => {
     }
 
     return (
-        <View className="w-full">
+        <View className={`w-full ${styles}`}>
             <Swiper
                 showsButtons={false}
                 showsPagination={false}
                 autoplay={true}
                 autoplayTimeout={4}
                 loop={true}
-                style={{height: 300}}
             >
                 {Movies?.map((movie, index) => (
                     <View key={index}>
