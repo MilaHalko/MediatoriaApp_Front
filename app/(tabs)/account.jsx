@@ -8,8 +8,7 @@ import RedButton from "../../components/buttons/RedButton";
 import {DataLine} from "../../components/fields/DataLine";
 
 const Account = () => {
-    const {user, updateUser, logout} = useAuth()
-    // TODO: Implement edit mode
+    const {user, updateUser, deleteUser, logout} = useAuth()
     const [editMode, setEditMode] = React.useState(false)
     const [form, setForm] = React.useState({
         username: user?.username,
@@ -27,10 +26,10 @@ const Account = () => {
         })
     }
 
-    const handleDeleteAccount = () => {
-        // TODO: Implement delete account
+    const handleDeleteAccount = async () => {
         // TODO: Implement Alert "Are you sure you want to delete your account?"
         console.log('Delete account')
+        await deleteUser().catch(e => console.log(e))
     }
 
     const handleSave = async () => {

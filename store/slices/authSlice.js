@@ -44,6 +44,16 @@ export const fetchAuthUpdate = createAsyncThunk('auth/fetchAuthUpdate', async (p
     }
 })
 
+ export const fetchDeleteUser = createAsyncThunk('auth/fetchDeleteUser', async (params, {rejectWithValue}) => {
+    try {
+        console.log('Fetching delete user:', params)
+        await axios.delete('/auth/me', params)
+        console.log('User deleted')
+    } catch (e) {
+        return e.response.data ? rejectWithValue(e.response.data) : "Server error"
+    }
+})
+
 const initialState = {
     data: null,
     status: "loading"
@@ -98,6 +108,34 @@ const authSlice = createSlice({
                 state.status = 'loaded'
             })
             .addCase(fetchSignup.rejected, (state) => {
+                state.data = null
+                state.status = 'error'
+            })
+
+            // Update user
+            .addCase(fetchAuthUpdate.pending, (state) => {
+                state.data = null
+                state.status = 'loading'
+            })
+            .addCase(fetchAuthUpdate.fulfilled, (state, action) => {
+                state.data = action.payload
+                state.status = 'loaded'
+            })
+            .addCase(fetchAuthUpdate.rejected, (state) => {
+                state.data = null
+                state.status = 'error'
+            })
+
+            // Delete user
+            .addCase(fetchDeleteUser.pending, (state) => {
+                state.data = null
+                state.status = 'loading'
+            })
+            .addCase(fetchDeleteUser.fulfilled, (state) => {
+                state.data = null
+                state.status = 'loaded'
+            })
+            .addCase(fetchDeleteUser.rejected, (state) => {
                 state.data = null
                 state.status = 'error'
             })

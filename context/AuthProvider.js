@@ -1,6 +1,6 @@
 import {createContext, useContext, useEffect, useState} from "react";
 import {Alert} from "react-native";
-import {fetchAuth, fetchAuthMe, fetchAuthUpdate, fetchSignup, logout as fetchLogout} from "../store/slices/authSlice";
+import {fetchAuth, fetchAuthMe, fetchAuthUpdate, fetchSignup, fetchDeleteUser, logout as fetchLogout} from "../store/slices/authSlice";
 import {useDispatch} from "react-redux";
 
 const AuthContext = createContext();
@@ -11,6 +11,7 @@ function AuthContextProvider({children}) {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
+    // react on token changes
     useEffect(() => {
         loadUser().then(r => setLoading(false))
     }, [dispatch])
@@ -79,6 +80,18 @@ function AuthContextProvider({children}) {
         }
     }
 
+    const deleteUser = async () => {
+        try {
+            console.log('Deleting user...')
+            await dispatch(fetchDeleteUser(user))
+            setUser(null)
+            console.log('User is deleted')
+        } catch (error) {
+            console.log(error)
+            Alert.alert('Delete Failed', error.message)
+        }
+    }
+
     if (loading) {
         return null
     }
@@ -91,6 +104,7 @@ function AuthContextProvider({children}) {
                 login: login,
                 logout: logout,
                 updateUser: update,
+                deleteUser: deleteUser
             }}
         >
             {children}
