@@ -44,11 +44,33 @@ export const fetchAuthUpdate = createAsyncThunk('auth/fetchAuthUpdate', async (p
     }
 })
 
- export const fetchDeleteUser = createAsyncThunk('auth/fetchDeleteUser', async (params, {rejectWithValue}) => {
+export const fetchDeleteUser = createAsyncThunk('auth/fetchDeleteUser', async (params, {rejectWithValue}) => {
     try {
         console.log('Fetching delete user:', params)
         await axios.delete('/auth/me', params)
         console.log('User deleted')
+    } catch (e) {
+        return e.response.data ? rejectWithValue(e.response.data) : "Server error"
+    }
+})
+
+export const fetchAddFavorite = createAsyncThunk('auth/fetchAddFavorite', async (id, {rejectWithValue}) => {
+    try {
+        console.log('Fetching add favorite:', id)
+        const {data} = await axios.post(`/auth/favorites/${id}`)
+        console.log('Favorite added:', data)
+        return data
+    } catch (e) {
+        return e.response.data ? rejectWithValue(e.response.data) : "Server error"
+    }
+})
+
+export const fetchRemoveFavorite = createAsyncThunk('auth/fetchRemoveFavorite', async (id, {rejectWithValue}) => {
+    try {
+        console.log('Fetching remove favorite:', id)
+        const {data} = await axios.delete(`/auth/favorites/${id}`)
+        console.log('Favorite removed:', data)
+        return data
     } catch (e) {
         return e.response.data ? rejectWithValue(e.response.data) : "Server error"
     }
@@ -136,6 +158,34 @@ const authSlice = createSlice({
                 state.status = 'loaded'
             })
             .addCase(fetchDeleteUser.rejected, (state) => {
+                state.data = null
+                state.status = 'error'
+            })
+
+            // Add favorite
+            .addCase(fetchAddFavorite.pending, (state) => {
+                state.data = null
+                state.status = 'loading'
+            })
+            .addCase(fetchAddFavorite.fulfilled, (state, action) => {
+                state.data = action.payload
+                state.status = 'loaded'
+            })
+            .addCase(fetchAddFavorite.rejected, (state) => {
+                state.data = null
+                state.status = 'error'
+            })
+
+            // Remove favorite
+            .addCase(fetchRemoveFavorite.pending, (state) => {
+                state.data = null
+                state.status = 'loading'
+            })
+            .addCase(fetchRemoveFavorite.fulfilled, (state, action) => {
+                state.data = action.payload
+                state.status = 'loaded'
+            })
+            .addCase(fetchRemoveFavorite.rejected, (state) => {
                 state.data = null
                 state.status = 'error'
             })

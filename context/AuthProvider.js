@@ -1,6 +1,14 @@
 import {createContext, useContext, useEffect, useState} from "react";
 import {Alert} from "react-native";
-import {fetchAuth, fetchAuthMe, fetchAuthUpdate, fetchSignup, fetchDeleteUser, logout as fetchLogout} from "../store/slices/authSlice";
+import {
+    fetchAddFavorite,
+    fetchAuth,
+    fetchAuthMe,
+    fetchAuthUpdate,
+    fetchDeleteUser, fetchRemoveFavorite,
+    fetchSignup,
+    logout as fetchLogout
+} from "../store/slices/authSlice";
 import {useDispatch} from "react-redux";
 
 const AuthContext = createContext();
@@ -92,6 +100,16 @@ function AuthContextProvider({children}) {
         }
     }
 
+    const addFavorite = async (movieId) => {
+        const user = await dispatch(fetchAddFavorite(movieId)).unwrap()
+        setUser(user)
+    }
+
+    const removeFavorite = async (movieId) => {
+        const user = await dispatch(fetchRemoveFavorite(movieId)).unwrap()
+        setUser(user)
+    }
+
     if (loading) {
         return null
     }
@@ -104,7 +122,9 @@ function AuthContextProvider({children}) {
                 login: login,
                 logout: logout,
                 updateUser: update,
-                deleteUser: deleteUser
+                deleteUser: deleteUser,
+                addFavorite: addFavorite,
+                removeFavorite: removeFavorite
             }}
         >
             {children}
