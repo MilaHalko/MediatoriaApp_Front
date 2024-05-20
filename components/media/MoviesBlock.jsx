@@ -1,30 +1,34 @@
-import {View} from "react-native";
+import {ActivityIndicator, View} from "react-native";
 import Title from "../Title";
 import Movie from "./Movie";
 import {SimpleGrid} from "react-native-super-grid";
 import {useMovies} from "../../context/MoviesProvider";
 import {useEffect, useState} from "react";
+import {Colors} from "../../constants/Colors";
 
 const MoviesBlock = ({title, request, movieCount, icon}) => {
-    const {getMoviesByRequest} = useMovies()
-    const [loading, setLoading] = useState(true)
-    const [movies, setMovies] = useState([])
+    const {getMoviesByRequest} = useMovies();
+    const [loading, setLoading] = useState(true);
+    const [movies, setMovies] = useState([]);
 
     useEffect(() => {
-        getMoviesByRequest(request, movieCount).then((movies) => {
-            setMovies(movies)
-        })
-    }, [])
+            getMoviesByRequest(request, movieCount).then((uploadedMovies) => {
+                setMovies(uploadedMovies);
+            }).catch(e => {
+                console.error('Error fetching movies:', e);
+            }).finally(() => {
+                setLoading(false);
+            });
+        }, [request]
+    )
+    ;
 
-    useEffect(() => {
-        if (movies) {
-            setLoading(false)
-        }
-    }, [movies])
+    if (loading) {
+        return <ActivityIndicator size="large" color={Colors.star} className="m-4"/>;
+    }
 
-    if (loading) return null
     return (
-        <View className='w-full'>
+        <View className="w-full">
             <Title title={title} Icon={icon} viewClassName={'px-2'}/>
             <SimpleGrid
                 itemDimension={150}
@@ -33,7 +37,7 @@ const MoviesBlock = ({title, request, movieCount, icon}) => {
                 spacing={8}
             />
         </View>
-    )
+    );
 }
 
-export default MoviesBlock
+export default MoviesBlock;
