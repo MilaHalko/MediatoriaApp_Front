@@ -12,8 +12,8 @@ const MovieImage = ({movie, h = 'full', styles = '', overlay = false, imageStyle
         getValidTmdbImgUrl(movie).then(res => {
             res = res ? {uri: res} : noMovieImage
             setImageSource(res)
-        }).catch(err => {
-            console.log(err)
+        }).catch(e => {
+            console.log(e)
             setImageSource(noMovieImage)
         })
     }, [movie]);

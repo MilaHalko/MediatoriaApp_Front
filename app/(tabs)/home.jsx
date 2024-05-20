@@ -24,7 +24,7 @@ const Home = () => {
         console.log('Searching for:', movieToSearch)
     }
 
-    const starIcon = () => <FontAwesome name="star" size={24} color={Colors.subMain}/>
+    const starIcon = () => <FontAwesome name="star" size={iconSize} color={Colors.subMain}/>
     return (
         <SafeAreaView className={'relative flex-1 bg-main'}>
             <ScrollView contentContainerStyle={{flexGrow: 1}}
@@ -41,13 +41,11 @@ const Home = () => {
 
                     {/*TODO: Implement Banner fetchUrl={requests.requestNowPlaying}*/}
                     <Banner fetchUrl={''} styles={'h-[200px]'}/>
-
                     <View className="w-full mt-4">
                         {/*TODO: Implement MoviesBlock request={requests.requestNowPlaying}*/}
                         <MoviesBlock title='For You' /*request={requests.requestNowPlaying}*/ movieCount={10} icon={starIcon}/>
                         {/*TODO: Implement Popular and Top Rated*/}
                     </View>
-
                 </View>
             </ScrollView>
         </SafeAreaView>

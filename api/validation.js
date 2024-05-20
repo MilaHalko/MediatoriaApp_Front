@@ -3,7 +3,7 @@ export const urlIsValid = async (URL) => {
         const res = await fetch(URL)
         return res.status >= 200 && res.status < 300
     } catch (e) {
-        console.log(err)
+        console.log(e)
         return false;
     }
 }

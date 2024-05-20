@@ -11,17 +11,17 @@ function Login() {
 
     const [form, setForm] = useState({
         email: "mmm@m.com",
-        password: "11111",
+        password: "111111",
     });
 
     const handleSubmit = async () => {
         try {
             const user = await login(form)
+            if (!user) return
             Alert.alert('Login Success', `Welcome back, ${user.role} ${user.username}!`)
             router.replace('/(tabs)/home')
         } catch (error) {
             console.log(error)
-            Alert.alert('Login Failed', error.message)
         }
     }
 
