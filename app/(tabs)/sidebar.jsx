@@ -17,11 +17,15 @@ const SideBar = () => {
     useEffect(() => {
         getMovieById(1011985).then((movie) => {
             setMovie(movie)
-            setLoading(false)
         })
     }, [])
 
-    if (loading) return null
+    useEffect(() => {
+        if (movie) {
+            setLoading(false)
+        }
+    }, [movie])
+
     return (
         <SafeAreaView className={'relative flex-1 bg-main'}>
             <ScrollView contentContainerStyle={{flexGrow: 1}}>

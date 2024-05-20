@@ -6,18 +6,18 @@ import {FontAwesome} from "@expo/vector-icons";
 import {Colors} from "../../constants/Colors";
 import MoviesBlock from "../../components/media/MoviesBlock";
 import {useAuth} from "../../context/AuthProvider";
+import {tmdbRequests} from "../../constants/TMDB";
 
 const Favourites = () => {
     const {user} = useAuth()
     const icon = () => <FontAwesome name="heart" size={24} color={Colors.subMain}/>
-    // TODO: Implement GetMoviesByRequest function
-    const favoriteMovies = user?.favoriteMovies
+    // TODO: Implement GetFavourites function
 
     return (
         <SafeAreaView className={'relative flex-1 bg-main'}>
             <ScrollView contentContainerStyle={{flexGrow: 1}}>
                 <View className="items-center m-3">
-                    <MoviesBlock title='Your Favourites' icon={icon}/>
+                    <MoviesBlock title='Your Favourites' icon={icon} request={tmdbRequests.nowPlaying} movieCount={10}/>
                 </View>
             </ScrollView>
         </SafeAreaView>

@@ -7,6 +7,7 @@ import MoviesBlock from "../../components/media/MoviesBlock";
 import {FontAwesome} from "@expo/vector-icons";
 import {Colors} from "../../constants/Colors";
 import SearchInput from "../../components/fields/SearchInput";
+import {tmdbRequests} from "../../constants/TMDB";
 
 const Home = () => {
     const [refreshing, setRefreshing] = useState(false);
@@ -16,7 +17,7 @@ const Home = () => {
     const onRefresh = useCallback(() => {
         setRefreshing(true);
         setMovieToSearch('')
-        setTimeout(() => setRefreshing(false), 2000);
+        setTimeout(() => setRefreshing(false), 1000);
     }, []);
 
     const onSearch = () => {
@@ -40,10 +41,10 @@ const Home = () => {
                         styles='px-2'/>
 
                     {/*TODO: Implement Banner fetchUrl={requests.requestNowPlaying}*/}
-                    <Banner fetchUrl={''} styles={'h-[200px]'}/>
+                    <Banner fetchUrl={tmdbRequests.upcoming} styles='h-[300px]'/>
                     <View className="w-full mt-4">
                         {/*TODO: Implement MoviesBlock request={requests.requestNowPlaying}*/}
-                        <MoviesBlock title='For You' /*request={requests.requestNowPlaying}*/ movieCount={10} icon={starIcon}/>
+                        <MoviesBlock title='For You' request={tmdbRequests.nowPlaying} movieCount={10} icon={starIcon}/>
                         {/*TODO: Implement Popular and Top Rated*/}
                     </View>
                 </View>
