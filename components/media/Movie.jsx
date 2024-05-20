@@ -11,6 +11,7 @@ const Movie = ({movie, isLoading}) => {
         console.log('Movie ', movie.title, ' clicked')
     }
 
+    if (isLoading) return null
     return (
         <>
             <TouchableOpacity
