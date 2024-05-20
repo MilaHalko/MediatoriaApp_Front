@@ -1,4 +1,3 @@
-import {tmdbMovies20} from "../../dummyData/tmdbMovies10";
 import {View} from "react-native";
 import Title from "../Title";
 import Movie from "./Movie";
