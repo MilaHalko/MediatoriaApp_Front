@@ -2,31 +2,39 @@ import {Text, View} from "react-native";
 import {FontAwesome5} from "@expo/vector-icons";
 import {Colors} from "../../constants/Colors";
 
-const MovieDescription = ({movie}) => {
+const MovieDescription = ({movie, maxGenresLength = 3, styles = ''}) => {
     // TODO: Implement GetMovieGenres function
-    let genres = movie.genre_ids?.slice(0, 3)
+    let genres = []
+    if (movie.genre_ids) {
+        genres = movie.genre_ids
+    } else if (movie.genres) {
+        genres = movie.genres?.map(genre => genre.name)
+    }
+    maxGenresLength = Math.min(maxGenresLength, genres.length)
+    let releaseDate = movie.release_date
     return (
-        <View className="gap-1">
+        <View className={`gap-1 ${styles}`}>
             <View className="flex flex-row">
                 {
-                    genres?.map((genre, index) => (
+                    genres.length > 0 &&
+                    genres.slice(0, maxGenresLength).map((genre, index) => (
                         <View key={index} className={`flex flex-row`}>
                             <Text className="text-xs text-dryGray font-poppins-medium">{genre}</Text>
-                            {index < genres.length - 1 &&
+                            {index < maxGenresLength - 1 &&
                                 <Text key={index} className="text-xs text-dryGray font-poppins-medium">
-                                    /
+                                    {` `} / {` `}
                                 </Text>}
                         </View>
                     ))
                 }
                 {
-                    movie.genre_ids?.length > 3 &&
-                    <Text className="text-xm text-dryGray font-medium">...</Text>
+                    genres.length > maxGenresLength &&
+                    <Text className="text-xm text-dryGray font-medium">{' '}...</Text>
                 }
             </View>
             <View className="flex flex-row">
                 <FontAwesome5 name="calendar-alt" size={15} color={Colors.subMain}/>
-                <Text className="text-xs text-dryGray ml-2 font-poppins-medium">{movie?.release_date}</Text>
+                <Text className="text-xs text-dryGray ml-2 font-poppins-medium">{releaseDate}</Text>
             </View>
         </View>
     )

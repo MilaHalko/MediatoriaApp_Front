@@ -6,10 +6,10 @@ import {LinearGradient} from "expo-linear-gradient";
 import {Colors} from "../../constants/Colors";
 import LoadingIndicator from "../LoadingIndicator";
 
-const MovieImage = ({movie, h = 'full', styles = '', overlay = false, imageStyles = ''}) => {
+const MovieImage = ({movie, styles = '', overlay = false, imageStyles = ''}) => {
     const [isLoading, setIsLoading] = useState(true)
     const [imageSource, setImageSource] = useState(null)
-    const finalStyles = `${styles} w-full object-contain h-${h} rounded`
+    const finalStyles = `${styles} w-full object-contain h-full rounded`
 
     useEffect(() => {
         getValidTmdbImgUrl(movie).then(res => {

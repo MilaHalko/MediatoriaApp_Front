@@ -77,13 +77,20 @@ const MoviesContextProvider = ({children}) => {
                 Alert.alert('Error', e.message);
             });
         }
+    }
 
+    const getMovieTrailer = async (id) => {
+        const trailers = await tmdb.getTrailerById(id).catch(e => console.log(e))
+        const youTubeKey = trailers?.results[0]?.key
+        console.log('Trailer key:', youTubeKey)
+        return youTubeKey
     }
 
     return (
         <MovieContext.Provider
             value={{
                 getMovieById: getMovieById,
+                getMovieTrailer: getMovieTrailer,
                 getMovieByName: getMovieByName,
                 getMoviesByRequest: getMoviesByRequest,
                 getFavoriteMovies: getFavoriteMovies,

@@ -8,8 +8,8 @@ const MovieLayout = () => {
     return (
         <>
             <Stack screenOptions={{headerShown: false}}>
-                <Stack.Screen name="[movieId]"/> {/* Use component prop directly */}
-                <Stack.Screen name="moviePlayer"/>
+                <Stack.Screen name="[movieId]"/>
+                <Stack.Screen name="[moviePlayerId]"/>
             </Stack>
             <StatusBar backgroundColor={Colors.main} style="light"/>
         </>

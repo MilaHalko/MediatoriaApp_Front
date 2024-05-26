@@ -6,8 +6,8 @@ export const tmdbRequests = {
     topRated: `https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}&language=en-US`,
     upcoming: `https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}&language=en-US`,
     nowPlaying: `https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}&language=en-US`,
-
     drama: `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=drama&include_adult=false`,
+
     genres: `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}&language=en-US`,
     movies: (year, genre) => {
         let request = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}`
@@ -24,4 +24,5 @@ export const tmdbRequests = {
     },
     iD: (id) => `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US`,
     title: (title) => `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${title}`,
+    trailer: (id) => `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${API_KEY}&language=en-US`
 };
