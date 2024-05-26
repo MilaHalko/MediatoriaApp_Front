@@ -6,7 +6,7 @@ const Title = ({title, Icon, viewClassName}) => {
         <View className={`w-full flex-row items-center ${viewClassName}`}>
             {Icon &&
                 <>
-                    {Icon()}
+                    {Icon && Icon()}
                     <View className='w-3'/>
                 </>
             }

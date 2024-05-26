@@ -1,10 +1,10 @@
-import {ActivityIndicator, View} from "react-native";
+import {View} from "react-native";
 import Title from "../Title";
 import Movie from "./Movie";
 import {SimpleGrid} from "react-native-super-grid";
 import {useMovies} from "../../context/MoviesProvider";
 import {useEffect, useState} from "react";
-import {Colors} from "../../constants/Colors";
+import LoadingIndicator from "../LoadingIndicator";
 
 const MoviesBlock = ({title, request, movieCount, icon}) => {
     const {getMoviesByRequest} = useMovies();
@@ -24,7 +24,7 @@ const MoviesBlock = ({title, request, movieCount, icon}) => {
     ;
 
     if (loading) {
-        return <ActivityIndicator size="large" color={Colors.star} className="m-4"/>;
+        return <LoadingIndicator/>
     }
 
     return (

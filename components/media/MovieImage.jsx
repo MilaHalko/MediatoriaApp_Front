@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react'
-import {ActivityIndicator, ImageBackground, StyleSheet, View} from "react-native";
+import {ImageBackground, StyleSheet, View} from "react-native";
 import {noMovieImage} from "../../constants/images";
 import {getValidTmdbImgUrl} from "../../scripts/tmdb";
 import {LinearGradient} from "expo-linear-gradient";
 import {Colors} from "../../constants/Colors";
+import LoadingIndicator from "../LoadingIndicator";
 
 const MovieImage = ({movie, h = 'full', styles = '', overlay = false, imageStyles = ''}) => {
     const [isLoading, setIsLoading] = useState(true)
@@ -22,11 +23,10 @@ const MovieImage = ({movie, h = 'full', styles = '', overlay = false, imageStyle
         })
     }, [movie]);
 
-    // if (isLoading) return (<ActivityIndicator size="large" color="#000" className="m-4"/>)
     return (
         <View className={`${styles} justify-center rounded bg-dry`}>
             {isLoading
-                ? <ActivityIndicator size="large" color={Colors.star} className="m-4"/>
+                ? <LoadingIndicator/>
                 : <ImageBackground source={imageSource}
                                    alt={movie?.title}
                                    imageStyle={imageStyles}

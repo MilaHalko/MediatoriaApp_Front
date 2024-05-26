@@ -4,8 +4,6 @@ import {Colors} from "../../constants/Colors";
 
 const MovieDescription = ({movie}) => {
     // TODO: Implement GetMovieGenres function
-    // let genres = movie.genre_ids && GetMovieGenres(movie)
-    // get first 3 genres
     let genres = movie.genre_ids?.slice(0, 3)
     return (
         <View className="gap-1">

@@ -26,6 +26,7 @@ export const fetchSignup = createAsyncThunk('auth/fetchSignup', async (params, {
 
 export const fetchAuthMe = createAsyncThunk('auth/fetchAuthMe', async (_, {rejectWithValue}) => {
     try {
+        console.log('Fetching user data...')
         const {data} = await axios.get('/auth/me')
         console.log('User data:', data)
         return data

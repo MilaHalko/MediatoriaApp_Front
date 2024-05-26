@@ -30,7 +30,7 @@ const SideBar = () => {
         <SafeAreaView className={'relative flex-1 bg-main'}>
             <ScrollView contentContainerStyle={{flexGrow: 1}}>
                 <View className="m-3">
-                    <Movie movie={movie} isLoading={loading}/>
+                    {/*<Movie movie={movie} isLoading={loading}/>*/}
                 </View>
             </ScrollView>
         </SafeAreaView>

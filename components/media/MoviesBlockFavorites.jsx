@@ -1,4 +1,4 @@
-import { View, ActivityIndicator } from "react-native";
+import { View } from "react-native";
 import Title from "../Title";
 import Movie from "./Movie";
 import { SimpleGrid } from "react-native-super-grid";
