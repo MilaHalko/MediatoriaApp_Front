@@ -3,13 +3,14 @@ import {useDispatch} from "react-redux";
 import {useAuth} from "./AuthProvider";
 import {tmdb} from "../api/tmdb";
 import axios from "axios";
+import {Alert} from "react-native";
 
 const MovieContext = createContext();
 export const useMovies = () => useContext(MovieContext);
 
 const MoviesContextProvider = ({children}) => {
     const dispatch = useDispatch()
-    const {user} = useAuth()
+    const {user, removeFavorite, addFavorite} = useAuth()
 
     const getMovieById = async (id) => {
         // TODO: firstly upload from our DB
@@ -25,14 +26,18 @@ const MoviesContextProvider = ({children}) => {
 
     const getFavoriteMovies = async () => {
         // TODO: firstly upload from our DB
+        // reverse array to get the latest movies first
         const favoritesIds = user?.favoriteMovies
         const movies = []
+        console.log('Starting to load favorites...')
         for (let i = 0; i < favoritesIds.length; i++) {
             await getMovieById(favoritesIds[i])
-                .then((movie) => movies.push(movie))
+                .then((movie) => {
+                    movies.push(movie)
+                })
                 .catch((e) => console.log(e))
         }
-        return movies
+        return movies.reverse()
     }
 
     const getMoviesByRequest = async (request, movieCount) => {
@@ -56,13 +61,33 @@ const MoviesContextProvider = ({children}) => {
         return movies.slice(0, movieCount)
     }
 
+    const likeToggle = async (movieId, isLiked) => {
+        if (isLiked) {
+            await removeFavorite(movieId).then(() => {
+                Alert.alert(`Removed "${movieId}" from favorites`);
+                return false;
+            }).catch(e => {
+                Alert.alert('Error', e.message);
+            });
+        } else {
+            await addFavorite(movieId).then(() => {
+                Alert.alert(`Added "${movieId}" to favorites`);
+                return true;
+            }).catch(e => {
+                Alert.alert('Error', e.message);
+            });
+        }
+
+    }
+
     return (
         <MovieContext.Provider
             value={{
                 getMovieById: getMovieById,
                 getMovieByName: getMovieByName,
                 getMoviesByRequest: getMoviesByRequest,
-                getFavoriteMovies: getFavoriteMovies
+                getFavoriteMovies: getFavoriteMovies,
+                likeToggle: likeToggle,
                 }}
         >
             {children}
