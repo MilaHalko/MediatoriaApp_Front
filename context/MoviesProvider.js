@@ -17,6 +17,12 @@ const MoviesContextProvider = ({children}) => {
         return await tmdb.getMovieById(id).catch(e => console.log(e))
     }
 
+    const getMovieByName = async (Name) => {
+        // TODO: firstly upload from our DB
+        // if not found - download from TMDB
+        return await tmdb.getMovieByName(Name).catch(e => console.log(e))
+    }
+
     const getFavoriteMovies = async () => {
         // TODO: firstly upload from our DB
         const favoritesIds = user?.favoriteMovies
@@ -54,6 +60,7 @@ const MoviesContextProvider = ({children}) => {
         <MovieContext.Provider
             value={{
                 getMovieById: getMovieById,
+                getMovieByName: getMovieByName,
                 getMoviesByRequest: getMoviesByRequest,
                 getFavoriteMovies: getFavoriteMovies
                 }}

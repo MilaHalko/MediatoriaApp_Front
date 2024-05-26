@@ -11,6 +11,17 @@ const getMovieById = async (id) => {
     }
 }
 
+const getMovieByName = async (Name) => {
+    try {
+        const res = await axios.get(tmdbRequests.title(Name))
+        return res.data
+    } catch (e) {
+        console.log(e)
+        return null;
+    }
+}
+
 export const tmdb = {
-    getMovieById
+    getMovieById,
+    getMovieByName
 }
