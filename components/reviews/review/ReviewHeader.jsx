@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, View} from "react-native";
-import {dateFromTimestamp} from "../../scripts/mongoParser";
+import {dateFromTimestamp} from "../../../scripts/mongoParser";
 
 const ReviewHeader = ({review, styles}) => {
     return (
