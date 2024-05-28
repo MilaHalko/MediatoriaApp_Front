@@ -19,9 +19,9 @@ export const fetchReview = createAsyncThunk('reviews/fetchReview', async (id, {r
     }
 });
 
-export const createReview = createAsyncThunk('reviews/createReview', async (params, {rejectWithValue}) => {
+export const createReview = createAsyncThunk('reviews/createReview', async ({text, rating, movieId}, {rejectWithValue}) => {
     try {
-        const {data} = await axios.post('/review', params);
+        const {data} = await axios.post('/review', {text, rating, movieId});
         return data;
     } catch (e) {
         return e.response.data ? rejectWithValue(e.response.data) : "Server error";
@@ -105,6 +105,7 @@ const reviewSlice = createSlice({
                 state.status = 'loading';
             })
             .addCase(createReview.fulfilled, (state, action) => {
+                console.log('Review in fetch:', action.payload)
                 state.reviews.push(action.payload);
                 state.status = 'succeeded';
                 state.error = null;

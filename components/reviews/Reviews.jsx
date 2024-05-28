@@ -7,11 +7,11 @@ import LoadingIndicator from '../LoadingIndicator';
 import {useReviews} from "../../context/ReviewsProvider";
 import {useAuth} from "../../context/AuthProvider";
 import RedButton from "../buttons/RedButton";
-import ReviewForm from "./ReviewForm";
-import ReviewHeader from "./ReviewHeader";
-import ReviewFooter from "./ReviewFooter";
-import ReviewText from "./ReviewText";
-import Review from "./Review";
+import ReviewForm from "./reviewForm/ReviewForm";
+import ReviewHeader from "./review/ReviewHeader";
+import ReviewFooter from "./review/ReviewFooter";
+import ReviewText from "./review/ReviewText";
+import Review from "./review/Review";
 
 const Reviews = ({movieId, styles}) => {
         const {user} = useAuth();
@@ -32,11 +32,11 @@ const Reviews = ({movieId, styles}) => {
                 <View className='flex-1 flex-row justify-between mb-1'>
                     <Title Icon={commentsIcon} title={`Reviews ${reviews.length}`}/>
                     <RedButton title={isWriting ? "Cancel" : "Write Review"}
-                               viewClassName={`bg-main border-border px-2`}
+                               viewClassName={`bg-main border-border py-1`}
                                onPress={() => {setIsWriting(!isWriting)
                     }}/>
                 </View>
-                {isWriting && <ReviewForm/>}
+                {isWriting && <ReviewForm movieId={movieId} onSubmit={() => {setIsWriting(false)}}/>}
                 {loading ? <LoadingIndicator/>
                     : (
                         reviews.map((review) => (

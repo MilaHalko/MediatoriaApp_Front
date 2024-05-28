@@ -7,6 +7,7 @@ import {
     fetchReviewsByMovieId, likeReview,
     selectAllReviews, unlikeReview
 } from "../store/slices/reviewSlice";
+import {Alert} from "react-native";
 
 const ReviewsContext = createContext();
 export const useReviews = () => useContext(ReviewsContext);
@@ -42,11 +43,12 @@ const ReviewsContextProvider = ({ children }) => {
         }
     };
 
-    const addReview = async (reviewData) => {
+    const addReview = async ({text, rating, movieId}) => {
         setLoading(true);
         try {
-            await dispatch(createReview(reviewData)).unwrap();
+            await dispatch(createReview({text, rating, movieId})).unwrap();
         } catch (error) {
+            Alert.alert('Failed to add review', error.message);
             console.error("Failed to add review:", error);
         } finally {
             setLoading(false);
