@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {RefreshControl, ScrollView, Text, View} from "react-native";
+import {RefreshControl, ScrollView, View} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
 import {useLocalSearchParams} from "expo-router";
 import {useMovies} from "../../context/MoviesProvider";

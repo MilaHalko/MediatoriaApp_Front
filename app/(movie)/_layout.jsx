@@ -1,7 +1,6 @@
 import React from 'react';
 import {Stack} from "expo-router";
 import {StatusBar} from "expo-status-bar";
-import MovieTab from "./[movieId]";
 import {Colors} from "../../constants/Colors"; // Import the MovieTab component
 
 const MovieLayout = () => {

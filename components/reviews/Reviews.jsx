@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Text, View} from "react-native";
+import {View} from "react-native";
 import Title from "../Title";
 import {FontAwesome} from "@expo/vector-icons";
 import {Colors} from "../../constants/Colors";
@@ -8,9 +8,6 @@ import {useReviews} from "../../context/ReviewsProvider";
 import {useAuth} from "../../context/AuthProvider";
 import RedButton from "../buttons/RedButton";
 import ReviewForm from "./reviewForm/ReviewForm";
-import ReviewHeader from "./review/ReviewHeader";
-import ReviewFooter from "./review/ReviewFooter";
-import ReviewText from "./review/ReviewText";
 import Review from "./review/Review";
 
 const Reviews = ({movieId, styles}) => {

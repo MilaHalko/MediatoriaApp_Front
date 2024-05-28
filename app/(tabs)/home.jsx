@@ -1,7 +1,6 @@
 import React, {useCallback, useState} from 'react';
 import {RefreshControl, ScrollView, View} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
-import {useAuth} from "../../context/AuthProvider";
 import Banner from "../../components/media/Banner";
 import MoviesBlock from "../../components/media/MoviesBlock";
 import {FontAwesome} from "@expo/vector-icons";

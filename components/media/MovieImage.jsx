@@ -3,7 +3,6 @@ import {ImageBackground, StyleSheet, View} from "react-native";
 import {noMovieImage} from "../../constants/images";
 import {getValidTmdbImgUrl} from "../../scripts/tmdb";
 import {LinearGradient} from "expo-linear-gradient";
-import {Colors} from "../../constants/Colors";
 import LoadingIndicator from "../LoadingIndicator";
 
 const MovieImage = ({movie, styles = '', overlay = false, imageStyles = ''}) => {

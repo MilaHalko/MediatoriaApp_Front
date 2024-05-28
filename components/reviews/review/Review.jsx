@@ -1,6 +1,6 @@
 import React from 'react';
 import ReviewHeader from "./ReviewHeader";
-import {Text, View} from "react-native";
+import {View} from "react-native";
 import ReviewText from "./ReviewText";
 import ReviewFooter from "./ReviewFooter";
 

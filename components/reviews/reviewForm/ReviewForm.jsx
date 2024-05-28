@@ -1,8 +1,6 @@
 import React from 'react';
-import { Text, View } from "react-native";
+import {View } from "react-native";
 import RatingStars from "./RatingStars";
-import { REVIEW_TEXT_MAX_LENGTH } from "../../../constants/config";
-import { Colors } from "../../../constants/Colors";
 import RedButton from "../../buttons/RedButton";
 import { useReviews } from "../../../context/ReviewsProvider";
 import TextInputWithMax from "../../fields/TextInput";

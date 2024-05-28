@@ -4,7 +4,6 @@ import {SafeAreaView} from "react-native-safe-area-context";
 import {useAuth} from "../../context/AuthProvider";
 import {FontAwesome} from "@expo/vector-icons";
 import {Colors} from "../../constants/Colors";
-import Movie from "../../components/media/Movie";
 import {useMovies} from "../../context/MoviesProvider";
 
 const SideBar = () => {
