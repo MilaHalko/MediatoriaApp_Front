@@ -5,7 +5,7 @@ import {useAuth} from "../../context/AuthProvider";
 import {useReviews} from "../../context/ReviewsProvider";
 import {View} from "react-native";
 
-function ReviewLikeButton({review, iconSize = 25, containerStyles = ''}) {
+function ReviewLikeButton({review, iconSize = 22, containerStyles = ''}) {
     const {user} = useAuth();
     const {toggleLike} = useReviews();
     const [isLiked, setIsLiked] = useState(false);

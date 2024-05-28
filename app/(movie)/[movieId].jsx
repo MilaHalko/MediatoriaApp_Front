@@ -48,10 +48,10 @@ const MovieTab = () => {
                 />
                 {loading ? <LoadingIndicator/>
                     : (<>
-                        {/*<MovieImage movie={movie} styles={`h-[230px]`} overlay={true}/>*/}
-                        {/*<View className={`h-${gap}`}/>*/}
-                        {/*<MovieTabDescription movie={movie} styles={`bg-dry p-2 mb-${gap}`} onPlay={() => {setIsPlaying(!isPlaying)}}/>*/}
-                        {/*<MoviePlayer movie={movie} isPlaying={isPlaying} styles={`w-full bg-dry p-2 mb-${gap}`}/>*/}
+                        <MovieImage movie={movie} styles={`h-[230px]`} overlay={true}/>
+                        <View className={`h-${gap}`}/>
+                        <MovieTabDescription movie={movie} styles={`bg-dry p-2 mb-${gap}`} onPlay={() => {setIsPlaying(!isPlaying)}}/>
+                        <MoviePlayer movie={movie} isPlaying={isPlaying} styles={`w-full bg-dry p-2 mb-${gap}`}/>
                         <Reviews movieId={movieId} styles={`bg-dry p-2 mb-${gap}`}/>
                     </>)
                 }

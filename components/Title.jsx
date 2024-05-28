@@ -3,7 +3,7 @@ import {Text, View} from "react-native";
 
 const Title = ({title, Icon, viewClassName}) => {
     return (
-        <View className={`w-full flex-row items-center ${viewClassName}`}>
+        <View className={`flex-row items-center ${viewClassName}`}>
             {Icon &&
                 <>
                     {Icon && Icon()}

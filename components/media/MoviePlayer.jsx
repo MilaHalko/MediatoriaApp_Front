@@ -5,11 +5,11 @@ import { useMovies } from "../../context/MoviesProvider";
 
 const MoviePlayer = ({ movie, isPlaying, styles}) => {
     const { getMovieTrailer } = useMovies();
-    const [trailer, setTrailer] = useState(null);
+    const [trailerKey, setTrailerKey] = useState(null);
 
     useEffect(() => {
         getMovieTrailer(movie.id).then((trailer) => {
-            setTrailer(trailer);
+            setTrailerKey(trailer);
         }).catch(e => {
             console.error('Error fetching movie trailer:', e);
         });
@@ -17,11 +17,11 @@ const MoviePlayer = ({ movie, isPlaying, styles}) => {
 
     return (
         <>
-            {isPlaying && trailer && (
+            {isPlaying && trailerKey && (
                 <View className={`bg-main w-full ${styles}`}>
                     <YoutubeIframe
                         height={230}
-                        videoId={trailer}
+                        videoId={trailerKey}
                         play={true}
                         onError={e => console.error(e)}
                     />
