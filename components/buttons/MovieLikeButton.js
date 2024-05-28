@@ -5,7 +5,7 @@ import React, {useEffect, useState} from "react";
 import {useAuth} from "../../context/AuthProvider";
 import {useMovies} from "../../context/MoviesProvider";
 
-function LikeButton({movieId, iconSize = 25, containerStyles = ''}) {
+function MovieLikeButton({movieId, iconSize = 25, containerStyles = ''}) {
     const {user} = useAuth();
     const {likeToggle} = useMovies();
     const [isLiked, setIsLiked] = useState(false);
@@ -35,4 +35,4 @@ function LikeButton({movieId, iconSize = 25, containerStyles = ''}) {
     )
 }
 
-export default LikeButton
+export default MovieLikeButton
