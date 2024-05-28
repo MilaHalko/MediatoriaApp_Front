@@ -1,14 +1,14 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {RefreshControl, ScrollView, Text, View} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
-import {router, useLocalSearchParams} from "expo-router";
+import {useLocalSearchParams} from "expo-router";
 import {useMovies} from "../../context/MoviesProvider";
-import RedButton from "../../components/buttons/RedButton";
 import MovieImage from "../../components/media/MovieImage";
 import LoadingIndicator from "../../components/LoadingIndicator";
 import MoviePlayer from "../../components/media/MoviePlayer";
 import MovieTabDescription from "../../components/media/MovieTabDescription";
-import Reviews from "../../components/review/Reviews";
+import Reviews from "../../components/reviews/Reviews";
+import BackButton from "../../components/buttons/BackButton";
 
 const MovieTab = () => {
     const {getMovieById} = useMovies()
@@ -42,10 +42,6 @@ const MovieTab = () => {
                         ref={scrollViewRef}
                         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
             >
-                <RedButton title={"Back"}
-                           viewClassName={`bg-main border-border mb-3`}
-                           onPress={() => {router.back()}}
-                />
                 {loading ? <LoadingIndicator/>
                     : (<>
                         <MovieImage movie={movie} styles={`h-[230px]`} overlay={true}/>
@@ -55,7 +51,7 @@ const MovieTab = () => {
                         <Reviews movieId={movieId} styles={`bg-dry p-2 mb-${gap}`}/>
                     </>)
                 }
-
+                <BackButton/>
             </ScrollView>
         </SafeAreaView>)
 }
