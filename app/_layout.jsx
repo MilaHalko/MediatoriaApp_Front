@@ -8,6 +8,7 @@ import 'react-native-reanimated'
 import store from "../store/store";
 import AuthContextProvider from "../context/AuthProvider";
 import MoviesContextProvider from "../context/MoviesProvider";
+import ReviewsContextProvider from "../context/ReviewsProvider";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -39,14 +40,16 @@ function RootLayout() {
         <Provider store={store}>
             <AuthContextProvider>
                 <MoviesContextProvider>
-                    <Stack screenOptions={{headerShown: false}}>
-                        <Stack.Screen name="index"/>
-                        <Stack.Screen name="(auth)"/>
-                        <Stack.Screen name="(tabs)"/>
-                        <Stack.Screen name="(movie)"/>
-                        <Stack.Screen name="search"/>
-                    </Stack>
-                    <StatusBar backgroundColor={Colors.main} style="light"/>
+                    <ReviewsContextProvider>
+                        <Stack screenOptions={{headerShown: false}}>
+                            <Stack.Screen name="index"/>
+                            <Stack.Screen name="(auth)"/>
+                            <Stack.Screen name="(tabs)"/>
+                            <Stack.Screen name="(movie)"/>
+                            <Stack.Screen name="search"/>
+                        </Stack>
+                        <StatusBar backgroundColor={Colors.main} style="light"/>
+                    </ReviewsContextProvider>
                 </MoviesContextProvider>
             </AuthContextProvider>
         </Provider>
