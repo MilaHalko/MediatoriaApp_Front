@@ -13,7 +13,6 @@ function MovieLikeButton({movieId, iconSize = 25, containerStyles = ''}) {
 
     useEffect(() => {
         const favorites = user.favoriteMovies
-        console.log('Favorites in like:', favorites);
         setIsLiked(favorites?.includes(movieId.toString()));
     }, [user, movieId]);
 

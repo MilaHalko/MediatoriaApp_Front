@@ -8,11 +8,10 @@ const Review = ({review, styles}) => {
     return (
         <View key={review._id} className={`bg-main p-3 rounded ${styles}`}>
             <ReviewHeader review={review}/>
-            <View className='h-[2px] justify-center bg-dry mt-1 mb-2'/>
+            <View className='h-[2px] justify-center bg-dry my-1'/>
             <ReviewText reviewText={review.text}/>
-            <View className='h-[2px] justify-center bg-dry mt-2 mb-2'/>
-            <Text>Review Form</Text>
-            <ReviewFooter review={review} styles={'mt-1'}/>
+            <View className='h-[2px] justify-center bg-dry my-1'/>
+            <ReviewFooter review={review}/>
         </View>
     );
 };
