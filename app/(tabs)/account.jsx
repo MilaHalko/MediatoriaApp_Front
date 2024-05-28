@@ -6,6 +6,7 @@ import logos from "../../constants/logos";
 import FormField from "../../components/fields/FormField";
 import RedButton from "../../components/buttons/RedButton";
 import {DataLine} from "../../components/fields/DataLine";
+import {dateFromTimestamp} from "../../scripts/mongoParser";
 
 const Account = () => {
     const {user, updateUser, deleteUser, logout} = useAuth()
@@ -92,8 +93,7 @@ const Account = () => {
                             </>) : (<>
                                 <DataLine label='Username' value={user?.username}/>
                                 <DataLine label='Email' value={user?.email}/>
-                                <DataLine label='Registration Date'
-                                          value={new Date(user?.createdAt).toLocaleDateString()}/>
+                                <DataLine label='Registration Date' value={dateFromTimestamp(user?.createdAt)}/>
                                 <DataLine label='Favorite Movies' value={user?.favoriteMovies?.length}/>
                             </>)
                         }
