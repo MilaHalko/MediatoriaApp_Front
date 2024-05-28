@@ -7,10 +7,12 @@ import FormField from "../../components/fields/FormField";
 import RedButton from "../../components/buttons/RedButton";
 import {DataLine} from "../../components/fields/DataLine";
 import {dateFromTimestamp} from "../../scripts/mongoParser";
+import {confirmAlert} from "../../scripts/alerts";
 
 const Account = () => {
     const {user, updateUser, deleteUser, logout} = useAuth()
     const [editMode, setEditMode] = React.useState(false)
+    const [isLoading, setIsLoading] = React.useState(false)
     const [form, setForm] = React.useState({
         username: user?.username,
         oldPassword: '',
@@ -28,14 +30,22 @@ const Account = () => {
     }
 
     const handleDeleteAccount = async () => {
-        // TODO: Implement Alert "Are you sure you want to delete your account?"
-        console.log('Delete account')
-        await deleteUser().catch(e => console.log(e))
+        if (isLoading) return
+        setIsLoading(true)
+        console.log('Deleting account...')
+        confirmAlert({
+            title: 'Delete Account',
+            onConfirm: async () => {
+                await deleteAccount().catch(e => console.log(e))
+                console.log('Account is deleted')
+            },
+            isDestructive: true
+        })
+        setIsLoading(false)
     }
 
     const handleSave = async () => {
-        console.log('Save account')
-
+        console.log('Save account...')
         const preparedForm = Object.fromEntries(Object.entries(form).filter(([_, v]) => v !== '' && v !== null))
         preparedForm.email = user?.email
 
@@ -49,6 +59,8 @@ const Account = () => {
                 })
                 setEditMode(false)
             }).catch(e => console.log(e))
+
+        console.log('Account is saved')
     }
 
     const handleEdit = () => {
