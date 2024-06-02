@@ -7,23 +7,16 @@ import {View} from "react-native";
 
 function ReviewLikeButton({review, iconSize = 22, containerStyles = ''}) {
     const {user} = useAuth();
-    const {toggleLike} = useReviews();
+    const {toggleLike, loading} = useReviews();
     const [isLiked, setIsLiked] = useState(false);
-    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        if (user && review?.likes?.includes(user._id)) {
-            setIsLiked(true);
-        } else {
-            setIsLiked(false);
-        }
+        setIsLiked(user && review?.likes?.includes(user._id));
     }, [user, review?.likes]);
 
     const onPress = async () => {
         if (loading) return;
-        setLoading(true);
         await toggleLike(review._id, isLiked);
-        setLoading(false);
     }
 
     return (

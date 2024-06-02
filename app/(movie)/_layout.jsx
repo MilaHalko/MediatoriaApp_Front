@@ -8,7 +8,6 @@ const MovieLayout = () => {
         <>
             <Stack screenOptions={{headerShown: false}}>
                 <Stack.Screen name="[movieId]"/>
-                <Stack.Screen name="[moviePlayerId]"/>
             </Stack>
             <StatusBar backgroundColor={Colors.main} style="light"/>
         </>
