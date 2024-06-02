@@ -1,27 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { View } from "react-native";
-import YoutubeIframe from 'react-native-youtube-iframe';
-import { useMovies } from "../../context/MoviesProvider";
+import React, {useEffect} from 'react';
+import {useMovies} from "../../context/MoviesProvider";
+import {View} from "react-native";
+import YoutubeIframe from "react-native-youtube-iframe";
 
-const MoviePlayer = ({ movie, isPlaying, styles}) => {
-    const { getMovieTrailer } = useMovies();
-    const [trailerKey, setTrailerKey] = useState(null);
+const MoviePlayer = ({movie, isPlaying, styles}) => {
+    const {loadMovieTrailer, trailer, loading} = useMovies();
 
     useEffect(() => {
-        getMovieTrailer(movie.id).then((trailer) => {
-            setTrailerKey(trailer);
-        }).catch(e => {
-            console.error('Error fetching movie trailer:', e);
-        });
-    }, [movie.id]);
+        loadMovieTrailer(movie.id);
+    }, [movie]);
 
     return (
         <>
-            {isPlaying && trailerKey && (
+            {isPlaying && trailer && (
                 <View className={`bg-main w-full ${styles}`}>
                     <YoutubeIframe
                         height={230}
-                        videoId={trailerKey}
+                        videoId={trailer}
                         play={true}
                         onError={e => console.error(e)}
                     />

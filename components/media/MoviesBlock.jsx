@@ -1,31 +1,16 @@
 import {View} from "react-native";
 import Title from "../Title";
 import Movie from "./Movie";
-import {SimpleGrid} from "react-native-super-grid";
 import {useMovies} from "../../context/MoviesProvider";
-import {useEffect, useState} from "react";
-import LoadingIndicator from "../LoadingIndicator";
+import {useEffect} from "react";
+import {SimpleGrid} from "react-native-super-grid";
 
 const MoviesBlock = ({title, request, movieCount, icon}) => {
-    const {getMoviesByRequest} = useMovies();
-    const [loading, setLoading] = useState(true);
-    const [movies, setMovies] = useState([]);
+    const {movies, loadMoviesByRequest} = useMovies();
 
     useEffect(() => {
-            getMoviesByRequest(request, movieCount).then((uploadedMovies) => {
-                setMovies(uploadedMovies);
-            }).catch(e => {
-                console.error('Error fetching movies:', e);
-            }).finally(() => {
-                setLoading(false);
-            });
-        }, [request]
-    )
-    ;
-
-    if (loading) {
-        return <LoadingIndicator/>
-    }
+        loadMoviesByRequest(request, movieCount)
+    }, [request, movieCount]);
 
     return (
         <View className="w-full">
@@ -37,7 +22,8 @@ const MoviesBlock = ({title, request, movieCount, icon}) => {
                 spacing={8}
             />
         </View>
-    );
+    )
+        ;
 }
 
 export default MoviesBlock;
