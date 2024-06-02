@@ -1,42 +1,27 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import {ImageBackground, StyleSheet, View} from "react-native";
 import {noMovieImage} from "../../constants/images";
-import {getValidTmdbImgUrl} from "../../scripts/tmdb";
 import {LinearGradient} from "expo-linear-gradient";
 import LoadingIndicator from "../LoadingIndicator";
 
-const MovieImage = ({movie, styles = '', overlay = false, imageStyles = ''}) => {
-    const [isLoading, setIsLoading] = useState(true)
-    const [imageSource, setImageSource] = useState(null)
+const MovieImage = ({movie, overlay = false, imageStyles = '', styles = ''}) => {
+    const [imageSource, setImageSource] = useState(movie.imgUrl ? {uri: movie.imgUrl} : noMovieImage)
     const finalStyles = `${styles} w-full object-contain h-full rounded`
-
-    useEffect(() => {
-        getValidTmdbImgUrl(movie).then(res => {
-            res = res ? {uri: res} : noMovieImage
-            setImageSource(res)
-            setIsLoading(false)
-        }).catch(e => {
-            console.log(e)
-            setImageSource(noMovieImage)
-            setIsLoading(false)
-        })
-    }, [movie]);
+    const [loading, setLoading] = useState(true)
 
     return (
-        <View className={`${styles} justify-center rounded bg-dry`}>
-            {isLoading
-                ? <LoadingIndicator/>
-                : <ImageBackground source={imageSource}
-                                   alt={movie?.title}
-                                   imageStyle={imageStyles}
-                                   className={finalStyles}
-                >
-                    {overlay &&
-                        <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.1)', 'rgba(0,0,0,0.5)']}
-                                        className={'absolute top-0 bottom-0 left-0 right-0 bg-transparent'}/>
-                    }
-                </ImageBackground>
-            }
+        <View className={`justify-center rounded bg-dry ${styles}`}>
+            {loading && <LoadingIndicator/>}
+            <ImageBackground source={imageSource}
+                             className={finalStyles}
+                             imageStyle={imageStyles}
+                             onLoadEnd={() => setLoading(false)}
+            >
+                {overlay &&
+                    <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.1)', 'rgba(0,0,0,0.5)']}
+                                    className={'absolute top-0 bottom-0 left-0 right-0 bg-transparent'}/>
+                }
+            </ImageBackground>
         </View>
     )
 }
