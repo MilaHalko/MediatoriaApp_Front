@@ -2,6 +2,7 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "../../api/axios";
 
 export const fetchReviewsByMovieId = createAsyncThunk('reviews/fetchReviewsByMovieId', async (movieId, {rejectWithValue}) => {
+    console.log('fetchReviewsByMovieId:', movieId)
     try {
         const {data} = await axios.get(`/reviews/movie/${movieId}`);
         return data;
@@ -11,6 +12,7 @@ export const fetchReviewsByMovieId = createAsyncThunk('reviews/fetchReviewsByMov
 });
 
 export const fetchReview = createAsyncThunk('reviews/fetchReview', async (id, {rejectWithValue}) => {
+    console.log('fetchReview:', id)
     try {
         const {data} = await axios.get(`/review/${id}`);
         return data;
@@ -20,6 +22,7 @@ export const fetchReview = createAsyncThunk('reviews/fetchReview', async (id, {r
 });
 
 export const createReview = createAsyncThunk('reviews/createReview', async ({text, rating, movieId}, {rejectWithValue}) => {
+    console.log('fetch createReview:', text, rating, movieId)
     try {
         const {data} = await axios.post('/review', {text, rating, movieId});
         return data;
@@ -29,6 +32,7 @@ export const createReview = createAsyncThunk('reviews/createReview', async ({tex
 });
 
 export const deleteReview = createAsyncThunk('reviews/deleteReview', async (id, {rejectWithValue}) => {
+    console.log('fetch deleteReview:', id)
     try {
         const {data} = await axios.delete(`/review/${id}`);
         return data;
@@ -38,6 +42,7 @@ export const deleteReview = createAsyncThunk('reviews/deleteReview', async (id, 
 });
 
 export const likeReview = createAsyncThunk('reviews/likeReview', async (id, {rejectWithValue}) => {
+    console.log('fetch likeReview:', id)
     try {
         const {data} = await axios.post(`/review/${id}/like`);
         return data;
@@ -47,6 +52,7 @@ export const likeReview = createAsyncThunk('reviews/likeReview', async (id, {rej
 });
 
 export const unlikeReview = createAsyncThunk('reviews/unlikeReview', async (id, {rejectWithValue}) => {
+    console.log('fetch unlikeReview:', id)
     try {
         const {data} = await axios.post(`/review/${id}/unlike`);
         return data;

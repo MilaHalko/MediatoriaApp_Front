@@ -3,10 +3,11 @@ import axios from "../../api/axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const fetchAuth = createAsyncThunk('auth/fetchUserData', async (params, {rejectWithValue}) => {
+    console.log('Fetching login:', params)
     try {
         const {data} = await axios.post('/auth/login', params)
         await AsyncStorage.setItem('token', data.token)
-        console.log('User logged in:', data)
+        console.log('Fetched user logging in:', data)
         return data
     } catch (e) {
         return e.response.data ? rejectWithValue(e.response.data) : "Server error"
@@ -14,10 +15,11 @@ export const fetchAuth = createAsyncThunk('auth/fetchUserData', async (params, {
 })
 
 export const fetchSignup = createAsyncThunk('auth/fetchSignup', async (params, {rejectWithValue}) => {
+    console.log('Fetching signing up:', params)
     try {
         const {data} = await axios.post('/auth/signup', params)
         await AsyncStorage.setItem('token', data.token)
-        console.log('User signed up:', data)
+        console.log('Fetched user signing up:', data)
         return data
     } catch (e) {
         return e.response.data ? rejectWithValue(e.response.data) : "Server error"
@@ -25,10 +27,10 @@ export const fetchSignup = createAsyncThunk('auth/fetchSignup', async (params, {
 })
 
 export const fetchAuthMe = createAsyncThunk('auth/fetchAuthMe', async (_, {rejectWithValue}) => {
+    console.log('Fetching user data...')
     try {
-        console.log('Fetching user data...')
         const {data} = await axios.get('/auth/me')
-        console.log('User data:', data)
+        console.log('Fetched user data:', data)
         return data
     } catch (e) {
         return e.response.data ? rejectWithValue(e.response.data) : "Server error"
@@ -36,9 +38,10 @@ export const fetchAuthMe = createAsyncThunk('auth/fetchAuthMe', async (_, {rejec
 })
 
 export const fetchAuthUpdate = createAsyncThunk('auth/fetchAuthUpdate', async (params, {rejectWithValue}) => {
+    console.log('Fetching update user:', params)
     try {
         const {data} = await axios.patch('/auth/me', params)
-        console.log('User updated:', data)
+        console.log('Fetched user updating:', data)
         return data
     } catch (e) {
         return e.response.data ? rejectWithValue(e.response.data) : "Server error"
@@ -46,20 +49,20 @@ export const fetchAuthUpdate = createAsyncThunk('auth/fetchAuthUpdate', async (p
 })
 
 export const fetchDeleteUser = createAsyncThunk('auth/fetchDeleteUser', async (params, {rejectWithValue}) => {
+    console.log('Fetching delete user:', params)
     try {
-        console.log('Fetching delete user:', params)
         await axios.delete('/auth/me', params)
-        console.log('User deleted')
+        console.log('Fetched user deleting')
     } catch (e) {
         return e.response.data ? rejectWithValue(e.response.data) : "Server error"
     }
 })
 
 export const fetchAddFavorite = createAsyncThunk('auth/fetchAddFavorite', async (id, {rejectWithValue}) => {
+    console.log('Fetching add favorite:', id)
     try {
-        console.log('Fetching add favorite:', id)
         const {data} = await axios.post(`/auth/favorites/${id}`)
-        console.log('Favorite added:', data)
+        console.log('Fetched favorite adding:', data)
         return data
     } catch (e) {
         return e.response.data ? rejectWithValue(e.response.data) : "Server error"
@@ -67,10 +70,10 @@ export const fetchAddFavorite = createAsyncThunk('auth/fetchAddFavorite', async 
 })
 
 export const fetchRemoveFavorite = createAsyncThunk('auth/fetchRemoveFavorite', async (id, {rejectWithValue}) => {
+    console.log('Fetching remove favorite:', id)
     try {
-        console.log('Fetching remove favorite:', id)
         const {data} = await axios.delete(`/auth/favorites/${id}`)
-        console.log('Favorite removed:', data)
+        console.log('Fetched favorite removing:', data)
         return data
     } catch (e) {
         return e.response.data ? rejectWithValue(e.response.data) : "Server error"
@@ -78,7 +81,7 @@ export const fetchRemoveFavorite = createAsyncThunk('auth/fetchRemoveFavorite', 
 })
 
 const initialState = {
-    data: null,
+    user: null,
     status: "loading"
 }
 

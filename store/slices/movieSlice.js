@@ -41,10 +41,10 @@ export const fetchMoviesByRequest = createAsyncThunk('movies/fetchMoviesByReques
     }
 });
 
-export const fetchLikeToggle = createAsyncThunk('movies/fetchLikeToggle', async ({ movieId, isLiked }, { rejectWithValue }) => {
-    console.log('fetchLikeToggle:', movieId, isLiked ? 'like' : 'dislike', 'to', !isLiked ? 'like' : 'dislike')
+export const fetchLikeToggle = createAsyncThunk('movies/fetchLikeToggle', async ({ tmdbMovieId, isLiked }, { rejectWithValue }) => {
+    console.log('fetchLikeToggle:', tmdbMovieId, isLiked ? 'like' : 'dislike', 'to', !isLiked ? 'like' : 'dislike')
     try {
-        const { data } = await axios.post('/movies/like-toggle', { movieId, isLiked });
+        const { data } = await axios.post('/movies/like-toggle', { tmdbMovieId, isLiked });
         return data;
     } catch (e) {
         return e.response.data ? rejectWithValue(e.response.data) : "Server error";
