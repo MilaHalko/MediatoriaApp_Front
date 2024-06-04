@@ -1,105 +1,99 @@
-import {createContext, useContext} from "react";
-import {useDispatch} from "react-redux";
+import React, {createContext, useContext, useEffect, useState} from 'react';
+import {useDispatch, useSelector} from "react-redux";
+import {
+    fetchFavoriteMovies,
+    fetchLikeToggle,
+    fetchMovieById,
+    fetchMovieByName,
+    fetchMoviesByRequest,
+    fetchMovieTrailer,
+    selectAllMovies,
+    selectFavoriteMovies,
+    selectMovie,
+    selectMovieTrailer
+} from "../store/slices/movieSlice";
 import {useAuth} from "./AuthProvider";
-import {tmdb} from "../api/tmdb";
-import axios from "axios";
-import {Alert} from "react-native";
 
 const MovieContext = createContext();
 export const useMovies = () => useContext(MovieContext);
 
 const MoviesContextProvider = ({children}) => {
-    const dispatch = useDispatch()
-    const {user, removeFavorite, addFavorite} = useAuth()
+    const {user} = useAuth();
+    const dispatch = useDispatch();
+    const [loading, setLoading] = useState(false);
 
-    const getMovieById = async (id) => {
-        // TODO: firstly upload from our DB
-        // if not found - download from TMDB
-        return await tmdb.getMovieById(id).catch(e => console.log(e))
-    }
+    const movies = useSelector(selectAllMovies);
+    const favoriteMovies = useSelector(selectFavoriteMovies);
+    const movie = useSelector(selectMovie);
+    const trailer = useSelector(selectMovieTrailer);
 
-    const getMovieByName = async (Name) => {
-        // TODO: firstly upload from our DB
-        // if not found - download from TMDB
-        return await tmdb.getMovieByName(Name).catch(e => console.log(e))
-    }
-
-    const getFavoriteMovies = async () => {
-        // TODO: firstly upload from our DB
-        // reverse array to get the latest movies first
-        const favoritesIds = user?.favoriteMovies
-        const movies = []
-        console.log('Starting to load favorites...')
-        for (let i = 0; i < favoritesIds.length; i++) {
-            await getMovieById(favoritesIds[i])
-                .then((movie) => {
-                    movies.push(movie)
-                })
-                .catch((e) => console.log(e))
+    useEffect(() => {
+        if (user) {
+            loadFavoriteMovies()
         }
-        return movies.reverse()
-    }
+    }, [user]);
 
-    const getMoviesByRequest = async (request, movieCount) => {
-        // TODO: firstly upload from our DB
-        if (movieCount === undefined) movieCount = 1000
-        const steps = Math.ceil(movieCount / 20.0)
-        let movies = []
-        for (let i = 0; i < steps; i++) {
-            await axios.get(request + `&page=${i + 1}`)
-                .then((res) => {
-                    movies.push(...res.data.results);
-                    if (res.data.results.length < 20) {
-                        return movies
-                    }
-                })
-                .catch((e) => {
-                    console.error("Error loading movies:", e);
-                    return [];
-                });
-        }
-        return movies.slice(0, movieCount)
-    }
 
-    const likeToggle = async (movieId, isLiked) => {
-        if (isLiked) {
-            await removeFavorite(movieId).then(() => {
-                Alert.alert(`Removed "${movieId}" from favorites`);
-                return false;
-            }).catch(e => {
-                Alert.alert('Error', e.message);
-            });
-        } else {
-            await addFavorite(movieId).then(() => {
-                Alert.alert(`Added "${movieId}" to favorites`);
-                return true;
-            }).catch(e => {
-                Alert.alert('Error', e.message);
-            });
-        }
-    }
+    const loadMovieById = async (id) => {
+        setLoading(true);
+        await dispatch(fetchMovieById(id))
+        setLoading(false)
+    };
 
-    const getMovieTrailer = async (id) => {
-        const trailers = await tmdb.getTrailerById(id).catch(e => console.log(e))
-        const youTubeKey = trailers?.results[0]?.key
-        console.log('Trailer key:', youTubeKey)
-        return youTubeKey
+    const loadMovieByName = async (name) => {
+        setLoading(true);
+        await dispatch(fetchMovieByName(name))
+        setLoading(false)
+    };
+
+    const loadFavoriteMovies = async () => {
+        setLoading(true);
+        await dispatch(fetchFavoriteMovies())
+        setLoading(false)
+    };
+
+    const loadMoviesByRequest = async (query, movieCount) => {
+        setLoading(true);
+        await dispatch(fetchMoviesByRequest({query, movieCount}))
+        setLoading(false)
+    };
+
+    const likeToggle = async (tmdbMovieId, isLiked) => {
+        setLoading(true);
+        await dispatch(fetchLikeToggle({tmdbMovieId, isLiked}));
+        setLoading(false)
+    };
+
+    const loadMovieTrailer = async (id) => {
+        setLoading(true);
+        await dispatch(fetchMovieTrailer(id))
+        setLoading(false)
+    };
+
+    const checkIfIsLiked = (movieId) => {
+        return favoriteMovies?.includes(movieId.toString());
     }
 
     return (
         <MovieContext.Provider
             value={{
-                getMovieById: getMovieById,
-                getMovieTrailer: getMovieTrailer,
-                getMovieByName: getMovieByName,
-                getMoviesByRequest: getMoviesByRequest,
-                getFavoriteMovies: getFavoriteMovies,
-                likeToggle: likeToggle,
-                }}
+                movies,
+                favoriteMovies,
+                movie,
+                trailer,
+                loading,
+                loadMovieById,
+                loadMovieByName,
+                loadFavoriteMovies,
+                loadMoviesByRequest,
+                likeToggle,
+                loadMovieTrailer,
+                checkIfIsLiked
+            }}
         >
             {children}
         </MovieContext.Provider>
-    )
-}
+    );
+};
 
 export default MoviesContextProvider;
