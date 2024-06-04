@@ -6,34 +6,30 @@ import RedButton from "../buttons/RedButton";
 import MovieDescription from "./MovieDescription";
 import {useMovies} from "../../context/MoviesProvider";
 import LoadingIndicator from "../LoadingIndicator";
+import {router} from "expo-router";
 
 const Banner = ({fetchUrl, styles}) => {
-    const {getMoviesByRequest} = useMovies()
-    const [movies, setMovies] = useState()
-    const [loading, setLoading] = useState(true)
+    const {movies, loadMoviesByRequest, loadMovieById} = useMovies()
+    const [localLoading, setLocalLoading] = useState(false)
 
     useEffect(() => {
-        getMoviesByRequest(fetchUrl, 10).then((movies) => {
-            setMovies(movies)
+        loadMoviesByRequest(fetchUrl, 10).then(_ => {
+            setLocalLoading(false);
         })
-    }, [])
+    }, [fetchUrl])
 
-    useEffect(() => {
-        if (movies) {
-            setLoading(false)
-        }
-    }, [movies])
-
-    const watchNowHandler = () => {
-        console.log('Watch Now');
-        // TODO: Implement navigation to movie details page
-        // <Link href={`/movie/${movie.id}/${movie.title}`}
+    const watchPressHandler = async (movieId) => {
+        loadMovieById(movieId).then(_ => {
+            router.push(`/(movie)/${movieId}`);
+        }).catch(e => {
+            console.error('Error navigating fetching movie:', movieId, e);
+        })
     }
 
     return (
         <View className={`w-full ${styles}`}>
             {
-                loading ? <LoadingIndicator/>
+                localLoading ? (<LoadingIndicator/>)
                     : (
                         <Swiper
                             showsButtons={false}
@@ -44,7 +40,7 @@ const Banner = ({fetchUrl, styles}) => {
                         >
                             {movies?.map((movie, index) => (
                                 <View key={index}>
-                                    <MovieImage movie={movie} overlay={true}/>
+                                    <MovieImage imgUrl={movie.imgUrl} overlay={true}/>
                                     <View className="absolute p-2 bottom-0 left-0 right-0">
                                         <Text className="truncate capitalize font-sans text-xl font-bold pb-4 text-white">
                                             {movie.title}
@@ -53,7 +49,7 @@ const Banner = ({fetchUrl, styles}) => {
                                             <View className="flex ">
                                                 <MovieDescription movie={movie}/>
                                             </View>
-                                            <RedButton title="Watch Now" onPress={watchNowHandler}
+                                            <RedButton title="Watch Now" onPress={() => watchPressHandler(movie._id)}
                                                        viewClassName={'w-min px-2 py-0 min-h-[40px]'}
                                                        textClassName={'text-sm border-1 border-blue-500'}
                                             />
