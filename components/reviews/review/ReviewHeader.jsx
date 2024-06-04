@@ -8,14 +8,12 @@ import {useReviews} from "../../../context/ReviewsProvider";
 import {confirmAlert} from "../../../scripts/alerts";
 
 const ReviewHeader = ({review, styles}) => {
-    const {removeReview} = useReviews();
-    const [isLoading, setIsLoading] = React.useState(false);
+    const {removeReview, loading} = useReviews();
     const {user} = useAuth();
     const isAuthor = review.authorId._id === user._id;
 
     const handleDelete = async () => {
-        if (isLoading) return;
-        setIsLoading(true);
+        if (loading) return;
         console.log('Deleting review...');
         confirmAlert({
             title: 'Delete review',
@@ -25,7 +23,6 @@ const ReviewHeader = ({review, styles}) => {
             },
             isDestructive: true
         });
-        setIsLoading(false);
     }
 
     return (
@@ -40,7 +37,7 @@ const ReviewHeader = ({review, styles}) => {
                     {dateFromTimestamp(review.createdAt)}
                 </Text>
                 {isAuthor &&
-                    <TouchableOpacity className='ml-2' onPress={handleDelete} activeOpacity={0.5} disabled={isLoading}>
+                    <TouchableOpacity className='ml-2' onPress={handleDelete} activeOpacity={0.5} disabled={loading}>
                         <AntDesign name="delete" size={24} color={Colors.text}/>
                     </TouchableOpacity>
                 }

@@ -17,10 +17,6 @@ const ReviewsContextProvider = ({ children }) => {
     const reviews = useSelector(selectAllReviews);
     const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        console.log('Reviews:', reviews)
-    } , [reviews]);
-
     const loadReviewsByMovieId = async (movieId) => {
         setLoading(true);
         try {

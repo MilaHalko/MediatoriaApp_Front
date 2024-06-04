@@ -6,8 +6,8 @@ import {MAX_RATING} from "../../../constants/config";
 
 const RatingStars = ({rating, setRating, isError = false, styles}) => {
     const scaleAnim = useRef(new Animated.Value(1)).current;
-    const defineTextColor = () => rating === 0 ? 'border' : 'star';
-    const [textColor, setTextColor] = React.useState(defineTextColor());
+    const defineTextColor = () => setTextColor(rating > 0 ? Colors.star : Colors.border);
+    const [textColor, setTextColor] = React.useState('border');
 
     useEffect(() => {
         if (isError) {
@@ -25,12 +25,12 @@ const RatingStars = ({rating, setRating, isError = false, styles}) => {
                 }),
             ]).start();
         } else {
-            setTextColor(defineTextColor());
+            defineTextColor();
         }
     }, [isError]);
 
     useEffect(() => {
-        setTextColor(defineTextColor());
+        defineTextColor();
     }, [rating]);
 
     const iconStarOutline = (index) => (
@@ -53,7 +53,8 @@ const RatingStars = ({rating, setRating, isError = false, styles}) => {
                     </TouchableOpacity>
                 ))}
             </View>
-            <Text className={`font-hammersmith text-sm text-${textColor}`}>
+            {/*TODO: color not working*/}
+            <Text className={`font-hammersmith text-sm text-star`}>
                 {rating} / {MAX_RATING}
             </Text>
         </View>
