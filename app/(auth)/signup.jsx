@@ -7,7 +7,7 @@ import {Link, router} from "expo-router";
 import {useAuth} from "../../context/AuthProvider";
 
 function Signup() {
-    const {signup} = useAuth()
+    const {signup, user} = useAuth()
 
     const [form, setForm] = useState({
         username: "Mila Halko",
@@ -17,16 +17,9 @@ function Signup() {
     });
 
     const handleSubmit = async () => {
-        try {
-            const user = await signup(form)
-            if (user) {
-                Alert.alert('Signup Success', `Welcome, ${user.username}!`)
-                router.replace('/(tabs)/home')
-            }
-        } catch (error) {
-            console.log(error)
-            Alert.alert('Signup Failed')
-        }
+        await signup(form)
+        Alert.alert('Signup Success', `Welcome, ${user.username}!`)
+        router.replace('/(tabs)/home')
     }
 
     const onTextChange = ({field, e},) => {
@@ -40,9 +33,9 @@ function Signup() {
         <SafeAreaView className="bg-main h-full">
             <ScrollView contentContainerStyle={{height: '100%'}}>
                 <View className="w-full h-full justify-center"
-                    style={{
-                        minHeight: Dimensions.get("window").height - 300,
-                    }}
+                      style={{
+                          minHeight: Dimensions.get("window").height - 300,
+                      }}
                 >
                     <View className='w-auto m-2 p-8 bg-dry rounded-lg border border-border'>
                         <FormField

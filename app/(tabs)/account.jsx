@@ -12,15 +12,13 @@ import {confirmAlert} from "../../scripts/alerts";
 const Account = () => {
     const {user, updateUser, deleteUser, logout, loading} = useAuth()
     const [editMode, setEditMode] = React.useState(false)
+    const buttonStyle = 'min-w px-2'
     const [form, setForm] = React.useState({
         username: user?.username,
         oldPassword: '',
         newPassword: '',
         confirmPassword: '',
     })
-
-    const buttonStyle = 'min-w px-2'
-
     const onTextChange = ({field, e}) => {
         setForm({
             ...form,
@@ -34,7 +32,7 @@ const Account = () => {
         confirmAlert({
             title: 'Delete Account',
             onConfirm: async () => {
-                await deleteAccount().catch(e => console.log(e))
+                await deleteUser().catch(e => console.log(e))
                 console.log('Account is deleted')
             },
             isDestructive: true
@@ -47,9 +45,9 @@ const Account = () => {
         preparedForm.email = user?.email
 
         await updateUser(preparedForm)
-            .then(updatedUser => {
+            .then(_ => {
                 setForm({
-                    username: updatedUser.username,
+                    username: user.username,
                     oldPassword: '',
                     newPassword: '',
                     confirmPassword: '',
@@ -108,18 +106,19 @@ const Account = () => {
                         }
 
                         <View className="flex flex-row justify-between mt-10">
-                            <RedButton title={'Delete Account'} onPress={handleDeleteAccount}
-                                       viewClassName={buttonStyle}/>
-                            {
-                                editMode
-                                    ? (<RedButton title={'Save'} onPress={handleSave}
-                                                  viewClassName={`${buttonStyle} bg-dry`}/>)
-                                    : (<RedButton title={'Edit Profile'} onPress={handleEdit}
-                                                  viewClassName={`${buttonStyle} bg-dry`}/>)
+                            {editMode
+                                ? <RedButton title={'Delete Account'} onPress={handleDeleteAccount}
+                                             viewClassName={buttonStyle}/>
+                                : <RedButton title={'Logout'} onPress={logoutHandler}
+                                             viewClassName={`${buttonStyle} mt-4 w-[100px]`}/>
+                            }
+                            {editMode
+                                ? (<RedButton title={'Save'} onPress={handleSave}
+                                              viewClassName={`${buttonStyle} bg-dry`}/>)
+                                : (<RedButton title={'Edit Profile'} onPress={handleEdit}
+                                              viewClassName={`${buttonStyle} bg-dry mt-4`}/>)
                             }
                         </View>
-                        {/*    Logout button*/}
-                            <RedButton title={'Logout'} onPress={logoutHandler} viewClassName={`${buttonStyle} bg-dry mt-4 w-[100px]`}/>
                     </View>
                 </View>
             </ScrollView>

@@ -90,6 +90,7 @@ const authSlice = createSlice({
     initialState,
     reducers: {
         logout: (state) => {
+            console.log('Logging out...')
             state.data = null
             AsyncStorage.removeItem('token').then(() => console.log('Token removed'))
         }

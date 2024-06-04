@@ -7,7 +7,7 @@ import {Link, router} from "expo-router";
 import {useAuth} from "../../context/AuthProvider";
 
 function Login() {
-    const {login} = useAuth()
+    const {login, user} = useAuth()
 
     const [form, setForm] = useState({
         email: "mmm@m.com",
@@ -15,14 +15,9 @@ function Login() {
     });
 
     const handleSubmit = async () => {
-        try {
-            const user = await login(form)
-            if (!user) return
-            Alert.alert('Login Success', `Welcome back, ${user.role} ${user.username}!`)
-            router.replace('/(tabs)/home')
-        } catch (error) {
-            console.log(error)
-        }
+        await login(form)
+        Alert.alert('Login Success', `Welcome back, ${user.role} ${user.username}!`)
+        router.replace('/(tabs)/home')
     }
 
     const onTextChange = ({field, e}) => {

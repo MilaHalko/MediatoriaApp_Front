@@ -1,5 +1,4 @@
 import {createContext, useContext, useEffect, useState} from "react";
-import {Alert} from "react-native";
 import {
     fetchAddFavorite,
     fetchAuth,
@@ -42,109 +41,53 @@ function AuthContextProvider({children}) {
 
     const signup = async (form) => {
         setLoading(true);
-        try {
-            console.log('Signing up...');
-            const user = await dispatch(fetchSignup(form)).unwrap();
-            setUser(user);
-            console.log('User signed up:', user.username);
-            return user;
-        } catch (error) {
-            console.log(error);
-            Alert.alert('Signup Failed', error.message);
-        } finally {
-            setLoading(false);
-        }
+        const user = await dispatch(fetchSignup(form)).unwrap();
+        setUser(user);
+        setLoading(false);
     };
 
     const login = async (form) => {
         setLoading(true);
-        try {
-            console.log('Logging in...');
-            const user = await dispatch(fetchAuth(form)).unwrap();
-            setUser(user);
-            console.log('User logged in:', user.username);
-            return user;
-        } catch (error) {
-            console.log(error);
-            Alert.alert('Login Failed', error.message);
-        } finally {
-            setLoading(false);
-        }
+        const user = await dispatch(fetchAuth(form)).unwrap();
+        setUser(user);
+        setLoading(false);
     };
 
     const logout = async () => {
         setLoading(true);
-        try {
-            console.log('Logging out...');
-            setUser(null);
-            await dispatch(fetchLogout());
-            console.log('User logged out');
-        } catch (error) {
-            console.log(error);
-            Alert.alert('Logout Failed', error.message);
-        } finally {
-            setLoading(false);
-        }
+        setUser(null);
+        await dispatch(fetchLogout());
+        setLoading(false);
     };
 
     const update = async (form) => {
         setLoading(true);
-        try {
-            console.log('Updating user...');
-            const user = await dispatch(fetchAuthUpdate(form)).unwrap();
-            setUser(user);
-            console.log('User is updated:', user.username);
-            return user;
-        } catch (error) {
-            console.log(error);
-            Alert.alert('Update Failed', error.message);
-        } finally {
-            setLoading(false);
-        }
+        const user = await dispatch(fetchAuthUpdate(form)).unwrap();
+        setUser(user);
+        setLoading(false);
     };
 
     const deleteUser = async () => {
         setLoading(true);
-        try {
-            console.log('Deleting user...');
-            await dispatch(fetchDeleteUser(user));
-            setUser(null);
-            console.log('User is deleted');
-        } catch (error) {
-            console.log(error);
-            Alert.alert('Delete Failed', error.message);
-        } finally {
-            setLoading(false);
-        }
+        await dispatch(fetchDeleteUser(user));
+        setUser(null);
+        setLoading(false);
     };
 
     const addFavorite = async (movieId) => {
         setLoading(true);
-        try {
-            const user = await dispatch(fetchAddFavorite(movieId)).unwrap();
-            setUser(user);
-        } catch (error) {
-            console.log(error);
-            Alert.alert('Add Favorite Failed', error.message);
-        } finally {
-            setLoading(false);
-        }
+        const user = await dispatch(fetchAddFavorite(movieId)).unwrap();
+        setUser(user);
+        setLoading(false);
     };
 
     const removeFavorite = async (movieId) => {
         setLoading(true);
-        try {
-            const user = await dispatch(fetchRemoveFavorite(movieId)).unwrap();
-            setUser(user);
-        } catch (error) {
-            console.log(error);
-            Alert.alert('Remove Favorite Failed', error.message);
-        } finally {
-            setLoading(false);
-        }
+        const user = await dispatch(fetchRemoveFavorite(movieId)).unwrap();
+        setUser(user);
+        setLoading(false);
     };
 
-    // if (loading) return null;
 
     return (
         <AuthContext.Provider
