@@ -39,12 +39,9 @@ const Home = () => {
                         onSearch={onSearch}
                         styles='px-2'/>
 
-                    {/*TODO: Implement Banner fetchUrl={requests.requestNowPlaying}*/}
                     <Banner fetchUrl={tmdbRequests.upcoming} styles='h-[300px]'/>
                     <View className="w-full mt-4">
-                        {/*TODO: Implement MoviesBlock request={requests.requestNowPlaying}*/}
-                        <MoviesBlock title='For You' request={tmdbRequests.nowPlaying} movieCount={10} icon={starIcon}/>
-                        {/*TODO: Implement Popular and Top Rated*/}
+                        <MoviesBlock title= 'For You' request={tmdbRequests.nowPlaying} movieCount={100} icon={starIcon}/>
                     </View>
                 </View>
             </ScrollView>

@@ -10,9 +10,8 @@ import {dateFromTimestamp} from "../../scripts/mongoParser";
 import {confirmAlert} from "../../scripts/alerts";
 
 const Account = () => {
-    const {user, updateUser, deleteUser, logout} = useAuth()
+    const {user, updateUser, deleteUser, logout, loading} = useAuth()
     const [editMode, setEditMode] = React.useState(false)
-    const [isLoading, setIsLoading] = React.useState(false)
     const [form, setForm] = React.useState({
         username: user?.username,
         oldPassword: '',
@@ -30,8 +29,7 @@ const Account = () => {
     }
 
     const handleDeleteAccount = async () => {
-        if (isLoading) return
-        setIsLoading(true)
+        if (loading) return
         console.log('Deleting account...')
         confirmAlert({
             title: 'Delete Account',
@@ -41,7 +39,6 @@ const Account = () => {
             },
             isDestructive: true
         })
-        setIsLoading(false)
     }
 
     const handleSave = async () => {
