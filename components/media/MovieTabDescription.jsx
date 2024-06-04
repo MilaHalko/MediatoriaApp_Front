@@ -25,8 +25,10 @@ const MovieTabDescription = ({movie, styles, onPlay}) => {
             <Text className={`text-white font-poppins-bold my-3`}>{movie.vote_average}</Text>
 
             <View className={`flex flex-row justify-between items-center`}>
-                <MovieLikeButton movieId={movie.id} iconSize={30} containerStyles={`mr-3`}/>
-                <RedButton title={buttonTitle} viewClassName={`bg-main border-border py-1`} onPress={handlePlay}/>
+                <MovieLikeButton tmdbMovieId={movie.tmdbId} iconSize={30} containerStyles={`mr-3`}/>
+                {movie.youTubeKey &&
+                    <RedButton title={buttonTitle} viewClassName={`bg-main border-border py-1`} onPress={handlePlay}/>
+                }
             </View>
         </View>
     );

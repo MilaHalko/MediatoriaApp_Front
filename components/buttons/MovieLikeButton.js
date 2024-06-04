@@ -4,18 +4,18 @@ import {View} from "react-native";
 import React, {useEffect, useState} from "react";
 import {useMovies} from "../../context/MoviesProvider";
 
-function MovieLikeButton({movieId, iconSize = 25, containerStyles = ''}) {
-    const {likeToggle, loading, checkIfIsLiked, favoriteMovies, loadFavoriteMovies} = useMovies();
+function MovieLikeButton({tmdbMovieId, iconSize = 25, containerStyles = ''}) {
+    const {likeToggle, loading, favoriteMovies} = useMovies();
     const [isLiked, setIsLiked] = useState(false);
 
     useEffect(() => {
-        const includes = favoriteMovies.some((movie) => movie.id.toString() === movieId.toString());
+        const includes = favoriteMovies.some((movie) => movie.tmdbId === tmdbMovieId);
         setIsLiked(includes);
     } , [favoriteMovies])
 
     const onPress = async () => {
         if (loading) return;
-        await likeToggle(movieId, isLiked);
+        await likeToggle(tmdbMovieId, isLiked);
     }
 
     return (
