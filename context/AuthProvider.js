@@ -5,7 +5,8 @@ import {
     fetchAuth,
     fetchAuthMe,
     fetchAuthUpdate,
-    fetchDeleteUser, fetchRemoveFavorite,
+    fetchDeleteUser,
+    fetchRemoveFavorite,
     fetchSignup,
     logout as fetchLogout
 } from "../store/slices/authSlice";
@@ -15,121 +16,153 @@ const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
 
 function AuthContextProvider({children}) {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    // react on token changes
     useEffect(() => {
-        loadUser().then(r => setLoading(false))
-    }, [dispatch])
+        loadUser();
+    }, [dispatch]);
 
     const loadUser = async () => {
+        setLoading(true);
         try {
-            console.log('Loading user...')
-            const data = await dispatch(fetchAuthMe()).unwrap()
-            const user = data.token ? data : null
-            setUser(user)
-            console.log('User loaded:', user.username)
+            console.log('Loading user...');
+            const data = await dispatch(fetchAuthMe()).unwrap();
+            const user = data.token ? data : null;
+            setUser(user);
+            console.log('User loaded:', user?.username);
         } catch (error) {
-            setUser(null)
-            console.log(error)
+            setUser(null);
+            console.log(error);
+        } finally {
+            setLoading(false);
         }
-    }
+    };
 
     const signup = async (form) => {
+        setLoading(true);
         try {
-            console.log('Signing up...')
-            const user = await dispatch(fetchSignup(form)).unwrap()
-            setUser(user)
-            console.log('User signed up:', user.username)
-            return user
+            console.log('Signing up...');
+            const user = await dispatch(fetchSignup(form)).unwrap();
+            setUser(user);
+            console.log('User signed up:', user.username);
+            return user;
         } catch (error) {
-            console.log(error)
-            Alert.alert('Signup Failed', error.message)
+            console.log(error);
+            Alert.alert('Signup Failed', error.message);
+        } finally {
+            setLoading(false);
         }
-    }
+    };
 
     const login = async (form) => {
+        setLoading(true);
         try {
-            console.log('Logging in...')
-            const user = await dispatch(fetchAuth(form)).unwrap()
-            setUser(user)
-            console.log('User logged in:', user.username)
-            return user
+            console.log('Logging in...');
+            const user = await dispatch(fetchAuth(form)).unwrap();
+            setUser(user);
+            console.log('User logged in:', user.username);
+            return user;
         } catch (error) {
-            console.log(error)
-            Alert.alert('Login Failed', error.message)
+            console.log(error);
+            Alert.alert('Login Failed', error.message);
+        } finally {
+            setLoading(false);
         }
-    }
+    };
 
     const logout = async () => {
+        setLoading(true);
         try {
-            console.log('Logging out...')
-            setUser(null)
-            await dispatch(fetchLogout())
-            console.log('User logged out')
+            console.log('Logging out...');
+            setUser(null);
+            await dispatch(fetchLogout());
+            console.log('User logged out');
         } catch (error) {
-            console.log(error)
-            Alert.alert('Logout Failed', error.message)
+            console.log(error);
+            Alert.alert('Logout Failed', error.message);
+        } finally {
+            setLoading(false);
         }
-    }
+    };
 
     const update = async (form) => {
+        setLoading(true);
         try {
-            console.log('Updating user...')
-            const user = await dispatch(fetchAuthUpdate(form)).unwrap()
-            setUser(user)
-            console.log('User is updated:', user.username)
-            return user
+            console.log('Updating user...');
+            const user = await dispatch(fetchAuthUpdate(form)).unwrap();
+            setUser(user);
+            console.log('User is updated:', user.username);
+            return user;
         } catch (error) {
-            console.log(error)
-            Alert.alert('Update Failed', error.message)
+            console.log(error);
+            Alert.alert('Update Failed', error.message);
+        } finally {
+            setLoading(false);
         }
-    }
+    };
 
     const deleteUser = async () => {
+        setLoading(true);
         try {
-            console.log('Deleting user...')
-            await dispatch(fetchDeleteUser(user))
-            setUser(null)
-            console.log('User is deleted')
+            console.log('Deleting user...');
+            await dispatch(fetchDeleteUser(user));
+            setUser(null);
+            console.log('User is deleted');
         } catch (error) {
-            console.log(error)
-            Alert.alert('Delete Failed', error.message)
+            console.log(error);
+            Alert.alert('Delete Failed', error.message);
+        } finally {
+            setLoading(false);
         }
-    }
+    };
 
     const addFavorite = async (movieId) => {
-        const user = await dispatch(fetchAddFavorite(movieId)).unwrap()
-        setUser(user)
-    }
+        setLoading(true);
+        try {
+            const user = await dispatch(fetchAddFavorite(movieId)).unwrap();
+            setUser(user);
+        } catch (error) {
+            console.log(error);
+            Alert.alert('Add Favorite Failed', error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const removeFavorite = async (movieId) => {
-        const user = await dispatch(fetchRemoveFavorite(movieId)).unwrap()
-        setUser(user)
-    }
+        setLoading(true);
+        try {
+            const user = await dispatch(fetchRemoveFavorite(movieId)).unwrap();
+            setUser(user);
+        } catch (error) {
+            console.log(error);
+            Alert.alert('Remove Favorite Failed', error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-    if (loading) {
-        return null
-    }
+    // if (loading) return null;
 
     return (
         <AuthContext.Provider
             value={{
-                user: user,
-                signup: signup,
-                login: login,
-                logout: logout,
+                user,
+                signup,
+                login,
+                logout,
+                loading,
                 updateUser: update,
-                deleteUser: deleteUser,
-                addFavorite: addFavorite,
-                removeFavorite: removeFavorite
+                deleteUser,
+                addFavorite,
+                removeFavorite
             }}
         >
             {children}
         </AuthContext.Provider>
-    )
+    );
 }
 
 export default AuthContextProvider;
