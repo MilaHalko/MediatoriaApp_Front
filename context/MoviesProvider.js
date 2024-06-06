@@ -4,13 +4,13 @@ import {
     fetchFavoriteMovies,
     fetchLikeToggle,
     fetchMovieById,
-    fetchMovieByName,
+    fetchMoviesByName,
     fetchMoviesByRequest,
-    fetchMovieTrailer,
+    fetchMovieTrailer, fetchTmdbGenres,
     selectAllMovies,
     selectFavoriteMovies,
     selectMovie,
-    selectMovieTrailer
+    selectMovieTrailer, selectTmdbGenres
 } from "../store/slices/movieSlice";
 import {useAuth} from "./AuthProvider";
 
@@ -18,18 +18,21 @@ const MovieContext = createContext();
 export const useMovies = () => useContext(MovieContext);
 
 const MoviesContextProvider = ({children}) => {
-    const {user} = useAuth();
     const dispatch = useDispatch();
+    const {user} = useAuth();
     const [loading, setLoading] = useState(false);
 
     const movies = useSelector(selectAllMovies);
     const favoriteMovies = useSelector(selectFavoriteMovies);
     const movie = useSelector(selectMovie);
     const trailer = useSelector(selectMovieTrailer);
+    const tmdbGenres = useSelector(selectTmdbGenres);
+    const [searchMovies, setSearchMovies] = useState([]);
 
     useEffect(() => {
         if (user) {
             loadFavoriteMovies()
+            getTmdbGenres()
         }
     }, [user]);
 
@@ -42,7 +45,8 @@ const MoviesContextProvider = ({children}) => {
 
     const loadMovieByName = async (name) => {
         setLoading(true);
-        await dispatch(fetchMovieByName(name))
+        const allMovies = await dispatch(fetchMoviesByName(name))
+        setSearchMovies(allMovies)
         setLoading(false)
     };
 
@@ -74,6 +78,12 @@ const MoviesContextProvider = ({children}) => {
         return favoriteMovies?.includes(movieId.toString());
     }
 
+    const getTmdbGenres = async () => {
+        setLoading(true);
+        await dispatch(fetchTmdbGenres())
+        setLoading(false)
+    }
+
     return (
         <MovieContext.Provider
             value={{
@@ -82,13 +92,15 @@ const MoviesContextProvider = ({children}) => {
                 movie,
                 trailer,
                 loading,
+                tmdbGenres,
+                searchMovies,
                 loadMovieById,
                 loadMovieByName,
                 loadFavoriteMovies,
                 loadMoviesByRequest,
                 likeToggle,
                 loadMovieTrailer,
-                checkIfIsLiked
+                checkIfIsLiked,
             }}
         >
             {children}
