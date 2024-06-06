@@ -5,14 +5,22 @@ import Picker from "./Picker";
 import {Ionicons} from "@expo/vector-icons";
 import {Colors} from "../../constants/Colors";
 import {useMovies} from "../../context/MoviesProvider";
+import {setMovies} from "../../store/slices/movieSlice";
+import {useDispatch} from "react-redux";
+
+const emptySearchData = {
+    title: '',
+    genre: null,
+    year: null
+}
 
 const SearchComponent = ({styles}) => {
+    const dispatch = useDispatch();
     const [localLoading, setLocalLoading] = useState(true);
     const [activeTab, setActiveTab] = useState(false);
-    const [movieToSearch, setMovieToSearch] = useState('Barbie');
-    const {tmdbGenres, loadMovieByName} = useMovies();
-    const [genre, setGenre] = useState(null);
-    const [year, setYear] = useState(null);
+    const {tmdbGenres, loadMovieByName, movies} = useMovies();
+    const [previousSearchData, setPreviousSearchData] = useState(emptySearchData);
+    const [searchData, setSearchData] = useState(emptySearchData);
 
     const currentYear = new Date().getFullYear();
     const {width} = Dimensions.get('window');
@@ -20,30 +28,51 @@ const SearchComponent = ({styles}) => {
     const pickerWidth = (width - iconWidth - 2 * 25) / 2;
 
     useEffect(() => {
-        if (!tmdbGenres) return
-        setLocalLoading(false)
-    }, [tmdbGenres])
+        if (!tmdbGenres) return;
+        setLocalLoading(false);
+    }, [tmdbGenres]);
 
-    const onSearch = () => {
-        if (movieToSearch === '' && !genre && !year) return
-        if (movieToSearch) {
-            loadMovieByName(movieToSearch)
+    const isSearchDataSame = () =>
+        searchData.title.toLowerCase().trim() === previousSearchData.title.toLowerCase().trim() &&
+        searchData.genre === previousSearchData.genre &&
+        searchData.year === previousSearchData.year;
+
+    const updatePreviousSearchData = () => {
+        setPreviousSearchData({
+            title: searchData.title,
+            genre: searchData.genre,
+            year: searchData.year
+        });
+    };
+
+    const onSearch = async () => {
+        console.log('Search data:', searchData);
+        if (searchData.title === '' && !searchData.genre && !searchData.year) return;
+        if (!isSearchDataSame()) {
+            updatePreviousSearchData();
+            const fetchedMovies = searchData.title === '' ? movies : await loadMovieByName(searchData.title);
+            const filteredMovies = (fetchedMovies || []).filter(movie => {
+                const releaseYear = movie.releaseDate ? movie.releaseDate.split('-')[0] : '';
+                const genres = movie.genres ? movie.genres.map(genre => genre.name) : [];
+                const matchesGenre = searchData.genre ? genres.includes(searchData.genre) : true;
+                const matchesYear = searchData.year ? releaseYear === searchData.year.toString() : true;
+                return matchesGenre && matchesYear;
+            });
+            dispatch(setMovies(filteredMovies));
         }
-    }
+    };
 
     const onClosePress = () => {
-        setActiveTab(false)
-        setYear(null)
-        setGenre(null)
-        setMovieToSearch('')
-    }
+        setActiveTab(false);
+        setSearchData(emptySearchData);
+    };
 
     return (
         <View className={`w-full ${styles}`}>
             <SearchInput
                 placeholder='Search for movies, series, etc.'
-                value={movieToSearch}
-                onChangeText={setMovieToSearch}
+                value={searchData.title}
+                onChangeText={(text) => setSearchData(prev => ({...prev, title: text}))}
                 onSearch={onSearch}
                 onPress={() => setActiveTab(true)}
                 styles={`px-1 ${activeTab ? 'mb-0' : ''}`}/>
@@ -57,13 +86,13 @@ const SearchComponent = ({styles}) => {
                         <Ionicons name="close" size={iconWidth} color={Colors.star}/>
                     </TouchableOpacity>
 
-                    <Picker setValue={setYear}
+                    <Picker setValue={(year) => setSearchData(prev => ({...prev, year}))}
                             itemsArray={Array.from({length: currentYear - 1900}, (_, i) => currentYear - i)}
                             placeholder='Year'
                             widthPx={pickerWidth}
                     />
 
-                    <Picker setValue={setGenre}
+                    <Picker setValue={(genre) => setSearchData(prev => ({...prev, genre}))}
                             itemsArray={tmdbGenres.map(genre => genre.name)}
                             placeholder='Genre'
                             widthPx={pickerWidth}

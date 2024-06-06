@@ -27,7 +27,6 @@ const MoviesContextProvider = ({children}) => {
     const movie = useSelector(selectMovie);
     const trailer = useSelector(selectMovieTrailer);
     const tmdbGenres = useSelector(selectTmdbGenres);
-    const [searchMovies, setSearchMovies] = useState([]);
 
     useEffect(() => {
         if (user) {
@@ -45,9 +44,9 @@ const MoviesContextProvider = ({children}) => {
 
     const loadMovieByName = async (name) => {
         setLoading(true);
-        const allMovies = await dispatch(fetchMoviesByName(name))
-        setSearchMovies(allMovies)
-        setLoading(false)
+        const result = await dispatch(fetchMoviesByName(name));
+        setLoading(false);
+        return result.payload || [];
     };
 
     const loadFavoriteMovies = async () => {
@@ -93,7 +92,6 @@ const MoviesContextProvider = ({children}) => {
                 trailer,
                 loading,
                 tmdbGenres,
-                searchMovies,
                 loadMovieById,
                 loadMovieByName,
                 loadFavoriteMovies,

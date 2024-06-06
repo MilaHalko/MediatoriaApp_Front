@@ -73,6 +73,7 @@ export const fetchTmdbGenres = createAsyncThunk('movies/fetchTmdbGenres', async 
     }
 });
 
+
 const initialState = {
     movies: [],
     favoriteMovies: [],
@@ -86,7 +87,13 @@ const initialState = {
 const movieSlice = createSlice({
     name: 'movies',
     initialState,
-    reducers: {},
+    reducers: {
+        setMovies: (state, action) => {
+            console.log('setMovies action payload:', action.payload);  // Log action payload
+            state.movies = action.payload;
+            console.log('Movies state after setMovies:', state.movies);  // Log state after setting movies
+        }
+    },
     extraReducers: (builder) => {
         builder
             // Fetch all favorite movies
@@ -211,3 +218,4 @@ export const selectMovieById = (state, id) => state.movies.movies.find(movie => 
 export const selectMovieTrailer = (state) => state.movies.movieTrailer;
 export const selectTmdbGenres = (state) => state.movies.tmdbGenres;
 export const movieReducer = movieSlice.reducer;
+export const {setMovies} = movieSlice.actions;

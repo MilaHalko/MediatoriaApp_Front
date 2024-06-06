@@ -7,9 +7,11 @@ import {FontAwesome} from "@expo/vector-icons";
 import {Colors} from "../../constants/Colors";
 import {tmdbRequests} from "../../constants/TMDB";
 import SearchComponent from "../../components/search/SearchComponent";
+import {useMovies} from "../../context/MoviesProvider";
 
 const Home = () => {
     const [refreshing, setRefreshing] = useState(false);
+    const {movies} = useMovies();
     const iconSize = 28
 
     const onRefresh = useCallback(() => {
@@ -25,9 +27,9 @@ const Home = () => {
             >
                 <View className="items-center">
                     <SearchComponent/>
-                    <Banner fetchUrl={tmdbRequests.upcoming} styles='h-[300px]'/>
+                    {movies?.length > 0 && <Banner styles='h-[300px]'/>}
                     <View className="w-full mt-4">
-                        <MoviesBlock title= 'For You' request={tmdbRequests.nowPlaying} movieCount={1} icon={starIcon}/>
+                        <MoviesBlock title= 'For You' request={tmdbRequests.nowPlaying} movieCount={100} icon={starIcon}/>
                     </View>
                 </View>
             </ScrollView>
