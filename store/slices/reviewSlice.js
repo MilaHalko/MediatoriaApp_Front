@@ -88,6 +88,7 @@ const reviewSlice = createSlice({
                 state.reviews = [];
                 state.status = 'failed';
                 state.error = action.payload;
+                console.log('FetchReviewsByMovieId error:', action.payload)
             })
 
             // SINGLE REVIEW
@@ -104,6 +105,7 @@ const reviewSlice = createSlice({
                 state.review = null;
                 state.status = 'failed';
                 state.error = action.payload;
+                console.log('FetchReview error:', action.payload)
             })
 
             // CREATE REVIEW
@@ -119,6 +121,7 @@ const reviewSlice = createSlice({
             .addCase(createReview.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload;
+                console.log('CreateReview error:', action.payload)
             })
 
             // DELETE REVIEW
@@ -132,6 +135,7 @@ const reviewSlice = createSlice({
             .addCase(deleteReview.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload;
+                console.log('DeleteReview error:', action.payload)
             })
 
             // LIKE REVIEW
@@ -148,6 +152,7 @@ const reviewSlice = createSlice({
             .addCase(likeReview.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload;
+                console.log('LikeReview error:', action.payload)
             })
 
             // UNLIKE REVIEW
@@ -164,6 +169,7 @@ const reviewSlice = createSlice({
             .addCase(unlikeReview.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload;
+                console.log('UnlikeReview error:', action.payload)
             });
     }
 });
