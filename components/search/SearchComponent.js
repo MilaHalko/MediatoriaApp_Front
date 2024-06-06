@@ -10,7 +10,7 @@ const SearchComponent = ({styles}) => {
     const [localLoading, setLocalLoading] = useState(true);
     const [activeTab, setActiveTab] = useState(false);
     const [movieToSearch, setMovieToSearch] = useState('Barbie');
-    const {tmdbGenres, loadMovieByName, searchMovies} = useMovies();
+    const {tmdbGenres, loadMovieByName} = useMovies();
     const [genre, setGenre] = useState(null);
     const [year, setYear] = useState(null);
 

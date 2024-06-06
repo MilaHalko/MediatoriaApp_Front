@@ -5,7 +5,6 @@ import Banner from "../../components/media/Banner";
 import MoviesBlock from "../../components/media/MoviesBlock";
 import {FontAwesome} from "@expo/vector-icons";
 import {Colors} from "../../constants/Colors";
-import SearchInput from "../../components/fields/SearchInput";
 import {tmdbRequests} from "../../constants/TMDB";
 import SearchComponent from "../../components/search/SearchComponent";
 
@@ -26,7 +25,7 @@ const Home = () => {
             >
                 <View className="items-center">
                     <SearchComponent/>
-                    {/*<Banner fetchUrl={tmdbRequests.upcoming} styles='h-[300px]'/>*/}
+                    <Banner fetchUrl={tmdbRequests.upcoming} styles='h-[300px]'/>
                     <View className="w-full mt-4">
                         <MoviesBlock title= 'For You' request={tmdbRequests.nowPlaying} movieCount={1} icon={starIcon}/>
                     </View>

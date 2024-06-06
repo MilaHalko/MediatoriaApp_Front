@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {ImageBackground, StyleSheet, View} from "react-native";
 import {noMovieImage} from "../../constants/images";
 import {LinearGradient} from "expo-linear-gradient";

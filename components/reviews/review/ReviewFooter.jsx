@@ -2,7 +2,6 @@ import React from 'react';
 import {Text, View} from "react-native";
 import {FontAwesome} from "@expo/vector-icons";
 import {Colors} from "../../../constants/Colors";
-import {useAuth} from "../../../context/AuthProvider";
 import ReviewLikeIcon from "../../buttons/ReviewLikeIcon";
 
 const ReviewFooter = ({review, styles}) => {
