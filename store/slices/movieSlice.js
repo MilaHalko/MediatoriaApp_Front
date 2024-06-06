@@ -89,9 +89,7 @@ const movieSlice = createSlice({
     initialState,
     reducers: {
         setMovies: (state, action) => {
-            console.log('setMovies action payload:', action.payload);  // Log action payload
             state.movies = action.payload;
-            console.log('Movies state after setMovies:', state.movies);  // Log state after setting movies
         }
     },
     extraReducers: (builder) => {
