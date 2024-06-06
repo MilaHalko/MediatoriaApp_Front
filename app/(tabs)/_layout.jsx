@@ -4,6 +4,7 @@ import FooterTab from "../../components/FooterTab";
 import {Feather, FontAwesome5, MaterialCommunityIcons, MaterialIcons} from '@expo/vector-icons';
 import {Colors} from "../../constants/Colors";
 import AuthorisedRoute from "../../components/wrappers/AuthorisedRoute";
+import {StatusBar} from "expo-status-bar";
 
 const TabsLayout = () => {
     const iconSize = 25;
@@ -77,6 +78,7 @@ const TabsLayout = () => {
                     }}
                 ></Tabs.Screen>
             </Tabs>
+            <StatusBar backgroundColor={Colors.main} style="light"/>
         </AuthorisedRoute>
     );
 };
