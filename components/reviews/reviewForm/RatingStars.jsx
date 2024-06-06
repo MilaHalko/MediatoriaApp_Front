@@ -54,7 +54,7 @@ const RatingStars = ({rating, setRating, isError = false, styles}) => {
                 ))}
             </View>
             {/*TODO: color not working*/}
-            <Text className={`font-hammersmith text-sm text-star`}>
+            <Text className={`font-hammersmith text-sm text-${textColor}`}>
                 {rating} / {MAX_RATING}
             </Text>
         </View>

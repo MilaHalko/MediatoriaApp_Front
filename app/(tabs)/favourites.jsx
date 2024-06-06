@@ -10,8 +10,7 @@ import {SimpleGrid} from "react-native-super-grid";
 import Movie from "../../components/media/Movie";
 
 const Favourites = () => {
-    const {user} = useAuth();
-    const {favoriteMovies, loadMovieById} = useMovies();
+    const {favoriteMovies} = useMovies();
 
     const icon = () => <FontAwesome name="heart" size={24} color={Colors.subMain}/>;
     return (

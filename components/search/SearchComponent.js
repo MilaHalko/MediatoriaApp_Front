@@ -22,21 +22,13 @@ const SearchComponent = ({styles}) => {
     useEffect(() => {
         if (!tmdbGenres) return
         setLocalLoading(false)
-        onSearch()
     }, [tmdbGenres])
-
-    useEffect(() => {
-        if (searchMovies) {
-            console.log('Search movies:', searchMovies)
-        }
-    }, [searchMovies])
 
     const onSearch = () => {
         if (movieToSearch === '' && !genre && !year) return
         if (movieToSearch) {
             loadMovieByName(movieToSearch)
         }
-        console.log('Searching for:', movieToSearch, 'Year:', year, 'Genre:', genre)
     }
 
     const onClosePress = () => {

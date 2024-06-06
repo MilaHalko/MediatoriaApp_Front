@@ -22,7 +22,7 @@ const MovieTabDescription = ({movie, styles, onPlay}) => {
                 {movie.overview}
             </Text>
 
-            <Text className={`text-white font-poppins-bold my-3`}>{movie.vote_average}</Text>
+            <Text className={`text-white font-poppins-bold my-3`}>{movie.averageRating}</Text>
 
             <View className={`flex flex-row justify-between items-center`}>
                 <MovieLikeButton tmdbMovieId={movie.tmdbId} iconSize={30} containerStyles={`mr-3`}/>

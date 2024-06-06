@@ -14,12 +14,10 @@ const ReviewHeader = ({review, styles}) => {
 
     const handleDelete = async () => {
         if (loading) return;
-        console.log('Deleting review...');
         confirmAlert({
             title: 'Delete review',
             onConfirm: async () => {
                 await removeReview(review._id);
-                console.log('Review deleted');
             },
             isDestructive: true
         });

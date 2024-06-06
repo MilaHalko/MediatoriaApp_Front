@@ -7,7 +7,7 @@ const ReviewText = ({reviewText, styles}) => {
         <View className={`${styles} space-y-3`}>
             {
                 paragraphs.map((paragraph, index) => (
-                    <Text className='text-white font-poppins-light text-sm leading-6'>
+                    <Text key={index} className='text-white font-poppins-light text-sm leading-6'>
                         {paragraph}
                     </Text>
                 ))

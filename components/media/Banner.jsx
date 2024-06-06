@@ -39,7 +39,7 @@ const Banner = ({fetchUrl, styles}) => {
                             loop={true}
                         >
                             {movies?.map((movie, index) => (
-                                <View key={index}>
+                                <View key={movie._id}>
                                     <MovieImage imgUrl={movie.imgUrl} overlay={true}/>
                                     <View className="absolute p-2 bottom-0 left-0 right-0">
                                         <Text className="truncate capitalize font-sans text-xl font-bold pb-4 text-white">

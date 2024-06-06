@@ -6,7 +6,6 @@ import {useAuth} from "../../../context/AuthProvider";
 import ReviewLikeIcon from "../../buttons/ReviewLikeIcon";
 
 const ReviewFooter = ({review, styles}) => {
-    const {user} = useAuth();
     const likeSize = 23;
     return (
         <View className={`flex flex-row justify-between ${styles}`}>

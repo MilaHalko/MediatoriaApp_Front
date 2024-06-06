@@ -2,10 +2,9 @@ import React, {useState} from 'react'
 import {ImageBackground, StyleSheet, View} from "react-native";
 import {noMovieImage} from "../../constants/images";
 import {LinearGradient} from "expo-linear-gradient";
-import LoadingIndicator from "../LoadingIndicator";
 
 const MovieImage = ({imgUrl, overlay = false, imageStyles = '', styles = ''}) => {
-    const [imageSource, setImageSource] = useState(imgUrl ? {uri: imgUrl} : noMovieImage)
+    const imageSource = imgUrl ? {uri: imgUrl} : noMovieImage
     const finalStyles = `${styles} w-full object-contain h-full rounded`
 
     return (
