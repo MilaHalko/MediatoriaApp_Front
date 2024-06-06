@@ -5,7 +5,7 @@ import RedButton from "../../buttons/RedButton";
 import { useReviews } from "../../../context/ReviewsProvider";
 import TextInputWithMax from "../../fields/TextInput";
 
-const ReviewForm = ({movieId, onSubmit}) => {
+const ReviewForm = ({movieId, onSubmit, setUpdateMovie}) => {
     const { addReview, loading } = useReviews();
     const [rating, setRating] = React.useState(0);
     const [text, setText] = React.useState('');
@@ -30,6 +30,7 @@ const ReviewForm = ({movieId, onSubmit}) => {
         console.log('Submitting review...');
         await addReview({rating, text, movieId});
         onSubmit();
+        setUpdateMovie(true);
         console.log('Review submitted');
     };
 

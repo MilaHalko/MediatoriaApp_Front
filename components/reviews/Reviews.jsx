@@ -9,7 +9,7 @@ import RedButton from "../buttons/RedButton";
 import ReviewForm from "./reviewForm/ReviewForm";
 import Review from "./review/Review";
 
-const Reviews = ({movieId, styles}) => {
+const Reviews = ({movieId, styles, setUpdateMovie}) => {
         const {reviews, loadReviewsByMovieId, loading} = useReviews([]);
         const [isWriting, setIsWriting] = React.useState(false);
 
@@ -30,7 +30,7 @@ const Reviews = ({movieId, styles}) => {
                                }}/>
                 </View>
 
-                {isWriting && <ReviewForm movieId={movieId} onSubmit={() => {
+                {isWriting && <ReviewForm setUpdateMovie={setUpdateMovie} movieId={movieId} onSubmit={() => {
                     setIsWriting(false)
                 }}/>}
 
