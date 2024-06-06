@@ -15,7 +15,7 @@ const Favourites = () => {
         <SafeAreaView className={'relative flex-1 bg-main'}>
             <ScrollView contentContainerStyle={{flexGrow: 1}}>
                 <View className="items-center m-3">
-                    <Title title={'Your Favorites'} Icon={icon} viewClassName={'px-2'}/>
+                    <Title title={'Your Favorites'} icon={icon} viewClassName={'px-2'}/>
                     <SimpleGrid
                         itemDimension={150}
                         data={favoriteMovies}
