@@ -4,6 +4,7 @@ import Movie from "./Movie";
 import {useMovies} from "../../context/MoviesProvider";
 import {useEffect, useState} from "react";
 import {SimpleGrid} from "react-native-super-grid";
+import LoadingIndicator from "../LoadingIndicator";
 
 const MoviesBlock = ({title, request, movieCount, icon}) => {
     const {movies, loadMoviesByRequest} = useMovies();
@@ -17,13 +18,23 @@ const MoviesBlock = ({title, request, movieCount, icon}) => {
 
     return (
         <View className="w-full">
-            <Title title={`${title} ${movies.length}`} Icon={icon} viewClassName={'px-2'}/>
-            <SimpleGrid
-                itemDimension={150}
-                data={movies}
-                renderItem={({item}) => (<Movie movie={item} loading={localLoading}/>)}
-                spacing={8}
-            />
+            <View className="flex-row">
+                <Title title={title} Icon={icon} viewClassName={'px-2'}/>
+                {localLoading || movies?.length === 0
+                    ? <LoadingIndicator styles={'m-1'} center={false} size={'small'}/>
+                    : <Title title={movies?.length}/>
+                }
+            </View>
+            {
+                localLoading || movies?.length === 0
+                    ? <LoadingIndicator styles={'h-[200px]'}/>
+                    : <SimpleGrid
+                        itemDimension={150}
+                        data={movies}
+                        renderItem={({item}) => (<Movie movie={item} loading={localLoading}/>)}
+                        spacing={8}
+                    />
+            }
         </View>
     )
         ;

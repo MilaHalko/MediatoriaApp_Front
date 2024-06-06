@@ -2,10 +2,10 @@ import React from 'react';
 import {ActivityIndicator, View} from "react-native";
 import {Colors} from "../constants/Colors";
 
-const LoadingIndicator = ({color = Colors.text, center = true}) => {
+const LoadingIndicator = ({color = Colors.text, center = true, styles, size = 'large'}) => {
     return (
-        <View className={`flex-1 w-full h-full ${center ? 'align-middle justify-center' : ''}`}>
-            <ActivityIndicator size="large" color={color} className="m-4"/>
+        <View className={`m-4 ${center ? 'flex-1 w-full align-middle justify-center h-full' : ''} ${styles}`}>
+            <ActivityIndicator size={size} color={color}/>
         </View>
     );
 };
