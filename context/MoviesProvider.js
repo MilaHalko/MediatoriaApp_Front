@@ -6,11 +6,11 @@ import {
     fetchMovieById,
     fetchMoviesByName,
     fetchMoviesByRequest,
-    fetchMovieTrailer, fetchTmdbGenres,
+    fetchMovieTrailer, fetchTmdbGenres, fetchUpcomingMovies,
     selectAllMovies,
     selectFavoriteMovies,
     selectMovie,
-    selectMovieTrailer, selectTmdbGenres
+    selectMovieTrailer, selectTmdbGenres, selectUpcomingMovies
 } from "../store/slices/movieSlice";
 import {useAuth} from "./AuthProvider";
 
@@ -24,6 +24,7 @@ const MoviesContextProvider = ({children}) => {
 
     const movies = useSelector(selectAllMovies);
     const favoriteMovies = useSelector(selectFavoriteMovies);
+    const upcomingMovies = useSelector(selectUpcomingMovies);
     const movie = useSelector(selectMovie);
     const trailer = useSelector(selectMovieTrailer);
     const tmdbGenres = useSelector(selectTmdbGenres);
@@ -31,6 +32,7 @@ const MoviesContextProvider = ({children}) => {
     useEffect(() => {
         if (user) {
             loadFavoriteMovies()
+            loadUpcomingMovies(10)
             getTmdbGenres()
         }
     }, [user]);
@@ -61,6 +63,12 @@ const MoviesContextProvider = ({children}) => {
         setLoading(false)
     };
 
+    const loadUpcomingMovies = async (movieCount) => {
+        setLoading(true);
+        await dispatch(fetchUpcomingMovies({count: movieCount}))
+        setLoading(false)
+    };
+
     const likeToggle = async (tmdbMovieId, isLiked) => {
         setLoading(true);
         await dispatch(fetchLikeToggle({tmdbMovieId, isLiked}));
@@ -88,6 +96,7 @@ const MoviesContextProvider = ({children}) => {
             value={{
                 movies,
                 favoriteMovies,
+                upcomingMovies,
                 movie,
                 trailer,
                 loading,
@@ -95,6 +104,7 @@ const MoviesContextProvider = ({children}) => {
                 loadMovieById,
                 loadMovieByName,
                 loadFavoriteMovies,
+                loadUpcomingMovies,
                 loadMoviesByRequest,
                 likeToggle,
                 loadMovieTrailer,
