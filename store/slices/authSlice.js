@@ -37,6 +37,17 @@ export const fetchAuthMe = createAsyncThunk('auth/fetchAuthMe', async (_, {rejec
     }
 })
 
+export const fetchIsAdmin = createAsyncThunk('auth/fetchIsAdmin', async (_, {rejectWithValue}) => {
+    console.log('Fetching check admin...')
+    try {
+        const {data} = await axios.get('/auth/is-admin')
+        console.log('Fetched admin check:', data)
+        return data
+    } catch (e) {
+        return e.response.data ? rejectWithValue(e.response.data) : "Server error"
+    }
+});
+
 export const fetchAuthUpdate = createAsyncThunk('auth/fetchAuthUpdate', async (params, {rejectWithValue}) => {
     console.log('Fetching update user:', params)
     try {

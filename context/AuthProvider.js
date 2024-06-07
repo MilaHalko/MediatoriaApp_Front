@@ -4,7 +4,7 @@ import {
     fetchAuth,
     fetchAuthMe,
     fetchAuthUpdate,
-    fetchDeleteUser,
+    fetchDeleteUser, fetchIsAdmin,
     fetchRemoveFavorite,
     fetchSignup,
     logout as fetchLogout
@@ -67,6 +67,14 @@ function AuthContextProvider({children}) {
         setLoading(false);
     };
 
+    const isAdmin = async () => {
+        setLoading(true);
+        const isAdmin = await dispatch(fetchIsAdmin()).unwrap();
+        setLoading(false);
+        console.log('Is admin:', isAdmin)
+        return isAdmin;
+    }
+
     const deleteUser = async () => {
         setLoading(true);
         await dispatch(fetchDeleteUser(user));
@@ -88,7 +96,6 @@ function AuthContextProvider({children}) {
         setLoading(false);
     };
 
-
     return (
         <AuthContext.Provider
             value={{
@@ -99,6 +106,7 @@ function AuthContextProvider({children}) {
                 loading,
                 updateUser: update,
                 deleteUser,
+                isAdmin,
                 addFavorite,
                 removeFavorite
             }}
