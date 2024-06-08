@@ -5,7 +5,6 @@ import Banner from "../../components/media/Banner";
 import MoviesBlock from "../../components/media/MoviesBlock";
 import {FontAwesome} from "@expo/vector-icons";
 import {Colors} from "../../constants/Colors";
-import {tmdbRequests} from "../../constants/TMDB";
 import SearchComponent from "../../components/search/SearchComponent";
 import {useMovies} from "../../context/MoviesProvider";
 import {MOVIES_LOAD_COUNT, MOVIES_LOAD_REQUEST} from "../../constants/config";

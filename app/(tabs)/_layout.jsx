@@ -6,8 +6,25 @@ import {Colors} from "../../constants/Colors";
 import AuthorisedRoute from "../../components/wrappers/AuthorisedRoute";
 import {StatusBar} from "expo-status-bar";
 
+const TabScreen = ({name, title, iconComponent, iconSize}) => (
+    <Tabs.Screen
+        name={name}
+        options={{
+            title: title,
+            headerShown: false,
+            tabBarIcon: ({focused}) =>
+                <FooterTab
+                    label={title}
+                    focused={focused}
+                    icon={iconComponent}
+                />
+        }}
+    ></Tabs.Screen>
+);
+
 const TabsLayout = () => {
     const iconSize = 25;
+
     return (
         <AuthorisedRoute>
             <Tabs
@@ -22,63 +39,32 @@ const TabsLayout = () => {
                     }
                 }}
             >
-                <Tabs.Screen
+                <TabScreen
                     name="home"
-                    options={{
-                        title: 'Home',
-                        headerShown: false,
-                        tabBarIcon: ({focused}) =>
-                            <FooterTab
-                                label="Main"
-                                focused={focused}
-                                icon={<MaterialIcons name='video-collection' size={iconSize}/>}
-                            />
-                    }}
-                ></Tabs.Screen>
-
-                <Tabs.Screen
+                    title="Main"
+                    iconComponent={<MaterialIcons name='video-collection' size={iconSize} />}
+                    iconSize={iconSize}
+                />
+                <TabScreen
                     name="favourites"
-                    options={{
-                        title: 'Saved',
-                        headerShown: false,
-                        tabBarIcon: ({focused}) =>
-                            <FooterTab
-                                label="Saved"
-                                focused={focused}
-                                icon={<Feather name={'heart'} size={iconSize}/>}
-                            />
-                    }}
-                ></Tabs.Screen>
-
-                <Tabs.Screen
+                    title="Saved"
+                    iconComponent={<Feather name={'heart'} size={iconSize} />}
+                    iconSize={iconSize}
+                />
+                <TabScreen
                     name="account"
-                    options={{
-                        title: 'Account',
-                        headerShown: false,
-                        tabBarIcon: ({focused}) =>
-                            <FooterTab
-                                label="Account"
-                                focused={focused}
-                                icon={<MaterialCommunityIcons name={'account-outline'} size={iconSize}/>}
-                            />
-                    }}
-                ></Tabs.Screen>
-
-                <Tabs.Screen
+                    title="Account"
+                    iconComponent={<MaterialCommunityIcons name={'account-outline'} size={iconSize} />}
+                    iconSize={iconSize}
+                />
+                <TabScreen
                     name="sidebar"
-                    options={{
-                        title: 'Options',
-                        headerShown: false,
-                        tabBarIcon: ({focused}) =>
-                            <FooterTab
-                                label="Options"
-                                focused={focused}
-                                icon={<FontAwesome5 name={'list-alt'} size={iconSize}/>}
-                            />
-                    }}
-                ></Tabs.Screen>
+                    title="Options"
+                    iconComponent={<FontAwesome5 name={'list-alt'} size={iconSize} />}
+                    iconSize={iconSize}
+                />
             </Tabs>
-            <StatusBar backgroundColor={Colors.main} style="light"/>
+            <StatusBar backgroundColor={Colors.main} style="light" />
         </AuthorisedRoute>
     );
 };

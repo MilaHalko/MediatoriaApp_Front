@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {SafeAreaView} from "react-native-safe-area-context";
-import {Alert, ScrollView, TouchableOpacity, View} from "react-native";
+import {ScrollView, TouchableOpacity, View} from "react-native";
 import Title from "../../components/Title";
 import {useAuth} from "../../context/AuthProvider";
 import {AntDesign} from "@expo/vector-icons";
