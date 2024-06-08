@@ -10,10 +10,10 @@ function Signup() {
     const {signup, user} = useAuth()
 
     const [form, setForm] = useState({
-        username: "Mila Halko",
-        email: "mmm@m.com",
-        password: "111111",
-        confirmPassword: "111111",
+        username: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
     });
 
     const handleSubmit = async () => {
