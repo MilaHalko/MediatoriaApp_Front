@@ -5,22 +5,7 @@ import {Feather, FontAwesome5, MaterialCommunityIcons, MaterialIcons} from '@exp
 import {Colors} from "../../constants/Colors";
 import AuthorisedRoute from "../../components/wrappers/AuthorisedRoute";
 import {StatusBar} from "expo-status-bar";
-
-const TabScreen = ({name, title, iconComponent, iconSize}) => (
-    <Tabs.Screen
-        name={name}
-        options={{
-            title: title,
-            headerShown: false,
-            tabBarIcon: ({focused}) =>
-                <FooterTab
-                    label={title}
-                    focused={focused}
-                    icon={iconComponent}
-                />
-        }}
-    ></Tabs.Screen>
-);
+import TabScreen from "../../components/TabScreen";
 
 const TabsLayout = () => {
     const iconSize = 25;

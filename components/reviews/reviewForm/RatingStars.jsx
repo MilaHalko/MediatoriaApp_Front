@@ -53,7 +53,6 @@ const RatingStars = ({rating, setRating, isError = false, styles}) => {
                     </TouchableOpacity>
                 ))}
             </View>
-            {/*TODO: color not working*/}
             <Text className={`font-hammersmith text-sm text-${textColor}`}>
                 {rating} / {MAX_RATING}
             </Text>

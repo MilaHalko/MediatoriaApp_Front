@@ -7,7 +7,6 @@ import {Colors} from "../../constants/Colors";
 import {useMovies} from "../../context/MoviesProvider";
 import {setMovies} from "../../store/slices/movieSlice";
 import {useDispatch} from "react-redux";
-import {tmdbRequests} from "../../constants/TMDB";
 import {MOVIES_LOAD_COUNT, MOVIES_LOAD_REQUEST} from "../../constants/config";
 
 const emptySearchData = {

@@ -10,7 +10,6 @@ import {
     logout as fetchLogout
 } from "../store/slices/authSlice";
 import {useDispatch} from "react-redux";
-import {createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "../api/axios";
 
 const AuthContext = createContext();

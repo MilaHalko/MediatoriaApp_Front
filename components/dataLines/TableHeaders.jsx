@@ -6,7 +6,7 @@ const TableHeaders = ({tableParams, styles, textStyles}) => {
         <View className={`flex-row py-2 bg-dry`}>
             {
                 tableParams.map(({title, width}) => (
-                    <ScrollView horizontal={true} style={{width: width, height: 35, paddingLeft: 8}}>
+                    <ScrollView horizontal={true} style={{width: width, height: 35, paddingLeft: 8}} key={title}>
                         <View className="flex-1 justify-center">
                             <Text className="text-white text-center">
                                 {title}
