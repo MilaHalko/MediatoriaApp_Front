@@ -1,6 +1,5 @@
 import React from 'react';
 import {Tabs} from "expo-router";
-import FooterTab from "../../components/FooterTab";
 import {Feather, FontAwesome5, MaterialCommunityIcons, MaterialIcons} from '@expo/vector-icons';
 import {Colors} from "../../constants/Colors";
 import AuthorisedRoute from "../../components/wrappers/AuthorisedRoute";
