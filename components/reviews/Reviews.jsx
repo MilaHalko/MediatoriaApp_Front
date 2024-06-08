@@ -22,7 +22,7 @@ const Reviews = ({movieId, styles, setUpdateMovie}) => {
         return (
             <View className={styles}>
                 <View className='flex-1 flex-row justify-between mb-1'>
-                    <Title Icon={commentsIcon} title={`Reviews ${reviews.length}`}/>
+                    <Title icon={commentsIcon} title={`Reviews ${reviews.length}`}/>
                     <RedButton title={isWriting ? "Cancel" : "Write Review"}
                                viewClassName={`bg-main border-border py-1`}
                                onPress={() => {

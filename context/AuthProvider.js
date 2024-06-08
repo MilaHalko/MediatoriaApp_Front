@@ -4,12 +4,14 @@ import {
     fetchAuth,
     fetchAuthMe,
     fetchAuthUpdate,
-    fetchDeleteUser,
+    fetchDeleteCurrentUser, fetchIsAdmin,
     fetchRemoveFavorite,
-    fetchSignup,
+    fetchSignup, fetchUsers,
     logout as fetchLogout
 } from "../store/slices/authSlice";
 import {useDispatch} from "react-redux";
+import {createAsyncThunk} from "@reduxjs/toolkit";
+import axios from "../api/axios";
 
 const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
@@ -67,12 +69,25 @@ function AuthContextProvider({children}) {
         setLoading(false);
     };
 
+    const isAdmin = async () => {
+        setLoading(true);
+        const isAdmin = await dispatch(fetchIsAdmin()).unwrap();
+        setLoading(false);
+        return isAdmin;
+    }
+
     const deleteUser = async () => {
         setLoading(true);
-        await dispatch(fetchDeleteUser(user));
+        await dispatch(fetchDeleteCurrentUser(user));
         setUser(null);
         setLoading(false);
     };
+
+    const deleteUserById = async (id) => {
+        setLoading(true);
+        await axios.delete(`/user/${id}`);
+        setLoading(false);
+    }
 
     const addFavorite = async (movieId) => {
         setLoading(true);
@@ -88,6 +103,12 @@ function AuthContextProvider({children}) {
         setLoading(false);
     };
 
+    const loadUsers = async () => {
+        setLoading(true);
+        const users = await dispatch(fetchUsers()).unwrap();
+        setLoading(false);
+        return users;
+    };
 
     return (
         <AuthContext.Provider
@@ -99,8 +120,11 @@ function AuthContextProvider({children}) {
                 loading,
                 updateUser: update,
                 deleteUser,
+                deleteUserById,
+                isAdmin,
                 addFavorite,
-                removeFavorite
+                removeFavorite,
+                loadUsers
             }}
         >
             {children}

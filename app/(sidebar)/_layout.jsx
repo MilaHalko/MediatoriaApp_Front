@@ -1,18 +1,17 @@
-import React from 'react';
 import {Stack} from "expo-router";
 import {StatusBar} from "expo-status-bar";
 import {Colors} from "../../constants/Colors";
 
-function AuthLayout() {
+const SidebarLayout = () => {
     return (
         <>
             <Stack screenOptions={{headerShown: false}}>
-                <Stack.Screen name="login"/>
-                <Stack.Screen name="signup"/>
+                <Stack.Screen name="upcoming"/>
+                <Stack.Screen name="users"/>
             </Stack>
             <StatusBar backgroundColor={Colors.main} style="light"/>
         </>
     );
-}
+};
 
-export default AuthLayout;
+export default SidebarLayout;

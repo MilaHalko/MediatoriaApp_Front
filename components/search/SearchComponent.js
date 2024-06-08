@@ -7,6 +7,8 @@ import {Colors} from "../../constants/Colors";
 import {useMovies} from "../../context/MoviesProvider";
 import {setMovies} from "../../store/slices/movieSlice";
 import {useDispatch} from "react-redux";
+import {tmdbRequests} from "../../constants/TMDB";
+import {MOVIES_LOAD_COUNT, MOVIES_LOAD_REQUEST} from "../../constants/config";
 
 const emptySearchData = {
     title: '',
@@ -18,7 +20,7 @@ const SearchComponent = ({styles}) => {
     const dispatch = useDispatch();
     const [localLoading, setLocalLoading] = useState(true);
     const [activeTab, setActiveTab] = useState(false);
-    const {tmdbGenres, loadMovieByName, movies} = useMovies();
+    const {tmdbGenres, loadMovieByName, loadMoviesByRequest, movies} = useMovies();
     const [previousSearchData, setPreviousSearchData] = useState(emptySearchData);
     const [searchData, setSearchData] = useState(emptySearchData);
 
@@ -32,10 +34,13 @@ const SearchComponent = ({styles}) => {
         setLocalLoading(false);
     }, [tmdbGenres]);
 
-    const isSearchDataSame = () =>
-        searchData.title.toLowerCase().trim() === previousSearchData.title.toLowerCase().trim() &&
-        searchData.genre === previousSearchData.genre &&
-        searchData.year === previousSearchData.year;
+    const isSearchDataSame = () => {
+        const isSame = searchData.title.toLowerCase().trim() === previousSearchData.title.toLowerCase().trim() &&
+            searchData.genre === previousSearchData.genre &&
+            searchData.year === previousSearchData.year;
+        if (isSame) console.log('Search data is same');
+        return isSame;
+    };
 
     const updatePreviousSearchData = () => {
         setPreviousSearchData({
@@ -50,7 +55,7 @@ const SearchComponent = ({styles}) => {
         if (searchData.title === '' && !searchData.genre && !searchData.year) return;
         if (!isSearchDataSame()) {
             updatePreviousSearchData();
-            const fetchedMovies = searchData.title === '' ? movies : await loadMovieByName(searchData.title);
+            const fetchedMovies = searchData.title === '' ? movies : await loadMovieByName(searchData.title, MOVIES_LOAD_COUNT);
             const filteredMovies = (fetchedMovies || []).filter(movie => {
                 const releaseYear = movie.releaseDate ? movie.releaseDate.split('-')[0] : '';
                 const genres = movie.genres ? movie.genres.map(genre => genre.name) : [];
@@ -65,6 +70,7 @@ const SearchComponent = ({styles}) => {
     const onClosePress = () => {
         setActiveTab(false);
         setSearchData(emptySearchData);
+        loadMoviesByRequest(MOVIES_LOAD_REQUEST, MOVIES_LOAD_COUNT);
     };
 
     return (

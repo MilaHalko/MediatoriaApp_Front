@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "../../api/axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {Alert} from "react-native";
 
 export const fetchAuth = createAsyncThunk('auth/fetchUserData', async (params, {rejectWithValue}) => {
     console.log('Fetching login:', params)
@@ -10,6 +11,7 @@ export const fetchAuth = createAsyncThunk('auth/fetchUserData', async (params, {
         console.log('Fetched user logging in:', data)
         return data
     } catch (e) {
+        Alert.alert(e.response.data.message)
         return e.response.data ? rejectWithValue(e.response.data) : "Server error"
     }
 })
@@ -22,6 +24,7 @@ export const fetchSignup = createAsyncThunk('auth/fetchSignup', async (params, {
         console.log('Fetched user signing up:', data)
         return data
     } catch (e) {
+        Alert.alert(e.response.data.message)
         return e.response.data ? rejectWithValue(e.response.data) : "Server error"
     }
 })
@@ -37,23 +40,49 @@ export const fetchAuthMe = createAsyncThunk('auth/fetchAuthMe', async (_, {rejec
     }
 })
 
+export const fetchIsAdmin = createAsyncThunk('auth/fetchIsAdmin', async (_, {rejectWithValue}) => {
+    console.log('Fetching check admin...')
+    try {
+        const {data} = await axios.get('/auth/is-admin')
+        console.log('Fetched admin check:', data)
+        return data
+    } catch (e) {
+        console.log('Error checking admin:', e.response.data)
+        return false
+    }
+});
+
 export const fetchAuthUpdate = createAsyncThunk('auth/fetchAuthUpdate', async (params, {rejectWithValue}) => {
     console.log('Fetching update user:', params)
     try {
         const {data} = await axios.patch('/auth/me', params)
         console.log('Fetched user updating:', data)
+        Alert.alert('User successfully updated')
         return data
     } catch (e) {
+        console.log('Error updating user:', e)
         return e.response.data ? rejectWithValue(e.response.data) : "Server error"
     }
 })
 
-export const fetchDeleteUser = createAsyncThunk('auth/fetchDeleteUser', async (params, {rejectWithValue}) => {
+export const fetchDeleteCurrentUser = createAsyncThunk('auth/fetchDeleteUser', async (params, {rejectWithValue}) => {
     console.log('Fetching delete user:', params)
     try {
         await axios.delete('/auth/me', params)
         console.log('Fetched user deleting')
     } catch (e) {
+        console.log('Error deleting current user:', e)
+        return e.response.data ? rejectWithValue(e.response.data) : "Server error"
+    }
+})
+
+export const fetchDeleteUserById = createAsyncThunk('auth/fetchDeleteUserById', async (id, {rejectWithValue}) => {
+    console.log('Fetching delete user by id:', id)
+    try {
+        await axios.delete(`/user/${id}`)
+        console.log('Fetched user deleting by id:', id)
+    } catch (e) {
+        console.log('Error deleting user:', e)
         return e.response.data ? rejectWithValue(e.response.data) : "Server error"
     }
 })
@@ -65,6 +94,7 @@ export const fetchAddFavorite = createAsyncThunk('auth/fetchAddFavorite', async 
         console.log('Fetched favorite adding:', data)
         return data
     } catch (e) {
+        console.log('Error adding favorite:', e)
         return e.response.data ? rejectWithValue(e.response.data) : "Server error"
     }
 })
@@ -76,9 +106,22 @@ export const fetchRemoveFavorite = createAsyncThunk('auth/fetchRemoveFavorite', 
         console.log('Fetched favorite removing:', data)
         return data
     } catch (e) {
+        console.log('Error removing favorite:', e)
         return e.response.data ? rejectWithValue(e.response.data) : "Server error"
     }
 })
+
+export const fetchUsers = createAsyncThunk('auth/fetchUsers', async (_, {rejectWithValue}) => {
+    console.log('Fetching users...')
+    try {
+        const {data} = await axios.get('/users')
+        console.log('Fetched users:', data.length)
+        return data
+    } catch (e) {
+        console.log('Error fetching users:', e)
+        return e.response.data ? rejectWithValue(e.response.data) : "Server error"
+    }
+});
 
 const initialState = {
     user: null,
@@ -154,15 +197,15 @@ const authSlice = createSlice({
             })
 
             // Delete user
-            .addCase(fetchDeleteUser.pending, (state) => {
+            .addCase(fetchDeleteCurrentUser.pending, (state) => {
                 state.data = null
                 state.status = 'loading'
             })
-            .addCase(fetchDeleteUser.fulfilled, (state) => {
+            .addCase(fetchDeleteCurrentUser.fulfilled, (state) => {
                 state.data = null
                 state.status = 'loaded'
             })
-            .addCase(fetchDeleteUser.rejected, (state) => {
+            .addCase(fetchDeleteCurrentUser.rejected, (state) => {
                 state.data = null
                 state.status = 'error'
             })

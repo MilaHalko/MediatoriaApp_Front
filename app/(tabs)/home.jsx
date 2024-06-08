@@ -8,6 +8,7 @@ import {Colors} from "../../constants/Colors";
 import {tmdbRequests} from "../../constants/TMDB";
 import SearchComponent from "../../components/search/SearchComponent";
 import {useMovies} from "../../context/MoviesProvider";
+import {MOVIES_LOAD_COUNT, MOVIES_LOAD_REQUEST} from "../../constants/config";
 
 const Home = () => {
     const [refreshing, setRefreshing] = useState(false);
@@ -29,7 +30,7 @@ const Home = () => {
                     <SearchComponent/>
                     {movies?.length > 0 && <Banner styles='h-[300px]'/>}
                     <View className="w-full mt-4">
-                        <MoviesBlock title= 'For You' request={tmdbRequests.nowPlaying} movieCount={100} icon={starIcon}/>
+                        <MoviesBlock title= 'For You' request={MOVIES_LOAD_REQUEST} movieCount={MOVIES_LOAD_COUNT} icon={starIcon}/>
                     </View>
                 </View>
             </ScrollView>

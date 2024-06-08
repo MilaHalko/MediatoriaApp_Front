@@ -19,7 +19,7 @@ const MoviesBlock = ({title, request, movieCount, icon}) => {
     return (
         <View className="w-full">
             <View className="flex-row">
-                <Title title={title} Icon={icon} viewClassName={'px-2'}/>
+                <Title title={title} icon={icon} viewClassName={'px-2'}/>
                 {localLoading || movies?.length === 0
                     ? <LoadingIndicator styles={'m-1'} center={false} size={'small'}/>
                     : <Title title={movies?.length}/>

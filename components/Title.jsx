@@ -1,12 +1,12 @@
 import React from 'react'
 import {Text, View} from "react-native";
 
-const Title = ({title, Icon, viewClassName}) => {
+const Title = ({title, icon, viewClassName}) => {
     return (
         <View className={`flex-row items-center ${viewClassName}`}>
-            {Icon &&
+            {icon &&
                 <>
-                    {Icon && Icon()}
+                    {icon && icon()}
                     <View className='w-3'/>
                 </>
             }

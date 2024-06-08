@@ -6,11 +6,11 @@ import {
     fetchMovieById,
     fetchMoviesByName,
     fetchMoviesByRequest,
-    fetchMovieTrailer, fetchTmdbGenres,
+    fetchMovieTrailer, fetchTmdbGenres, fetchUpcomingMovies,
     selectAllMovies,
     selectFavoriteMovies,
     selectMovie,
-    selectMovieTrailer, selectTmdbGenres
+    selectMovieTrailer, selectTmdbGenres, selectUpcomingMovies
 } from "../store/slices/movieSlice";
 import {useAuth} from "./AuthProvider";
 
@@ -24,6 +24,7 @@ const MoviesContextProvider = ({children}) => {
 
     const movies = useSelector(selectAllMovies);
     const favoriteMovies = useSelector(selectFavoriteMovies);
+    const upcomingMovies = useSelector(selectUpcomingMovies);
     const movie = useSelector(selectMovie);
     const trailer = useSelector(selectMovieTrailer);
     const tmdbGenres = useSelector(selectTmdbGenres);
@@ -31,6 +32,7 @@ const MoviesContextProvider = ({children}) => {
     useEffect(() => {
         if (user) {
             loadFavoriteMovies()
+            loadUpcomingMovies(10)
             getTmdbGenres()
         }
     }, [user]);
@@ -42,9 +44,9 @@ const MoviesContextProvider = ({children}) => {
         setLoading(false)
     };
 
-    const loadMovieByName = async (name) => {
+    const loadMovieByName = async (name, count) => {
         setLoading(true);
-        const result = await dispatch(fetchMoviesByName(name));
+        const result = await dispatch(fetchMoviesByName({name, count}));
         setLoading(false);
         return result.payload || [];
     };
@@ -58,6 +60,12 @@ const MoviesContextProvider = ({children}) => {
     const loadMoviesByRequest = async (query, movieCount) => {
         setLoading(true);
         await dispatch(fetchMoviesByRequest({query, movieCount}))
+        setLoading(false)
+    };
+
+    const loadUpcomingMovies = async (movieCount) => {
+        setLoading(true);
+        await dispatch(fetchUpcomingMovies({count: movieCount}))
         setLoading(false)
     };
 
@@ -88,6 +96,7 @@ const MoviesContextProvider = ({children}) => {
             value={{
                 movies,
                 favoriteMovies,
+                upcomingMovies,
                 movie,
                 trailer,
                 loading,
@@ -95,6 +104,7 @@ const MoviesContextProvider = ({children}) => {
                 loadMovieById,
                 loadMovieByName,
                 loadFavoriteMovies,
+                loadUpcomingMovies,
                 loadMoviesByRequest,
                 likeToggle,
                 loadMovieTrailer,

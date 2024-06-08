@@ -10,7 +10,8 @@ import {confirmAlert} from "../../../scripts/alerts";
 const ReviewHeader = ({review, styles}) => {
     const {removeReview, loading} = useReviews();
     const {user} = useAuth();
-    const isAuthor = review.authorId._id === user._id;
+    const hasPermission = review.authorId._id === user._id || user.role === 'admin';
+    console.log('User role & name:', user.role, user.username)
 
     const handleDelete = async () => {
         if (loading) return;
@@ -34,7 +35,7 @@ const ReviewHeader = ({review, styles}) => {
                 <Text className='text-white opacity-50 text-xs'>
                     {dateFromTimestamp(review.createdAt)}
                 </Text>
-                {isAuthor &&
+                {hasPermission &&
                     <TouchableOpacity className='ml-2' onPress={handleDelete} activeOpacity={0.5} disabled={loading}>
                         <AntDesign name="delete" size={24} color={Colors.text}/>
                     </TouchableOpacity>

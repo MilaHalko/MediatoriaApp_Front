@@ -10,7 +10,7 @@ function Login() {
     const {login, user} = useAuth()
 
     const [form, setForm] = useState({
-        email: "mmm@m.com",
+        email: "admin@admin.com",
         password: "111111",
     });
 

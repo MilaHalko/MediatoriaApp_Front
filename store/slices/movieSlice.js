@@ -11,10 +11,10 @@ export const fetchMovieById = createAsyncThunk('movies/fetchMovieById', async (i
     }
 });
 
-export const fetchMoviesByName = createAsyncThunk('movies/fetchMovieByName', async (name, {rejectWithValue}) => {
+export const fetchMoviesByName = createAsyncThunk('movies/fetchMovieByName', async ({name, count}, {rejectWithValue}) => {
     console.log('fetchMoviesByName:', name)
     try {
-        const {data} = await axios.get(`/movies/name/${name}`);
+        const {data} = await axios.get(`/movies/name/${name}/${count}`);
         return data;
     } catch (e) {
         return e.response.data ? rejectWithValue(e.response.data) : "Server error";
@@ -41,6 +41,16 @@ export const fetchMoviesByRequest = createAsyncThunk('movies/fetchMoviesByReques
             return e.response.data ? rejectWithValue(e.response.data) : "Server error";
         }
     });
+
+export const fetchUpcomingMovies = createAsyncThunk('movies/fetchUpcomingMovies', async ({count}, {rejectWithValue}) => {
+    console.log('fetchUpcomingMovies:', count)
+    try {
+        const {data} = await axios.post(`/movies/upcoming`, {movieCount: count});
+        return data;
+    } catch (e) {
+        return e.response.data ? rejectWithValue(e.response.data) : "Server error";
+    }
+});
 
 export const fetchLikeToggle = createAsyncThunk('movies/fetchLikeToggle',
     async ({tmdbMovieId, isLiked}, {rejectWithValue}) => {
@@ -77,6 +87,7 @@ export const fetchTmdbGenres = createAsyncThunk('movies/fetchTmdbGenres', async 
 const initialState = {
     movies: [],
     favoriteMovies: [],
+    upcomingMovies: [],
     movie: null,
     movieTrailer: null,
     tmdbGenres: [],
@@ -89,9 +100,7 @@ const movieSlice = createSlice({
     initialState,
     reducers: {
         setMovies: (state, action) => {
-            console.log('setMovies action payload:', action.payload);  // Log action payload
             state.movies = action.payload;
-            console.log('Movies state after setMovies:', state.movies);  // Log state after setting movies
         }
     },
     extraReducers: (builder) => {
@@ -140,6 +149,22 @@ const movieSlice = createSlice({
             })
             .addCase(fetchMoviesByRequest.rejected, (state, action) => {
                 state.movies = [];
+                state.status = 'failed';
+                state.error = action.payload;
+            })
+
+            // Fetch upcoming movies
+            .addCase(fetchUpcomingMovies.pending, (state) => {
+                state.upcomingMovies = [];
+                state.status = 'loading';
+            })
+            .addCase(fetchUpcomingMovies.fulfilled, (state, action) => {
+                state.upcomingMovies = action.payload;
+                state.status = 'succeeded';
+                state.error = null;
+            })
+            .addCase(fetchUpcomingMovies.rejected, (state, action) => {
+                state.upcomingMovies = [];
                 state.status = 'failed';
                 state.error = action.payload;
             })
@@ -213,6 +238,7 @@ const movieSlice = createSlice({
 
 export const selectAllMovies = (state) => state.movies.movies;
 export const selectFavoriteMovies = (state) => state.movies.favoriteMovies;
+export const selectUpcomingMovies = (state) => state.movies.upcomingMovies;
 export const selectMovie = (state) => state.movies.movie;
 export const selectMovieById = (state, id) => state.movies.movies.find(movie => movie.id === id);
 export const selectMovieTrailer = (state) => state.movies.movieTrailer;

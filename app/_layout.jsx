@@ -46,6 +46,7 @@ function RootLayout() {
                             <Stack.Screen name="(auth)"/>
                             <Stack.Screen name="(tabs)"/>
                             <Stack.Screen name="(movie)"/>
+                            <Stack.Screen name="(sidebar)"/>
                         </Stack>
                         <StatusBar backgroundColor={Colors.main} style="light"/>
                     </ReviewsContextProvider>

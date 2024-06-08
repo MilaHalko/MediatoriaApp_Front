@@ -32,7 +32,7 @@ const Account = () => {
         confirmAlert({
             title: 'Delete Account',
             onConfirm: async () => {
-                await deleteUser().catch(e => console.log(e))
+                await deleteUser()
                 console.log('Account is deleted')
             },
             isDestructive: true
