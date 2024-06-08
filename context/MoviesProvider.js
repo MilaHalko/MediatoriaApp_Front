@@ -44,9 +44,9 @@ const MoviesContextProvider = ({children}) => {
         setLoading(false)
     };
 
-    const loadMovieByName = async (name) => {
+    const loadMovieByName = async (name, count) => {
         setLoading(true);
-        const result = await dispatch(fetchMoviesByName(name));
+        const result = await dispatch(fetchMoviesByName({name, count}));
         setLoading(false);
         return result.payload || [];
     };

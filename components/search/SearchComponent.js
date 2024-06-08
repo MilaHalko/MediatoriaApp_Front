@@ -55,7 +55,7 @@ const SearchComponent = ({styles}) => {
         if (searchData.title === '' && !searchData.genre && !searchData.year) return;
         if (!isSearchDataSame()) {
             updatePreviousSearchData();
-            const fetchedMovies = searchData.title === '' ? movies : await loadMovieByName(searchData.title);
+            const fetchedMovies = searchData.title === '' ? movies : await loadMovieByName(searchData.title, MOVIES_LOAD_COUNT);
             const filteredMovies = (fetchedMovies || []).filter(movie => {
                 const releaseYear = movie.releaseDate ? movie.releaseDate.split('-')[0] : '';
                 const genres = movie.genres ? movie.genres.map(genre => genre.name) : [];

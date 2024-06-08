@@ -11,10 +11,10 @@ export const fetchMovieById = createAsyncThunk('movies/fetchMovieById', async (i
     }
 });
 
-export const fetchMoviesByName = createAsyncThunk('movies/fetchMovieByName', async (name, {rejectWithValue}) => {
+export const fetchMoviesByName = createAsyncThunk('movies/fetchMovieByName', async ({name, count}, {rejectWithValue}) => {
     console.log('fetchMoviesByName:', name)
     try {
-        const {data} = await axios.get(`/movies/name/${name}`);
+        const {data} = await axios.get(`/movies/name/${name}/${count}`);
         return data;
     } catch (e) {
         return e.response.data ? rejectWithValue(e.response.data) : "Server error";
