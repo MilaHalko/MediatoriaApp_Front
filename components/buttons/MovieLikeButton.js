@@ -5,17 +5,20 @@ import React, {useEffect, useState} from "react";
 import {useMovies} from "../../context/MoviesProvider";
 
 function MovieLikeButton({tmdbMovieId, iconSize = 25, containerStyles = ''}) {
-    const {likeToggle, loading, favoriteMovies} = useMovies();
+    const {likeToggle, favoriteMovies} = useMovies();
     const [isLiked, setIsLiked] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        const includes = favoriteMovies.some((movie) => movie.tmdbId === tmdbMovieId);
+        if (favoriteMovies.length === 0) return;
+        const includes = favoriteMovies.some((movie) => movie && movie.tmdbId === tmdbMovieId);
         setIsLiked(includes);
     } , [favoriteMovies])
 
     const onPress = async () => {
-        if (loading) return;
-        await likeToggle(tmdbMovieId, isLiked);
+        const prev = isLiked;
+        setIsLiked(!prev);
+        await likeToggle(tmdbMovieId, prev);
     }
 
     return (
