@@ -7,7 +7,7 @@ import {SimpleGrid} from "react-native-super-grid";
 import LoadingIndicator from "../LoadingIndicator";
 
 const MoviesBlock = ({title, request, movieCount, icon}) => {
-    const {movies, loadMoviesByRequest} = useMovies();
+    const {movies, moviesLoading, loadMoviesByRequest} = useMovies();
     const [localLoading, setLocalLoading] = useState(false);
 
     useEffect(() => {
@@ -25,7 +25,7 @@ const MoviesBlock = ({title, request, movieCount, icon}) => {
                 <Title title={title} icon={icon} viewClassName={'px-2'}/>
             </View>
             {
-                localLoading
+                localLoading || moviesLoading
                     ? <LoadingIndicator styles={'h-[200px]'}/>
                     : <SimpleGrid
                         itemDimension={150}

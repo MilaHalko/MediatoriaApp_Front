@@ -21,6 +21,7 @@ const MoviesContextProvider = ({children}) => {
     const dispatch = useDispatch();
     const {user} = useAuth();
     const [loading, setLoading] = useState(false);
+    const [moviesLoading, setMoviesLoading] = useState(false);
 
     const movies = useSelector(selectAllMovies);
     const favoriteMovies = useSelector(selectFavoriteMovies);
@@ -46,7 +47,9 @@ const MoviesContextProvider = ({children}) => {
 
     const loadMovieByName = async (name, count) => {
         setLoading(true);
+        setMoviesLoading(true);
         const result = await dispatch(fetchMoviesByName({name, count}));
+        setMoviesLoading(false);
         setLoading(false);
         return result.payload || [];
     };
@@ -59,7 +62,9 @@ const MoviesContextProvider = ({children}) => {
 
     const loadMoviesByRequest = async (query, movieCount) => {
         setLoading(true);
+        setMoviesLoading(true);
         await dispatch(fetchMoviesByRequest({query, movieCount}))
+        setMoviesLoading(false);
         setLoading(false)
     };
 
@@ -101,6 +106,7 @@ const MoviesContextProvider = ({children}) => {
                 trailer,
                 loading,
                 tmdbGenres,
+                moviesLoading,
                 loadMovieById,
                 loadMovieByName,
                 loadFavoriteMovies,
@@ -108,7 +114,7 @@ const MoviesContextProvider = ({children}) => {
                 loadMoviesByRequest,
                 likeToggle,
                 loadMovieTrailer,
-                checkIfIsLiked,
+                checkIfIsLiked
             }}
         >
             {children}
