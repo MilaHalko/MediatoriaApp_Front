@@ -36,7 +36,7 @@ const Reviews = ({movieId, styles, setUpdateMovie}) => {
 
                 {loading ? <LoadingIndicator/> : (
                     reviews.map((review) => (
-                        <Review review={review} styles={'my-1'}/>
+                        <Review review={review} styles={'my-1'} key={review._id}/>
                     ))
                 )}
             </View>

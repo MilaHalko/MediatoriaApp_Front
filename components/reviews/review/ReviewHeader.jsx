@@ -10,7 +10,7 @@ import {confirmAlert} from "../../../scripts/alerts";
 const ReviewHeader = ({review, styles}) => {
     const {removeReview, loading} = useReviews();
     const {user} = useAuth();
-    const hasPermission = review.authorId._id === user._id || user.role === 'admin';
+    const hasPermission = review.authorId === user._id || user.role === 'admin';
     console.log('User role & name:', user.role, user.username)
 
     const handleDelete = async () => {
@@ -28,7 +28,7 @@ const ReviewHeader = ({review, styles}) => {
         <View className={`flex flex-row justify-between ${styles}`}>
             <View className='justify-center'>
                 <Text className='text-white font-hammersmith text-lg capitalize'>
-                    {review.authorId.username}
+                    {review.authorId ? review.authorId.username : 'Deleted user'}
                 </Text>
             </View>
             <View className='justify-center flex-row items-center'>

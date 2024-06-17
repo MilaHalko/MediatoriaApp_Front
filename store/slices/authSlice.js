@@ -61,6 +61,7 @@ export const fetchAuthUpdate = createAsyncThunk('auth/fetchAuthUpdate', async (p
         return data
     } catch (e) {
         console.log('Error updating user:', e)
+        Alert.alert(e.response.data.message)
         return e.response.data ? rejectWithValue(e.response.data) : "Server error"
     }
 })

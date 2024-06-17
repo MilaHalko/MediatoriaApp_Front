@@ -11,22 +11,21 @@ const MoviesBlock = ({title, request, movieCount, icon}) => {
     const [localLoading, setLocalLoading] = useState(false);
 
     useEffect(() => {
+        console.log('Req start')
+        setLocalLoading(true)
         loadMoviesByRequest(request, movieCount).then(_ => {
             setLocalLoading(false);
+            console.log('Req end')
         })
-    }, [request, movieCount]);
+    }, [request]);
 
     return (
         <View className="w-full">
             <View className="flex-row">
                 <Title title={title} icon={icon} viewClassName={'px-2'}/>
-                {localLoading || movies?.length === 0
-                    ? <LoadingIndicator styles={'m-1'} center={false} size={'small'}/>
-                    : <Title title={movies?.length}/>
-                }
             </View>
             {
-                localLoading || movies?.length === 0
+                localLoading
                     ? <LoadingIndicator styles={'h-[200px]'}/>
                     : <SimpleGrid
                         itemDimension={150}
