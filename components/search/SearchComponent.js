@@ -7,13 +7,12 @@ import {Colors} from "../../constants/Colors";
 import {useMovies} from "../../context/MoviesProvider";
 import {setMovies} from "../../store/slices/movieSlice";
 import {useDispatch} from "react-redux";
-import {tmdbRequests} from "../../constants/TMDB";
 import {MOVIES_LOAD_COUNT, MOVIES_LOAD_REQUEST} from "../../constants/config";
 
 const emptySearchData = {
     title: '',
-    genre: null,
-    year: null
+    genre: 'null',
+    year: 'null'
 }
 
 const SearchComponent = ({styles}) => {
@@ -34,14 +33,6 @@ const SearchComponent = ({styles}) => {
         setLocalLoading(false);
     }, [tmdbGenres]);
 
-    const isSearchDataSame = () => {
-        const isSame = searchData.title.toLowerCase().trim() === previousSearchData.title.toLowerCase().trim() &&
-            searchData.genre === previousSearchData.genre &&
-            searchData.year === previousSearchData.year;
-        if (isSame) console.log('Search data is same');
-        return isSame;
-    };
-
     const updatePreviousSearchData = () => {
         setPreviousSearchData({
             title: searchData.title,
@@ -53,18 +44,17 @@ const SearchComponent = ({styles}) => {
     const onSearch = async () => {
         console.log('Search data:', searchData);
         if (searchData.title === '' && !searchData.genre && !searchData.year) return;
-        if (!isSearchDataSame()) {
-            updatePreviousSearchData();
-            const fetchedMovies = searchData.title === '' ? movies : await loadMovieByName(searchData.title, MOVIES_LOAD_COUNT);
-            const filteredMovies = (fetchedMovies || []).filter(movie => {
-                const releaseYear = movie.releaseDate ? movie.releaseDate.split('-')[0] : '';
-                const genres = movie.genres ? movie.genres.map(genre => genre.name) : [];
-                const matchesGenre = searchData.genre ? genres.includes(searchData.genre) : true;
-                const matchesYear = searchData.year ? releaseYear === searchData.year.toString() : true;
-                return matchesGenre && matchesYear;
-            });
-            dispatch(setMovies(filteredMovies));
-        }
+        updatePreviousSearchData();
+        const fetchedMovies = searchData.title === '' ? movies : await loadMovieByName(searchData.title, MOVIES_LOAD_COUNT);
+        console.log('Fetched movies:', fetchedMovies.length);
+        const filteredMovies = (fetchedMovies || []).filter(movie => {
+            const releaseYear = movie.releaseDate ? movie.releaseDate.split('-')[0] : '';
+            const genres = movie.genres ? movie.genres.map(genre => genre.name) : [];
+            const matchesGenre = searchData.genre === 'null' || genres.includes(searchData.genre);
+            const matchesYear = searchData.year === 'null' || releaseYear === searchData.year.toString();
+            return matchesGenre && matchesYear;
+        });
+        dispatch(setMovies(filteredMovies));
     };
 
     const onClosePress = () => {
